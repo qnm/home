@@ -1,6 +1,8 @@
-{ pkgs, misc, lib, ... }: {
-  with lib.hm.gvariant;
+{ pkgs, misc, lib, ... }:
 
+with lib.hm.gvariant;
+
+{
   # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
   fonts.fontconfig.enable = true;
 
