@@ -44,6 +44,7 @@
     pkgs.graphviz
     pkgs.dconf2nix
     pkgs.shortwave
+    pkgs.ruby_3_2
     # Fleek Bling
     pkgs.git
     pkgs.htop

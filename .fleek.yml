@@ -42,6 +42,7 @@ packages:
     - graphviz
     - dconf2nix
     - shortwave
+    - ruby_3_2
 paths:
     - $HOME/bin
     - $HOME/.local/bin
