@@ -41,6 +41,7 @@ packages:
     - yadm
     - graphviz
     - dconf2nix
+    - shortwave
 paths:
     - $HOME/bin
     - $HOME/.local/bin
@@ -49,16 +50,17 @@ programs:
     - git
     - gh
     - helix
-
 shell: zsh
 systems:
     - arch: x86_64
-      home: "/home/qnm"
+      home: /home/qnm
       hostname: pop-os
       os: linux
       user:
         email: rob@sharp.id.au
         name: Rob Sharp
+        ssh_private_key_file: ""
+        ssh_public_key_file: ""
         username: qnm
       username: qnm
 track: nixos-unstable

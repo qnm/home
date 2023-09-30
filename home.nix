@@ -43,6 +43,7 @@
     pkgs.yadm
     pkgs.graphviz
     pkgs.dconf2nix
+    pkgs.shortwave
     # Fleek Bling
     pkgs.git
     pkgs.htop
