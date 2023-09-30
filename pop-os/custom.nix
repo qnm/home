@@ -3,11 +3,6 @@
   fonts.fontconfig.enable = true;
 
   dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-      font-antialiasing = "rgba";
-    };
-
     "com/system76/hidpi" = {
       enable = true;
       mode = "hidpi";
