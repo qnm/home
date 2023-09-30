@@ -1,7 +1,7 @@
 { pkgs, misc, ... }: {
   # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
 
-  users.users.qnm.extraGroups = [ "docker" ];
+  home.users.qnm.extraGroups = [ "docker" ];
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
