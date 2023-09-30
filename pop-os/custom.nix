@@ -17,7 +17,6 @@
     };
 
     "org/gnome/desktop/input-sources" = {
-      current = mkUint32 0;
       per-window = false;
       xkb-options = [ "ctrl:nocaps" ];
     };
