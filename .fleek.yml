@@ -43,6 +43,7 @@ packages:
     - dconf2nix
     - shortwave
     - ruby_3_2
+    - ruby_2_7
 paths:
     - $HOME/bin
     - $HOME/.local/bin
