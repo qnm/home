@@ -1,6 +1,52 @@
 { pkgs, misc, ... }: {
   # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
 
+  home.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    docker-compose
+    shadowenv
+    neofetch
+    ripgrep
+    curl
+    unzip
+    tmux
+    terraform
+    terraformer
+    awscli2
+    ssm-session-manager-plugin
+    asdf-vm
+    adrgen
+    hasura-cli
+    google-cloud-sdk
+    copilot-cli
+    yadm
+    jq
+    wget
+    gnupg
+    alacritty
+    yadm
+    graphviz
+    dconf2nix
+  ] ++ (lib.optionals pkgs.stdenv.isDarwin [
+      # macos only
+      iterm2
+  ]) ++ (lib.optionals pkgs.stdenv.isLinux [
+      # linux only
+      firefox
+      flatpak
+      gnome.gnome-tweaks
+      gnome.gnome-keyring
+      gnome.gnome-screenshot
+      gnome.nautilus
+      gnome.gnome-shell-extensions
+      gnomeExtensions.appindicator
+      gnomeExtensions.pop-shell
+      rocminfo
+      hipcc
+      tidal-hifi
+      shortwave
+  ]);
+
   programs.helix = {
     enable = true;
     settings = {
