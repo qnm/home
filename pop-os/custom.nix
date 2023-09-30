@@ -21,7 +21,9 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/input-sources" = {
+      current = mkUint32 0;
       per-window = false;
+      sources = [ (mkTuple [ "xkb" "au" ]) ];
       xkb-options = [ "ctrl:nocaps" ];
     };
 
