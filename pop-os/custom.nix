@@ -8,8 +8,6 @@
       font-antialiasing = "rgba";
     };
 
-    "org/gnome/desktop/input-sources" = { xkb-options = [ "ctrl:nocaps" ]; };
-
     "com/system76/hidpi" = {
       enable = true;
       mode = "hidpi";
