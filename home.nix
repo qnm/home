@@ -45,7 +45,6 @@
     pkgs.dconf2nix
     pkgs.shortwave
     pkgs.ruby_3_2
-    pkgs.vscode-fhs
     # Fleek Bling
     pkgs.git
     pkgs.htop
