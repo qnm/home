@@ -38,8 +38,9 @@ with lib.hm.gvariant;
       color-scheme = "prefer-dark";
       font-antialiasing = "rgba";
       font-hinting = "slight";
-      gtk-theme = "Catppuccin-Frappe-Standard-Rosewater-dark";
-      icon-theme = "Pop";
+      gtk-theme = "Adwaita";
+      cursor-theme = "Adwaita";
+      icon-theme = "Adwaita";
     };
 
     "org/gnome/desktop/peripherals/mouse" = {
@@ -60,19 +61,6 @@ with lib.hm.gvariant;
       picture-uri = "file:///usr/share/backgrounds/pop/ferdinand-stohr-149422.jpg";
       primary-color = "#000000";
       secondary-color = "#000000";
-    };
-
-    "org/gnome/gedit/preferences/editor" = {
-      scheme = "pop-dark";
-    };
-
-    "org/gnome/gedit/preferences/ui" = {
-      show-tabs-mode = "auto";
-    };
-
-    "org/gnome/mutter" = {
-      edge-tiling = true;
-      experimental-features = [ "x11-randr-fractional-scaling" "scale-monitor-framebuffer" ];
     };
 
     "org/gnome/shell" = {
@@ -185,18 +173,4 @@ with lib.hm.gvariant;
       show-extensions-notice = false;
     };
   };
-
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Catppuccin-Frappe-Standard-Rosewater-dark";
-      package = pkgs.catppuccin-gtk.override {
-        accents = [ "rosewater" ];
-        size = "standard";
-        tweaks = [ "rimless" "black" ];
-        variant = "frappe";
-      };
-    };
-  };
- 
 }
