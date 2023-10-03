@@ -7,6 +7,11 @@ with lib.hm.gvariant;
   # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
   fonts.fontconfig.enable = true;
 
+  home.packages = [
+    # user selected packages
+    pkgs.gnomeExtensions.pop-shell
+  ];
+
   dconf.settings = {
     "com/system76/hidpi" = {
       enable = true;
