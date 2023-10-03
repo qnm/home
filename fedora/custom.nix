@@ -185,5 +185,18 @@ with lib.hm.gvariant;
       show-extensions-notice = false;
     };
   };
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Catppuccin-Frappe-Standard-Rosewater-dark";
+      package = pkgs.catppuccin-gtk.override {
+        accents = [ "rosewater" ];
+        size = "standard";
+        tweaks = [ "rimless" "black" ];
+        variant = "frappe";
+      };
+    };
+  };
  
 }
