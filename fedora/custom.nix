@@ -11,6 +11,7 @@ with lib.hm.gvariant;
     # user selected packages
     pkgs.gnomeExtensions.pop-shell
     pkgs.gnome-extension-manager
+    pkgs.gnomeExtensions.dash-to-dock
   ];
 
   dconf.settings = {
