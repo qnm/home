@@ -10,6 +10,7 @@ with lib.hm.gvariant;
   home.packages = [
     # user selected packages
     pkgs.gnomeExtensions.pop-shell
+    pkgs.gnome-extension-manager
   ];
 
   dconf.settings = {
