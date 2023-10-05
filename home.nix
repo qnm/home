@@ -46,6 +46,7 @@
     pkgs.shortwave
     pkgs.ruby_3_2
     pkgs.devbox
+    pkgs.gnomeExtensions.pop-shell
     # Fleek Bling
     pkgs.git
     pkgs.htop
