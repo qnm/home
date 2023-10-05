@@ -43,7 +43,6 @@
     pkgs.yadm
     pkgs.graphviz
     pkgs.dconf2nix
-    pkgs.shortwave
     pkgs.ruby_3_2
     pkgs.devbox
     pkgs.gnomeExtensions.pop-shell
