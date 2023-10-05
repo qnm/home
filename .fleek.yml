@@ -46,6 +46,7 @@ packages:
     - devbox
     - gnomeExtensions.pop-shell
     - gnome-extension-manager
+    - gnomeExtensions.caffeine
 paths:
     - $HOME/bin
     - $HOME/.local/bin

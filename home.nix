@@ -48,6 +48,7 @@
     pkgs.devbox
     pkgs.gnomeExtensions.pop-shell
     pkgs.gnome-extension-manager
+    pkgs.gnomeExtensions.caffeine
     # Fleek Bling
     pkgs.git
     pkgs.htop
