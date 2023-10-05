@@ -47,6 +47,7 @@
     pkgs.ruby_3_2
     pkgs.devbox
     pkgs.gnomeExtensions.pop-shell
+    pkgs.gnome-extension-manager
     # Fleek Bling
     pkgs.git
     pkgs.htop

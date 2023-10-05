@@ -45,6 +45,7 @@ packages:
     - ruby_3_2
     - devbox
     - gnomeExtensions.pop-shell
+    - gnome-extension-manager
 paths:
     - $HOME/bin
     - $HOME/.local/bin
