@@ -43,7 +43,6 @@ packages:
     - dconf2nix
     - ruby_3_2
     - devbox
-    - gnomeExtensions.pop-shell
     - gnome-extension-manager
     - gnomeExtensions.caffeine
 paths:

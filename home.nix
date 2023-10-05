@@ -45,7 +45,6 @@
     pkgs.dconf2nix
     pkgs.ruby_3_2
     pkgs.devbox
-    pkgs.gnomeExtensions.pop-shell
     pkgs.gnome-extension-manager
     pkgs.gnomeExtensions.caffeine
     # Fleek Bling
