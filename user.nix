@@ -41,7 +41,7 @@
       gnome.gnome-shell-extensions
       gnomeExtensions.appindicator
       gnomeExtensions.pop-shell
-      rocminfo
+      rocmPackages.rocminfo
       hipcc
       tidal-hifi
       shortwave
