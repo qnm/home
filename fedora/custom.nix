@@ -20,14 +20,6 @@ with lib.hm.gvariant;
       mode = "hidpi";
     };
 
-    "org/gnome/desktop/background" = {
-      color-shading-type = "solid";
-      picture-options = "zoom";
-      picture-uri-dark = "file:///usr/share/backgrounds/pop/ferdinand-stohr-149422.jpg";
-      primary-color = "#000000";
-      secondary-color = "#000000";
-    };
-
     "org/gnome/desktop/input-sources" = {
       current = mkUint32 0;
       per-window = false;
