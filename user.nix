@@ -204,4 +204,13 @@
     extraPackages = with pkgs; [ fzf ];
     extraPython3Packages = ps: with ps; [ /* python-language-server */ ];
   };
+
+  # gitconfig
+  programs.git = {
+    extraConfig = {
+      push = {
+        autoSetupRemote = true;
+      };
+    };
+  };
 }

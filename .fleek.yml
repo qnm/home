@@ -14,7 +14,6 @@ git:
     autopull: true
     autopush: true
     enabled: true
-    autosetupremote: true
 min_version: 0.8.4
 name: Fleek Configuration
 overlays: {}
