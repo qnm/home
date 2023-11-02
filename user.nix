@@ -48,6 +48,7 @@
       rocmPackages.hipcc
       tidal-hifi
       shortwave
+      pkgs.signal-desktop
   ]);
 
   programs.bash = {
