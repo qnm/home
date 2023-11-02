@@ -1,5 +1,7 @@
-{ pkgs, misc, ... }: {
+{ config, pkgs, misc, ... }: {
   # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
+
+  fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
@@ -41,11 +43,34 @@
       gnome.gnome-shell-extensions
       gnomeExtensions.appindicator
       gnomeExtensions.pop-shell
+      gnomeExtensions.dash-to-dock
+      gnomeExtensions.caffeine
+      gnome-extension-manager
       rocmPackages.rocminfo
       rocmPackages.hipcc
       tidal-hifi
       shortwave
   ]);
+
+  programs.bash = {
+    enable = true;
+    profileExtra = ''
+      export XDG_DATA_DIRS=$HOME/.home-manager-share:$XDG_DATA_DIRS
+    '';
+  };
+
+  home.activation = {
+    linkDesktopApplications = {
+      after = [ "writeBoundary" "createXdgUserDirectories" ];
+      before = [ ];
+      data = ''
+        rm -rf $HOME/.home-manager-share
+        mkdir -p $HOME/.home-manager-share
+        cp -Lr --no-preserve=mode,ownership ${config.home.homeDirectory}/.nix-profile/share/* $HOME/.home-manager-share
+      '';
+    };
+  };
+
 
   programs.helix = {
     enable = true;

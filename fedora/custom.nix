@@ -5,34 +5,6 @@ with lib.hm.gvariant;
 
 {
   # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
-  fonts.fontconfig.enable = true;
-
-  home.packages = [
-    # user selected packages
-    pkgs.gnomeExtensions.pop-shell
-    pkgs.gnome-extension-manager
-    pkgs.gnomeExtensions.dash-to-dock
-    pkgs.gnomeExtensions.caffeine
-  ];
-
-  programs.bash = {
-    enable = true;
-    profileExtra = ''
-      export XDG_DATA_DIRS=$HOME/.home-manager-share:$XDG_DATA_DIRS
-    '';
-  };
-
-  home.activation = {
-    linkDesktopApplications = {
-      after = [ "writeBoundary" "createXdgUserDirectories" ];
-      before = [ ];
-      data = ''
-        rm -rf $HOME/.home-manager-share
-        mkdir -p $HOME/.home-manager-share
-        cp -Lr --no-preserve=mode,ownership ${config.home.homeDirectory}/.nix-profile/share/* $HOME/.home-manager-share
-      '';
-    };
-  };
 
   dconf.settings = {
     "com/system76/hidpi" = {
