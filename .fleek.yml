@@ -43,7 +43,6 @@ packages:
     - dconf2nix
     - ruby_3_2
     - devbox
-    - gnomeExtensions.caffeine
     - signal-desktop
 paths:
     - $HOME/bin

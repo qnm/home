@@ -12,6 +12,7 @@ with lib.hm.gvariant;
     pkgs.gnomeExtensions.pop-shell
     pkgs.gnome-extension-manager
     pkgs.gnomeExtensions.dash-to-dock
+    pkgs.gnomeExtensions.caffeine
   ];
 
   programs.bash = {
