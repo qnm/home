@@ -44,7 +44,7 @@ packages:
     - ruby_3_2
     - devbox
     - gnomeExtensions.caffeine
-    - signal
+    - signal-desktop
 paths:
     - $HOME/bin
     - $HOME/.local/bin

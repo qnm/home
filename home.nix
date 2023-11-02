@@ -46,7 +46,7 @@
     pkgs.ruby_3_2
     pkgs.devbox
     pkgs.gnomeExtensions.caffeine
-    pkgs.signal
+    pkgs.signal-desktop
     # Fleek Bling
     pkgs.git
     pkgs.htop
