@@ -1,8 +1,6 @@
 { config, pkgs, misc, ... }: {
   # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
 
-  fonts.fontconfig.enable = true;
-
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     docker-compose
@@ -70,7 +68,6 @@
       '';
     };
   };
-
 
   programs.helix = {
     enable = true;
