@@ -45,7 +45,6 @@
     pkgs.dconf2nix
     pkgs.ruby_3_2
     pkgs.devbox
-    pkgs.signal-desktop
     # Fleek Bling
     pkgs.git
     pkgs.htop
