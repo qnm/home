@@ -1,4 +1,4 @@
-{ pkgs, misc, lib, ... }:
+{ config, pkgs, misc, lib, ... }:
   # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
 
 with lib.hm.gvariant;
