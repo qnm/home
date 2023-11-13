@@ -45,6 +45,7 @@
     pkgs.dconf2nix
     pkgs.ruby_3_2
     pkgs.devbox
+    pkgs._1password-gui
     # Fleek Bling
     pkgs.git
     pkgs.htop
