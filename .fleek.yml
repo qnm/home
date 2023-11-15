@@ -53,7 +53,7 @@ programs:
     - git
     - gh
     - helix
-shell: fish
+shell: zsh
 systems:
     - arch: x86_64
       home: /home/qnm
