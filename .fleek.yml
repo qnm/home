@@ -44,6 +44,7 @@ packages:
     - ruby_3_2
     - devbox
     - _1password-gui
+    - docker
 paths:
     - $HOME/bin
     - $HOME/.local/bin
