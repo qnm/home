@@ -45,6 +45,7 @@ packages:
     - devbox
     - _1password-gui
     - docker
+    - fish
 paths:
     - $HOME/bin
     - $HOME/.local/bin

@@ -47,6 +47,7 @@
     pkgs.devbox
     pkgs._1password-gui
     pkgs.docker
+    pkgs.fish
     # Fleek Bling
     pkgs.git
     pkgs.htop
