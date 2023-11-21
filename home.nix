@@ -46,7 +46,12 @@
     pkgs.devbox
     pkgs._1password-gui
     pkgs.docker
+    pkgs.docker-compose
     pkgs.fish
+    pkgs.ripgrep
+    pkgs.curl
+    pkgs.unzip
+    pkgs.tmux
     # Fleek Bling
     pkgs.git
     pkgs.htop

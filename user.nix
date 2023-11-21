@@ -3,35 +3,12 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-    docker-compose
-    shadowenv
-    neofetch
-    ripgrep
-    curl
-    unzip
-    tmux
-    terraform
-    terraformer
-    awscli2
-    ssm-session-manager-plugin
-    asdf-vm
-    adrgen
-    hasura-cli
-    google-cloud-sdk
-    copilot-cli
-    yadm
-    jq
-    wget
-    gnupg
-    alacritty
-    yadm
-    graphviz
-    dconf2nix
   ] ++ (lib.optionals pkgs.stdenv.isDarwin [
       # macos only
       iterm2
   ]) ++ (lib.optionals pkgs.stdenv.isLinux [
       # linux only
+      dconf2nix
       firefox
       flatpak
       gnome.gnome-tweaks
