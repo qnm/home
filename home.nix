@@ -20,34 +20,7 @@
   # programs are installed and configuration applied to dotfiles
   home.packages = [
     # user selected packages
-    pkgs.shadowenv
-    pkgs.neofetch
-    pkgs.ripgrep
-    pkgs.curl
-    pkgs.unzip
-    pkgs.tmux
-    pkgs.terraform
-    pkgs.terraformer
-    pkgs.awscli2
-    pkgs.ssm-session-manager-plugin
-    pkgs.asdf-vm
-    pkgs.adrgen
-    pkgs.hasura-cli
-    pkgs.google-cloud-sdk
-    pkgs.copilot-cli
-    pkgs.yadm
-    pkgs.jq
-    pkgs.wget
-    pkgs.gnupg
-    pkgs.alacritty
-    pkgs.yadm
-    pkgs.graphviz
-    pkgs.dconf2nix
-    pkgs.ruby_3_2
-    pkgs.devbox
-    pkgs._1password-gui
-    pkgs.docker
-    pkgs.fish
+    pkgs.helix
     # Fleek Bling
     pkgs.git
     pkgs.htop
@@ -56,13 +29,6 @@
     pkgs.fzf
     pkgs.ripgrep
     pkgs.vscode
-    pkgs.lazygit
-    pkgs.jq
-    pkgs.yq-go
-    pkgs.neovim
-    pkgs.neofetch
-    pkgs.btop
-    pkgs.cheat
     pkgs.just
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
