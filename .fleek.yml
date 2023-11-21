@@ -24,6 +24,9 @@ paths:
     - $HOME/.local/bin
 programs:
     - dircolors
+    - git
+    - gh
+    - helix
 shell: zsh
 systems:
     - arch: aarch64
