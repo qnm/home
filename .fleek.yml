@@ -24,7 +24,6 @@ packages:
     - curl
     - unzip
     - tmux
-    - awscli2
 paths:
     - $HOME/bin
     - $HOME/.local/bin

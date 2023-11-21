@@ -26,7 +26,6 @@
     pkgs.curl
     pkgs.unzip
     pkgs.tmux
-    pkgs.awscli2
     # Fleek Bling
     pkgs.git
     pkgs.htop
