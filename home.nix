@@ -52,6 +52,7 @@
     pkgs.curl
     pkgs.unzip
     pkgs.tmux
+    pkgs.localsend
     # Fleek Bling
     pkgs.git
     pkgs.htop

@@ -50,6 +50,7 @@ packages:
     - curl
     - unzip
     - tmux
+    - localsend
 paths:
     - $HOME/bin
     - $HOME/.local/bin
