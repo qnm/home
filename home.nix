@@ -20,6 +20,18 @@
   # programs are installed and configuration applied to dotfiles
   home.packages = [
     # user selected packages
+    pkgs.shadowenv
+    pkgs.neofetch
+    pkgs.ripgrep
+    pkgs.curl
+    pkgs.unzip
+    pkgs.tmux
+    pkgs.terraform
+    pkgs.terraformer
+    pkgs.awscli2
+    pkgs.ssm-session-manager-plugin
+    pkgs.asdf-vm
+    pkgs.adrgen
     # Fleek Bling
     pkgs.git
     pkgs.htop
