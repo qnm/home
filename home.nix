@@ -47,7 +47,6 @@
     pkgs._1password-gui
     pkgs.docker
     pkgs.fish
-    pkgs.awscli2
     # Fleek Bling
     pkgs.git
     pkgs.htop
