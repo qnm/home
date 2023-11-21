@@ -21,6 +21,11 @@
   home.packages = [
     # user selected packages
     pkgs.shadowenv
+    pkgs.neofetch
+    pkgs.ripgrep
+    pkgs.curl
+    pkgs.unzip
+    pkgs.tmux
     # Fleek Bling
     pkgs.git
     pkgs.htop

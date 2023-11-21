@@ -19,6 +19,11 @@ name: Fleek Configuration
 overlays: {}
 packages:
     - shadowenv
+    - neofetch
+    - ripgrep
+    - curl
+    - unzip
+    - tmux
 paths:
     - $HOME/bin
     - $HOME/.local/bin
