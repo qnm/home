@@ -24,6 +24,27 @@ packages:
     - curl
     - unzip
     - tmux
+    - terraform
+    - terraformer
+    - ssm-session-manager-plugin
+    - asdf-vm
+    - adrgen
+    - hasura-cli
+    - google-cloud-sdk
+    - copilot-cli
+    - yadm
+    - jq
+    - wget
+    - gnupg
+    - alacritty
+    - yadm
+    - graphviz
+    - dconf2nix
+    - ruby_3_2
+    - devbox
+    - _1password-gui
+    - docker
+    - fish
 paths:
     - $HOME/bin
     - $HOME/.local/bin
