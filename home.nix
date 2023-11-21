@@ -26,8 +26,6 @@
     pkgs.curl
     pkgs.unzip
     pkgs.tmux
-    pkgs.terraform
-    pkgs.terraformer
     pkgs.awscli2
     # Fleek Bling
     pkgs.git

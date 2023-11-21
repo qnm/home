@@ -24,8 +24,6 @@ packages:
     - curl
     - unzip
     - tmux
-    - terraform
-    - terraformer
     - awscli2
 paths:
     - $HOME/bin
