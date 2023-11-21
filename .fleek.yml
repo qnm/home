@@ -4,7 +4,7 @@ aliases:
     update-fleek: nix run https://getfleek.dev/latest.tar.gz -- update
 allow_broken: false
 auto_gc: true
-bling: default
+bling: high
 blocklist: []
 byo_git: false
 ejected: false
