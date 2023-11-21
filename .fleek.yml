@@ -19,17 +19,6 @@ name: Fleek Configuration
 overlays: {}
 packages:
     - shadowenv
-    - neofetch
-    - ripgrep
-    - curl
-    - unzip
-    - tmux
-    - terraform
-    - terraformer
-    - awscli2
-    - ssm-session-manager-plugin
-    - asdf-vm
-    - adrgen
 paths:
     - $HOME/bin
     - $HOME/.local/bin
