@@ -51,6 +51,7 @@ packages:
     - unzip
     - tmux
     - localsend
+    - awscli2
 paths:
     - $HOME/bin
     - $HOME/.local/bin

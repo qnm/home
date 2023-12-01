@@ -53,6 +53,7 @@
     pkgs.unzip
     pkgs.tmux
     pkgs.localsend
+    pkgs.awscli2
     # Fleek Bling
     pkgs.git
     pkgs.htop
