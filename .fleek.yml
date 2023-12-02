@@ -51,7 +51,7 @@ packages:
     - unzip
     - tmux
     - localsend
-    - awscli2
+    - fermyon-spin
 paths:
     - $HOME/bin
     - $HOME/.local/bin
