@@ -53,7 +53,6 @@
     pkgs.unzip
     pkgs.tmux
     pkgs.localsend
-    pkgs.fermyon-spin
     # Fleek Bling
     pkgs.git
     pkgs.htop
