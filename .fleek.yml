@@ -51,6 +51,7 @@ packages:
     - unzip
     - tmux
     - localsend
+    - hurl
 paths:
     - $HOME/bin
     - $HOME/.local/bin
