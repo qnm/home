@@ -52,7 +52,7 @@ packages:
     - tmux
     - localsend
     - hurl
-    - awscli2
+    - discord
 paths:
     - $HOME/bin
     - $HOME/.local/bin

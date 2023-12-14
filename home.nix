@@ -54,7 +54,7 @@
     pkgs.tmux
     pkgs.localsend
     pkgs.hurl
-    pkgs.awscli2
+    pkgs.discord
     # Fleek Bling
     pkgs.git
     pkgs.htop
