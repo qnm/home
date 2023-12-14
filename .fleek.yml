@@ -53,6 +53,7 @@ packages:
     - localsend
     - hurl
     - discord
+    - slack-dark
 paths:
     - $HOME/bin
     - $HOME/.local/bin

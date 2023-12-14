@@ -55,6 +55,7 @@
     pkgs.localsend
     pkgs.hurl
     pkgs.discord
+    pkgs.slack-dark
     # Fleek Bling
     pkgs.git
     pkgs.htop
