@@ -54,6 +54,7 @@ packages:
     - hurl
     - discord
     - slack-dark
+    - awscli2
 paths:
     - $HOME/bin
     - $HOME/.local/bin
