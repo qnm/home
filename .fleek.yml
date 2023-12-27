@@ -87,6 +87,17 @@ systems:
         ssh_public_key_file: ""
         username: qnm
       username: qnm
+    - arch: x86_64
+      home: ""
+      hostname: windoze
+      os: linux
+      user:
+        email: rob@sharp.id.au
+        name: Rob Sharp
+        ssh_private_key_file: ""
+        ssh_public_key_file: ""
+        username: qnm
+      username: qnm
 track: nixos-unstable
 unfree: true
 users: []
