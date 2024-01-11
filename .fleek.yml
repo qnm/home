@@ -55,6 +55,7 @@ packages:
     - discord
     - slack-dark
     - awscli2
+    - nodejs_18
 paths:
     - $HOME/bin
     - $HOME/.local/bin
