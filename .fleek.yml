@@ -45,7 +45,6 @@ packages:
     - _1password-gui
     - docker
     - docker-compose
-    - fish
     - ripgrep
     - curl
     - unzip
@@ -65,7 +64,7 @@ programs:
     - gh
     - helix
     - fish
-shell: fish
+shell: zsh
 systems:
     - arch: aarch64
       home: ""
