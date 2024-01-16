@@ -64,6 +64,7 @@ programs:
     - git
     - gh
     - helix
+    - fish
 shell: fish
 systems:
     - arch: aarch64
