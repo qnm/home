@@ -64,7 +64,6 @@ programs:
     - gh
     - helix
     - fish
-    - direnv
 shell: zsh
 systems:
     - arch: aarch64
