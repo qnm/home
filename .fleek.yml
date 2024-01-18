@@ -64,7 +64,7 @@ programs:
     - gh
     - helix
     - fish
-shell: fish
+shell: zsh
 systems:
     - arch: aarch64
       home: ""
