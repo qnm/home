@@ -13,6 +13,7 @@
     programs.git.enable = true; 
     programs.gh.enable = true; 
     programs.helix.enable = true; 
-    programs.fish.enable = true;
+    programs.fish.enable = true; 
+    programs.direnv.enable = true;
 
 }
