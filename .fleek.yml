@@ -55,7 +55,6 @@ packages:
     - slack-dark
     - awscli2
     - nodejs_18
-    - calibre
 paths:
     - $HOME/bin
     - $HOME/.local/bin
