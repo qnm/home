@@ -16,7 +16,10 @@ git:
     enabled: true
 min_version: 0.8.4
 name: Fleek Configuration
-overlays: {}
+overlays:
+  darwin:
+    url: github:lnl7/nix-darwin/master
+    follow: false
 packages:
     - shadowenv
     - neofetch
