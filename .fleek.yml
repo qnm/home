@@ -16,6 +16,7 @@ git:
     enabled: true
 min_version: 0.8.4
 name: Fleek Configuration
+overlays: {}
 packages:
     - shadowenv
     - neofetch
@@ -54,6 +55,7 @@ packages:
     - slack-dark
     - awscli2
     - nodejs_18
+    - go
 paths:
     - $HOME/bin
     - $HOME/.local/bin

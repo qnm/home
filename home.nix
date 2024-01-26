@@ -57,6 +57,7 @@
     pkgs.slack-dark
     pkgs.awscli2
     pkgs.nodejs_18
+    pkgs.go
     # Fleek Bling
     pkgs.git
     pkgs.htop
