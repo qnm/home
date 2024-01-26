@@ -15,6 +15,9 @@
 
     # Overlays
     
+    darwin.url = "github:lnl7/nix-darwin/master";
+    
+    
 
   };
 
@@ -48,7 +51,7 @@
             ];
           }
           ({
-           nixpkgs.overlays = [];
+           nixpkgs.overlays = [inputs.darwin.overlays ];
           })
 
         ];
@@ -74,7 +77,7 @@
             ];
           }
           ({
-           nixpkgs.overlays = [];
+           nixpkgs.overlays = [inputs.darwin.overlays ];
           })
 
         ];
@@ -100,7 +103,7 @@
             ];
           }
           ({
-           nixpkgs.overlays = [];
+           nixpkgs.overlays = [inputs.darwin.overlays ];
           })
 
         ];
@@ -126,7 +129,7 @@
             ];
           }
           ({
-           nixpkgs.overlays = [];
+           nixpkgs.overlays = [inputs.darwin.overlays ];
           })
 
         ];
