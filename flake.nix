@@ -51,7 +51,7 @@
             ];
           }
           ({
-           nixpkgs.overlays = [inputs.darwin.overlays ];
+           nixpkgs.overlays = [inputs.darwin.overlay ];
           })
 
         ];
@@ -77,7 +77,7 @@
             ];
           }
           ({
-           nixpkgs.overlays = [inputs.darwin.overlays ];
+           nixpkgs.overlays = [inputs.darwin.overlay ];
           })
 
         ];
@@ -103,7 +103,7 @@
             ];
           }
           ({
-           nixpkgs.overlays = [inputs.darwin.overlays ];
+           nixpkgs.overlays = [inputs.darwin.overlay ];
           })
 
         ];
@@ -129,7 +129,7 @@
             ];
           }
           ({
-           nixpkgs.overlays = [inputs.darwin.overlays ];
+           nixpkgs.overlays = [inputs.darwin.overlay ];
           })
 
         ];
