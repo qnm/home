@@ -47,7 +47,6 @@
     pkgs._1password-gui
     pkgs.docker
     pkgs.docker-compose
-    pkgs.fish
     pkgs.ripgrep
     pkgs.curl
     pkgs.unzip
@@ -58,6 +57,7 @@
     pkgs.slack-dark
     pkgs.awscli2
     pkgs.nodejs_18
+    pkgs.go
     # Fleek Bling
     pkgs.git
     pkgs.htop
