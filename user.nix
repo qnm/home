@@ -9,7 +9,6 @@
   ]) ++ (lib.optionals pkgs.stdenv.isLinux [
       # linux only
       dconf2nix
-      firefox
       flatpak
       gnome.gnome-tweaks
       gnome.gnome-keyring
