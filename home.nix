@@ -58,6 +58,7 @@
     pkgs.awscli2
     pkgs.nodejs_18
     pkgs.go
+    pkgs.ngrok
     # Fleek Bling
     pkgs.git
     pkgs.htop
