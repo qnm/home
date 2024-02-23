@@ -57,6 +57,7 @@ packages:
     - nodejs_18
     - go
     - ngrok
+    - conda
 paths:
     - $HOME/bin
     - $HOME/.local/bin

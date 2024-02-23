@@ -59,6 +59,7 @@
     pkgs.nodejs_18
     pkgs.go
     pkgs.ngrok
+    pkgs.conda
     # Fleek Bling
     pkgs.git
     pkgs.htop
