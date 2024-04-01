@@ -60,6 +60,7 @@
     pkgs.go
     pkgs.ngrok
     pkgs.conda
+    pkgs.cloudflared
     # Fleek Bling
     pkgs.git
     pkgs.htop

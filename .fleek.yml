@@ -58,6 +58,7 @@ packages:
     - go
     - ngrok
     - conda
+    - cloudflared
 paths:
     - $HOME/bin
     - $HOME/.local/bin
