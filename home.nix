@@ -61,6 +61,7 @@
     pkgs.ngrok
     pkgs.conda
     pkgs.cloudflared
+    pkgs.youtube-dl
     # Fleek Bling
     pkgs.git
     pkgs.htop
