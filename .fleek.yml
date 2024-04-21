@@ -60,6 +60,7 @@ packages:
     - conda
     - cloudflared
     - youtube-dl
+    - yt-dlp
 paths:
     - $HOME/bin
     - $HOME/.local/bin

@@ -62,6 +62,7 @@
     pkgs.conda
     pkgs.cloudflared
     pkgs.youtube-dl
+    pkgs.yt-dlp
     # Fleek Bling
     pkgs.git
     pkgs.htop
