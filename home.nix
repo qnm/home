@@ -63,6 +63,7 @@
     pkgs.cloudflared
     pkgs.youtube-dl
     pkgs.yt-dlp
+    pkgs.poetry
     # Fleek Bling
     pkgs.git
     pkgs.htop
