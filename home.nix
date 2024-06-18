@@ -64,6 +64,7 @@
     pkgs.youtube-dl
     pkgs.yt-dlp
     pkgs.poetry
+    pkgs.libffi
     # Fleek Bling
     pkgs.git
     pkgs.htop

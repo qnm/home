@@ -62,6 +62,7 @@ packages:
     - youtube-dl
     - yt-dlp
     - poetry
+    - libffi
 paths:
     - $HOME/bin
     - $HOME/.local/bin
