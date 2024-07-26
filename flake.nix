@@ -10,19 +10,12 @@
     home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.1.tar.gz";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Fleek
-    fleek.url = "https://flakehub.com/f/ublue-os/fleek/*.tar.gz";
-
     # Overlays
     
 
   };
 
-  outputs = { self, nixpkgs, home-manager, fleek, ... }@inputs: {
-    
-     packages.aarch64-darwin.fleek = fleek.packages.aarch64-darwin.default;
-    
-     packages.x86_64-linux.fleek = fleek.packages.x86_64-linux.default;
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     
     # Available through 'home-manager --flake .#your-username@your-hostname'
     
@@ -41,12 +34,6 @@
           # Host Specific configs
           ./macbook.local/qnm.nix
           ./macbook.local/custom.nix
-          # self-manage fleek
-          {
-            home.packages = [
-              fleek.packages.aarch64-darwin.default
-            ];
-          }
           ({
            nixpkgs.overlays = [];
           })
@@ -67,12 +54,6 @@
           # Host Specific configs
           ./fedora/qnm.nix
           ./fedora/custom.nix
-          # self-manage fleek
-          {
-            home.packages = [
-              fleek.packages.x86_64-linux.default
-            ];
-          }
           ({
            nixpkgs.overlays = [];
           })
@@ -93,12 +74,6 @@
           # Host Specific configs
           ./windoze/qnm.nix
           ./windoze/custom.nix
-          # self-manage fleek
-          {
-            home.packages = [
-              fleek.packages.x86_64-linux.default
-            ];
-          }
           ({
            nixpkgs.overlays = [];
           })
@@ -119,12 +94,6 @@
           # Host Specific configs
           ./robBook.local/qnm.nix
           ./robBook.local/custom.nix
-          # self-manage fleek
-          {
-            home.packages = [
-              fleek.packages.aarch64-darwin.default
-            ];
-          }
           ({
            nixpkgs.overlays = [];
           })
