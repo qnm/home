@@ -34,6 +34,8 @@
       tidal-hifi
       shortwave
       pkgs.signal-desktop
+      pkgs.ollama
+      pkgs.alpaca
   ]);
 
   programs.gh = {
