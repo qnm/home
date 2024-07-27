@@ -1,8 +1,17 @@
 { config, pkgs, misc, ... }: {
-  # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      asvetliakov.vscode-neovim
+      bbenoist.nix
+    ];
+  };
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    pkgs.vscode
+    pkgs._1password
+    pkgs._1password-gui
   ] ++ (lib.optionals pkgs.stdenv.isDarwin [
       # macos only
       iterm2
@@ -179,13 +188,13 @@
         plugin = coc-nvim;
         config = ''
           let g:coc_global_extensions = ['coc-solargraph']
-          
+
           inoremap <silent><expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
                 \ <SID>check_back_space() ? "\<TAB>" :
                 \ coc#refresh()
           inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-          
+
           function! s:check_back_space() abort
             let col = col('.') - 1
             return !col || getline('.')[col - 1]  =~# '\s'
@@ -197,7 +206,7 @@
           else
             inoremap <silent><expr> <c-@> coc#refresh()
           endif
-          
+
           " Follow definition
           nmap <silent> gd <Plug>(coc-definition)
 
