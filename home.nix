@@ -61,7 +61,6 @@
     pkgs.ngrok
     pkgs.conda
     pkgs.cloudflared
-    pkgs.youtube-dl
     pkgs.yt-dlp
     pkgs.poetry
     pkgs.libffi

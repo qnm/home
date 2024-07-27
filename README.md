@@ -1,6 +1,13 @@
-# Fleek Configuration
+# Home Manager Configuration
 
-nix home-manager configs created by [fleek](https://github.com/ublue-os/fleek).
+More to be done, but this seems to get us up and running with the old fleek configuration.
+
+```
+gh repo clone qnm/home
+cd home
+nix run . switch
+home-manager switch -b backup --flake . #qnm
+```
 
 ## Reference
 

@@ -5,17 +5,15 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    # Home manager
-    home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.1.tar.gz";
+    home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Overlays
-    
-
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+    defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
     
     # Available through 'home-manager --flake .#your-username@your-hostname'
     
