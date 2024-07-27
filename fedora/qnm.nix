@@ -12,7 +12,7 @@
         userName = "Rob Sharp";
         userEmail = "rob@sharp.id.au";
         extraConfig = {
-            feature.manyFiles = true;
+            feature.manyFiles = false;
             init.defaultBranch = "main";
             gpg.format = "ssh";
         };
