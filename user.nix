@@ -10,10 +10,10 @@
       # linux only
       dconf2nix
       flatpak
-      gnome.gnome-tweaks
-      gnome.gnome-keyring
-      gnome.gnome-screenshot
-      gnome.nautilus
+      pkgs.gnome-tweaks
+      pkgs.gnome-keyring
+      pkgs.gnome-screenshot
+      pkgs.nautilus
       gnome.gnome-shell-extensions
       gnomeExtensions.appindicator
       gnomeExtensions.pop-shell
