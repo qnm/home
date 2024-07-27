@@ -5,8 +5,9 @@ More to be done, but this seems to get us up and running with the old fleek conf
 ```
 gh repo clone qnm/home
 cd home
+export NIXPKGS_ALLOW_UNFREE=1
 nix run . switch
-home-manager switch -b backup --flake . #qnm
+home-manager switch -b backup --impure --flake . #qnm
 ```
 
 ## Manual Installation

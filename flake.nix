@@ -5,13 +5,16 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Overlays
+    nixGL.url = "github:nix-community/nixGL";
+    nixGL.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixGL, home-manager, ... }@inputs: {
     defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
     defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
     
@@ -40,7 +43,8 @@
       };
       
       "qnm" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+	pkgs = import nixpkgs { system = "x86_64-linux"; allowUnfree = true; };
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
           ./home.nix 
@@ -53,7 +57,7 @@
           ./fedora/qnm.nix
           ./fedora/custom.nix
           ({
-           nixpkgs.overlays = [];
+           nixpkgs.overlays = [ nixGL.overlay ];
           })
 
         ];
