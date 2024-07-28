@@ -34,8 +34,8 @@
       tidal-hifi
       shortwave
       pkgs.signal-desktop
-      pkgs.ollama
-      pkgs.alpaca
+      pkgs.ollama-cuda
+      (alpaca.override { ollama = ollama-cuda; } )
   ]);
 
   programs.gh = {
