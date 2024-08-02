@@ -17,9 +17,8 @@ rec {
     config = {
       # Disable if you don't want unfree packages
 
-      allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = (pkg: true);
+      allowUnfreePredicate = (_: true);
     };
   };
 
@@ -30,64 +29,64 @@ rec {
   # programs are installed and configuration applied to dotfiles
   home.packages =
     let
-      nixGLwrap = config.lib.nixGL.wrap;
+      # nixGLwrap = config.lib.nixGL.wrap;
       basic_pkgs = [
-        (nixGLwrap pkgs.mesa-demos)
-	nixGL
-	pkgs.shadowenv
-	pkgs.neofetch
-	pkgs.ripgrep
-	pkgs.curl
-	pkgs.unzip
-	pkgs.tmux
-	pkgs.terraform
-	pkgs.terraformer
-	pkgs.ssm-session-manager-plugin
-	pkgs.asdf-vm
-	pkgs.adrgen
-	pkgs.hasura-cli
-	pkgs.google-cloud-sdk
-	pkgs.copilot-cli
-	pkgs.yadm
-	pkgs.jq
-	pkgs.wget
-	pkgs.gnupg
-	pkgs.alacritty
-	pkgs.yadm
-	pkgs.graphviz
-	pkgs.dconf2nix
-	pkgs.ruby_3_2
-	pkgs.devbox
-	pkgs._1password-gui
-	pkgs.docker
-	pkgs.docker-compose
-	pkgs.ripgrep
-	pkgs.curl
-	pkgs.unzip
-	pkgs.tmux
-	pkgs.localsend
-	pkgs.hurl
-	pkgs.discord
-	pkgs.slack-dark
-	pkgs.awscli2
-	pkgs.nodejs_18
-	pkgs.go
-	pkgs.ngrok
-	pkgs.conda
-	pkgs.cloudflared
-	pkgs.yt-dlp
-	pkgs.poetry
-	pkgs.libffi
-	# Fleek Bling
-	pkgs.git
-	pkgs.htop
-	pkgs.github-cli
-	pkgs.glab
-	pkgs.fzf
-	pkgs.ripgrep
-	(nixGLwrap pkgs.vscode)
-	pkgs.just
-	(pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
+        # (nixGLwrap pkgs.mesa-demos)
+		# nixGL
+		pkgs.shadowenv
+		pkgs.neofetch
+		pkgs.ripgrep
+		pkgs.curl
+		pkgs.unzip
+		pkgs.tmux
+		pkgs.terraform
+		pkgs.terraformer
+		pkgs.ssm-session-manager-plugin
+		pkgs.asdf-vm
+		pkgs.adrgen
+		pkgs.hasura-cli
+		pkgs.google-cloud-sdk
+		pkgs.copilot-cli
+		pkgs.yadm
+		pkgs.jq
+		pkgs.wget
+		pkgs.gnupg
+		pkgs.alacritty
+		pkgs.yadm
+		pkgs.graphviz
+		pkgs.dconf2nix
+		pkgs.ruby_3_2
+		pkgs.devbox
+		pkgs._1password-gui
+		pkgs.docker
+		pkgs.docker-compose
+		pkgs.ripgrep
+		pkgs.curl
+		pkgs.unzip
+		pkgs.tmux
+		pkgs.localsend
+		pkgs.hurl
+		pkgs.discord
+		pkgs.slack-dark
+		pkgs.awscli2
+		pkgs.nodejs_18
+		pkgs.go
+		pkgs.ngrok
+	  # pkgs.conda
+		pkgs.cloudflared
+		pkgs.yt-dlp
+		pkgs.poetry
+		pkgs.libffi
+		# Fleek Bling
+		pkgs.git
+		pkgs.htop
+		pkgs.github-cli
+		pkgs.glab
+		pkgs.fzf
+		pkgs.ripgrep
+		pkgs.vscode
+		pkgs.just
+		(pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
     ];
     in
     basic_pkgs;

@@ -6,5 +6,5 @@
     programs.gh.enable = true; 
     programs.helix.enable = true; 
     programs.fish.enable = true;
-    programs.firefox.enable = true;
+    # programs.firefox.enabled = true;
 }

@@ -15,14 +15,14 @@
   };
 
   outputs = { self, nixpkgs, nixGL, home-manager, ... }@inputs: {
-    defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-    defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
+    # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    # defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
     
     # Available through 'home-manager --flake .#your-username@your-hostname'
     
     homeConfigurations = {
     
-      "qnm@macbook.local" = home-manager.lib.homeManagerConfiguration {
+      "qnm@macbookpro.local" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
@@ -37,12 +37,16 @@
           ./macbook.local/custom.nix
           ({
            nixpkgs.overlays = [];
+           home = {
+             username = "qnm";
+             homeDirectory = "/Users/qnm";
+           };
           })
 
         ];
       };
       
-      "qnm" = home-manager.lib.homeManagerConfiguration {
+      "qnm@moocow" = home-manager.lib.homeManagerConfiguration {
         # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
 	pkgs = import nixpkgs { system = "x86_64-linux"; allowUnfree = true; };
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
