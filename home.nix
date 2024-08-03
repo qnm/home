@@ -68,7 +68,6 @@ rec {
 		pkgs.localsend
 		pkgs.hurl
 		pkgs.discord
-		pkgs.slack-dark
 		pkgs.awscli2
 		pkgs.nodejs_18
 		pkgs.go
