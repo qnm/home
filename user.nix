@@ -4,7 +4,12 @@
     extensions = with pkgs.vscode-extensions; [
       asvetliakov.vscode-neovim
       bbenoist.nix
+      catppuccin.catppuccin-vsc
     ];
+
+    userSettings = {
+      "workbench.colorTheme" = "Catppuccin Mocha";
+    };
   };
 
   home.packages = with pkgs; [

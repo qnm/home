@@ -12,9 +12,11 @@
     # Overlays
     nixGL.url = "github:nix-community/nixGL";
     nixGL.inputs.nixpkgs.follows = "nixpkgs";
+
+    alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
   };
 
-  outputs = { self, nixpkgs, nixGL, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixGL, home-manager, alacritty-theme, ... }@inputs: {
     # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
     # defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
     
@@ -36,7 +38,7 @@
           ./macbook.local/qnm.nix
           ./macbook.local/custom.nix
           ({
-           nixpkgs.overlays = [];
+           nixpkgs.overlays = [ alacritty-theme.overlays.default ];
            home = {
              username = "qnm";
              homeDirectory = "/Users/qnm";

@@ -51,7 +51,8 @@ rec {
 		pkgs.jq
 		pkgs.wget
 		pkgs.gnupg
-		pkgs.alacritty
+		# pkgs.alacritty
+		# pkgs.alacritty-theme
 		pkgs.yadm
 		pkgs.graphviz
 		pkgs.dconf2nix
@@ -95,4 +96,10 @@ rec {
   home.stateVersion =
     "22.11"; # To figure this out (in-case it changes) you can comment out the line and see what version it expected.
   programs.home-manager.enable = true;
+
+  programs.alacritty = {
+    enable = true;
+    # use a color scheme from the overlay
+    settings.import = [ pkgs.alacritty-theme.catppuccin_mocha ];
+  };
 }
