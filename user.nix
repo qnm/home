@@ -29,10 +29,10 @@
       pkgs.gnome-screenshot
       pkgs.nautilus
       gnome.gnome-shell-extensions
-      gnomeExtensions.appindicator
-      gnomeExtensions.pop-shell
-      gnomeExtensions.dash-to-dock
-      gnomeExtensions.caffeine
+      # gnomeExtensions.appindicator
+      # gnomeExtensions.pop-shell
+      # gnomeExtensions.dash-to-dock
+      # gnomeExtensions.caffeine
       gnome-extension-manager
       rocmPackages.rocminfo
       rocmPackages.hipcc
