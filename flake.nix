@@ -49,7 +49,7 @@
         ];
       };
       
-      "qnm@moocow" = home-manager.lib.homeManagerConfiguration {
+      "qnm@pop-os" = home-manager.lib.homeManagerConfiguration {
         # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
 	pkgs = import nixpkgs { system = "x86_64-linux"; allowUnfree = true; };
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
@@ -64,7 +64,7 @@
           ./fedora/qnm.nix
           ./fedora/custom.nix
           ({
-           nixpkgs.overlays = [ nixGL.overlay ];
+           nixpkgs.overlays = [ alacritty-theme.overlays.default nixGL.overlay ];
           })
 
         ];
