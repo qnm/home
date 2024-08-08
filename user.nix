@@ -5,10 +5,18 @@
       asvetliakov.vscode-neovim
       bbenoist.nix
       catppuccin.catppuccin-vsc
+      esbenp.prettier-vscode
     ];
 
     userSettings = {
       "workbench.colorTheme" = "Catppuccin Mocha";
+      "editor.formatOnSave" = true;
+      "[typescript]" = {
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+      };
+      "extensions.experimental.affinity" = {
+        "asvetliakov.vscode-neovim" = 1;
+      };
     };
   };
 

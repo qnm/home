@@ -55,6 +55,7 @@
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
           ./home.nix 
+          ./work.nix
           ./path.nix
           ./shell.nix
           ./user.nix
