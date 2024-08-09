@@ -17,6 +17,7 @@
       "extensions.experimental.affinity" = {
         "asvetliakov.vscode-neovim" = 1;
       };
+      "git.autofetch" = true;
     };
   };
 

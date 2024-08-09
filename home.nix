@@ -32,61 +32,65 @@ rec {
       # nixGLwrap = config.lib.nixGL.wrap;
       basic_pkgs = [
         # (nixGLwrap pkgs.mesa-demos)
-		# nixGL
-		pkgs.shadowenv
-		pkgs.neofetch
-		pkgs.ripgrep
-		pkgs.curl
-		pkgs.unzip
-		pkgs.tmux
-		pkgs.terraform
-		pkgs.terraformer
-		pkgs.ssm-session-manager-plugin
-		pkgs.asdf-vm
-		pkgs.adrgen
-		pkgs.hasura-cli
-		pkgs.google-cloud-sdk
-		pkgs.copilot-cli
-		pkgs.yadm
-		pkgs.jq
-		pkgs.wget
-		pkgs.gnupg
-		# pkgs.alacritty
-		# pkgs.alacritty-theme
-		pkgs.yadm
-		pkgs.graphviz
-		pkgs.dconf2nix
-		pkgs.ruby_3_2
-		pkgs.devbox
-		pkgs._1password-gui
-		pkgs.docker
-		pkgs.docker-compose
-		pkgs.ripgrep
-		pkgs.curl
-		pkgs.unzip
-		pkgs.tmux
-		pkgs.localsend
-		pkgs.hurl
-		pkgs.discord
-		pkgs.awscli2
-		pkgs.nodejs_18
-		pkgs.go
-		pkgs.ngrok
-	  # pkgs.conda
-		pkgs.cloudflared
-		pkgs.yt-dlp
-		pkgs.poetry
-		pkgs.libffi
-		# Fleek Bling
-		pkgs.git
-		pkgs.htop
-		pkgs.github-cli
-		pkgs.glab
-		pkgs.fzf
-		pkgs.ripgrep
-		pkgs.vscode
-		pkgs.just
-		(pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
+    # nixGL
+    (pkgs.python311.withPackages (ppkgs: [
+      ppkgs.virtualenv
+      ppkgs.notebook
+    ]))
+    pkgs.shadowenv
+    pkgs.neofetch
+    pkgs.ripgrep
+    pkgs.curl
+    pkgs.unzip
+    pkgs.tmux
+    pkgs.terraform
+    pkgs.terraformer
+    pkgs.ssm-session-manager-plugin
+    pkgs.asdf-vm
+    pkgs.adrgen
+    pkgs.hasura-cli
+    pkgs.google-cloud-sdk
+    pkgs.copilot-cli
+    pkgs.yadm
+    pkgs.jq
+    pkgs.wget
+    pkgs.gnupg
+    # pkgs.alacritty
+    # pkgs.alacritty-theme
+    pkgs.yadm
+    pkgs.graphviz
+    pkgs.dconf2nix
+    pkgs.ruby_3_2
+    pkgs.devbox
+    pkgs._1password-gui
+    pkgs.docker
+    pkgs.docker-compose
+    pkgs.ripgrep
+    pkgs.curl
+    pkgs.unzip
+    pkgs.tmux
+    pkgs.localsend
+    pkgs.hurl
+    pkgs.discord
+    pkgs.awscli2
+    pkgs.nodejs_18
+    pkgs.go
+    pkgs.ngrok
+    # pkgs.conda
+    pkgs.cloudflared
+    pkgs.yt-dlp
+    pkgs.poetry
+    pkgs.libffi
+    # Fleek Bling
+    pkgs.git
+    pkgs.htop
+    pkgs.github-cli
+    pkgs.glab
+    pkgs.fzf
+    pkgs.ripgrep
+    pkgs.vscode
+    pkgs.just
+    (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
     ];
     in
     basic_pkgs;
