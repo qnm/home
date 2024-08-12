@@ -14,5 +14,6 @@
   home.packages = [
     pkgs.zoom-us
     pkgs.slack-dark
+    pkgs.watchman
   ];
 }
