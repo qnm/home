@@ -26,7 +26,10 @@
     
       "qnm@macbookpro.local" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        extraSpecialArgs = {
+          inherit inputs;
+          androidPath = "/Users/qnm/Library/Android/sdk";
+        }; # Pass flake inputs to our config
         modules = [
           ./home.nix 
           ./work.nix
