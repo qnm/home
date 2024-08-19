@@ -37,6 +37,8 @@ rec {
       ppkgs.virtualenv
       ppkgs.notebook
     ]))
+    pkgs.devenv
+    pkgs.tilt
     pkgs.shadowenv
     pkgs.neofetch
     pkgs.ripgrep
@@ -104,5 +106,6 @@ rec {
     enable = true;
     # use a color scheme from the overlay
     settings.import = [ pkgs.alacritty-theme.catppuccin_mocha ];
+    settings.font.size = 14;
   };
 }
