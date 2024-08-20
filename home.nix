@@ -92,6 +92,7 @@ rec {
     pkgs.ripgrep
     pkgs.vscode
     pkgs.just
+    # pkgs.kitty-themes
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
     ];
     in
@@ -107,5 +108,12 @@ rec {
     # use a color scheme from the overlay
     settings.import = [ pkgs.alacritty-theme.catppuccin_mocha ];
     settings.font.size = 14;
+  };
+
+  programs.kitty = {
+    enable = true;
+    settings.font_size = 14;
+    theme = "Catppuccin-Mocha";
+    shellIntegration.enableZshIntegration = true;
   };
 }
