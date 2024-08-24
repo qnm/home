@@ -1,7 +1,7 @@
 { config, pkgs, misc, inputs, lib, allowed-unfree-packages, ... }:
 
 let
-  androidPath = "/Users/qnm/Library/Android/sdk";
+  androidPath = "$HOME/Library/Android/sdk";
 in {
   nixpkgs = {
     # Configure your nixpkgs instance
