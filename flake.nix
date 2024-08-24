@@ -22,29 +22,30 @@
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
     darwinConfigurations = {
-          "macbookpro" = nix-darwin.lib.darwinSystem {
-            system = "aarch64-darwin";
-            modules = [
-              # load base darwin
-              ./darwin/base.nix
-              # load work darwin
-              ./darwin/work.nix
-              #
-              # setup home-manager
-              home-manager.darwinModules.home-manager
-              ({
-                home-manager = {
-                  # include the home-manager module
-                  users.qnm = import ./home.nix;
-                };
-                users.users.qnm.home = "/Users/qnm";
-              })
-            ];
-            specialArgs = {
-              inherit inputs;
+      "macbookpro" = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          # load base darwin
+          ./darwin/base.nix
+          # load work darwin
+          ./darwin/work.nix
+
+          # setup home-manager
+          home-manager.darwinModules.home-manager
+          ({
+            home-manager = {
+              # include the home-manager module
+              users.qnm = import ./home.nix;
             };
-          };
+
+            users.users.qnm.home = "/Users/qnm";
+          })
+        ];
+        specialArgs = {
+          inherit inputs;
         };
+      };
+    };
 
     homeConfigurations = {
       "qnm@pop-os" = home-manager.lib.homeManagerConfiguration {
