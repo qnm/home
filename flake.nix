@@ -25,8 +25,10 @@
           "macbookpro" = nix-darwin.lib.darwinSystem {
             system = "aarch64-darwin";
             modules = [
-              # load darwin
-              ./darwin.nix
+              # load base darwin
+              ./darwin/base.nix
+              # load work darwin
+              ./darwin/work.nix
               #
               # setup home-manager
               home-manager.darwinModules.home-manager

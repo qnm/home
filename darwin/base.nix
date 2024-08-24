@@ -70,12 +70,7 @@
       "firefox"
       "unnaturalscrollwheels" # Enable natural scrolling in the trackpad but regular scroll on an external mouse
       "zed" # whilst it cannot be built on macos
-      "pop"
       "1password"
-      "android-studio"
-      "linear-linear"
-      "notion"
-      "orbstack"
       "steam"
     ];
 
@@ -86,7 +81,6 @@
       OnePasswordForSafari = 1569813296;
       Magnet = 441258766;
       Amphetamine = 937984704;
-      XCode = 497799835;
       LocalSend = 1661733229;
     };
   };
