@@ -17,3 +17,9 @@ home-manager switch -b backup --impure --flake . #qnm
 * nvidia-container-toolkit
 * mesa-utils
 * nvidia-modprobe
+
+## Bootstrapping from MacOS
+
+* Install Nix
+* `nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake .`
+* `darwin-rebuild switch --flake .`

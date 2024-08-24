@@ -6,6 +6,7 @@
       bbenoist.nix
       catppuccin.catppuccin-vsc
       esbenp.prettier-vscode
+      mechatroner.rainbow-csv
     ];
 
     userSettings = {

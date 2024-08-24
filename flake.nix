@@ -1,6 +1,5 @@
 {
-  # DO NOT EDIT: This file is managed by fleek. Manual changes will be overwritten.
-  description = "Fleek Configuration";
+  description = "Home Manager Configuration";
 
   inputs = {
     # Nixpkgs
@@ -13,51 +12,45 @@
     nixGL.url = "github:nix-community/nixGL";
     nixGL.inputs.nixpkgs.follows = "nixpkgs";
 
-    alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nixGL, home-manager, alacritty-theme, ... }@inputs: {
+  outputs = { self, nix-darwin, nixpkgs, nixGL, home-manager, ... }@inputs: {
     # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
     # defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
-    
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    
-    homeConfigurations = {
-    
-      "qnm@macbookpro.local" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {
-          inherit inputs;
-          androidPath = "/Users/qnm/Library/Android/sdk";
-        }; # Pass flake inputs to our config
-        modules = [
-          ./home.nix 
-          ./work.nix
-          ./path.nix
-          ./shell.nix
-          ./user.nix
-          ./aliases.nix
-          ./programs.nix
-          # Host Specific configs
-          ./macbook.local/qnm.nix
-          ./macbook.local/custom.nix
-          ({
-           nixpkgs.overlays = [ alacritty-theme.overlays.default ];
-           home = {
-             username = "qnm";
-             homeDirectory = "/Users/qnm";
-           };
-          })
 
-        ];
-      };
-      
+    # Available through 'home-manager --flake .#your-username@your-hostname'
+    darwinConfigurations = {
+          "macbookpro" = nix-darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            modules = [
+              # load darwin
+              ./darwin.nix
+              #
+              # setup home-manager
+              home-manager.darwinModules.home-manager
+              ({
+                home-manager = {
+                  # include the home-manager module
+                  users.qnm = import ./home.nix;
+                };
+                users.users.qnm.home = "/Users/qnm";
+              })
+            ];
+            specialArgs = {
+              inherit inputs;
+            };
+          };
+        };
+
+    homeConfigurations = {
       "qnm@pop-os" = home-manager.lib.homeManagerConfiguration {
         # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-	pkgs = import nixpkgs { system = "x86_64-linux"; allowUnfree = true; };
+	    pkgs = import nixpkgs { system = "x86_64-linux"; allowUnfree = true; };
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
-          ./home.nix 
+          ./home.nix
           ./work.nix
           ./path.nix
           ./shell.nix
@@ -68,17 +61,17 @@
           ./fedora/qnm.nix
           ./fedora/custom.nix
           ({
-           nixpkgs.overlays = [ alacritty-theme.overlays.default nixGL.overlay ];
+           nixpkgs.overlays = [ nixGL.overlay ];
           })
 
         ];
       };
-      
+
       "qnm@windoze" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
-          ./home.nix 
+          ./home.nix
           ./path.nix
           ./shell.nix
           ./user.nix
@@ -93,12 +86,12 @@
 
         ];
       };
-      
+
       "qnm@robBook.local" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
-          ./home.nix 
+          ./home.nix
           ./path.nix
           ./shell.nix
           ./user.nix
@@ -113,7 +106,7 @@
 
         ];
       };
-      
+
     };
   };
 }

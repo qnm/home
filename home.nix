@@ -10,6 +10,15 @@ rec {
       url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
       sha256 = "0g5yk54766vrmxz26l3j9qnkjifjis3z2izgpsfnczhw243dmxz9";
     })
+    ./work.nix
+    ./path.nix
+    ./shell.nix
+    ./user.nix
+    ./aliases.nix
+    ./programs.nix
+    # Host Specific configs
+    ./macbook.local/qnm.nix
+    ./macbook.local/custom.nix
   ];
 
   nixpkgs = {
@@ -21,7 +30,6 @@ rec {
       allowUnfreePredicate = (_: true);
     };
   };
-
 
   # managed by fleek, modify ~/.fleek.yml to change installed packages
 
@@ -105,8 +113,6 @@ rec {
 
   programs.alacritty = {
     enable = true;
-    # use a color scheme from the overlay
-    settings.import = [ pkgs.alacritty-theme.catppuccin_mocha ];
     settings.font.size = 14;
   };
 
