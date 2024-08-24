@@ -47,4 +47,37 @@
 
   # Add ability to used TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;
+
+  # I'd rather not have telemetry on my package manager.
+  environment.variables.HOMEBREW_NO_ANALYTICS = "1";
+
+  homebrew = {
+    enable = true;
+
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "zap";
+      upgrade = true;
+    };
+
+    brews = [
+    ];
+
+    # Update these applicatons manually.
+    # As brew would update them by unninstalling and installing the newest
+    # version, it could lead to data loss.
+    casks = [
+      "firefox"
+      "unnaturalscrollwheels" # Enable natural scrolling in the trackpad but regular scroll on an external mouse
+    ];
+
+    taps = [
+    ];
+
+    masApps = {
+      OnePasswordForSafari = 1569813296;
+      Magnet = 441258766;
+      Amphetamine = 937984704;
+    };
+  };
 }
