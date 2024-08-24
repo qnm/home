@@ -241,10 +241,29 @@
 
   # gitconfig
   programs.git = {
-    extraConfig = {
-      push = {
-        autoSetupRemote = true;
+      enable = true;
+      aliases = {
+          pushall = "!git remote | xargs -L1 git push --all";
+          graph = "log --decorate --oneline --graph";
+          add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
       };
-    };
+      userName = "Rob Sharp";
+      userEmail = "rob@sharp.id.au";
+      extraConfig = {
+          feature.manyFiles = false;
+          init.defaultBranch = "main";
+          gpg.format = "ssh";
+          push = {
+            autoSetupRemote = true;
+          };
+      };
+
+      signing = {
+          key = "";
+          signByDefault = builtins.stringLength "" > 0;
+      };
+
+      lfs.enable = true;
+      ignores = [ ".direnv" "result" ];
   };
 }

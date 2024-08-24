@@ -16,9 +16,6 @@ rec {
     ./user.nix
     ./aliases.nix
     ./programs.nix
-    # Host Specific configs
-    ./macbook.local/qnm.nix
-    ./macbook.local/custom.nix
   ];
 
   nixpkgs = {
