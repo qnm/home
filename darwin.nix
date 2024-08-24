@@ -69,6 +69,7 @@
     casks = [
       "firefox"
       "unnaturalscrollwheels" # Enable natural scrolling in the trackpad but regular scroll on an external mouse
+      "zed" # whilst it cannot be built on macos
     ];
 
     taps = [
