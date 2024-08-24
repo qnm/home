@@ -78,6 +78,8 @@
       OnePasswordForSafari = 1569813296;
       Magnet = 441258766;
       Amphetamine = 937984704;
+      XCode = 497799835;
+      LocalSend = 1661733229;
     };
   };
 }
