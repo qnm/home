@@ -97,7 +97,7 @@ rec {
     pkgs.ripgrep
     pkgs.vscode
     pkgs.just
-    # pkgs.kitty-themes
+    pkgs.kitty-themes
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
     ];
     in
@@ -118,5 +118,9 @@ rec {
     settings.font_size = 14;
     theme = "Catppuccin-Mocha";
     shellIntegration.enableZshIntegration = true;
+  };
+
+  home.file.".config/zed/settings.json" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/zed/settings.json";
   };
 }
