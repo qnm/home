@@ -36,6 +36,7 @@
             home-manager = {
               # include the home-manager module
               users.qnm = import ./home.nix;
+              backupFileExtension = "backup";
             };
 
             users.users.qnm.home = "/Users/qnm";

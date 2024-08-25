@@ -22,6 +22,9 @@ in {
 
     # for commits
     pkgs.husky
+
+    # for k8s
+    pkgs.tilt
   ];
 
   home.sessionPath = [

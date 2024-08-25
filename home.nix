@@ -6,10 +6,10 @@ in
 rec {
   imports = [
     # todo: remove when https://github.com/nix-community/home-manager/pull/5355 gets merged:
-    (builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
-      sha256 = "0g5yk54766vrmxz26l3j9qnkjifjis3z2izgpsfnczhw243dmxz9";
-    })
+    # (builtins.fetchurl {
+    #   url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
+    #   sha256 = "0g5yk54766vrmxz26l3j9qnkjifjis3z2izgpsfnczhw243dmxz9";
+    # })
     ./work.nix
     ./path.nix
     ./shell.nix
@@ -43,36 +43,26 @@ rec {
       ppkgs.notebook
     ]))
     pkgs.devenv
-    pkgs.tilt
     pkgs.shadowenv
-    pkgs.neofetch
     pkgs.ripgrep
     pkgs.curl
     pkgs.unzip
-    pkgs.tmux
-    pkgs.terraform
-    pkgs.terraformer
     pkgs.ssm-session-manager-plugin
     pkgs.asdf-vm
     pkgs.adrgen
-    pkgs.hasura-cli
     pkgs.google-cloud-sdk
     pkgs.copilot-cli
     pkgs.yadm
     pkgs.jq
     pkgs.wget
     pkgs.gnupg
-    # pkgs.alacritty
-    # pkgs.alacritty-theme
     pkgs.yadm
     pkgs.graphviz
     pkgs.dconf2nix
     pkgs.ruby_3_2
     pkgs.devbox
-    pkgs._1password-gui
     pkgs.docker
     pkgs.docker-compose
-    pkgs.ripgrep
     pkgs.curl
     pkgs.unzip
     pkgs.tmux
@@ -83,22 +73,15 @@ rec {
     pkgs.nodejs_18
     pkgs.go
     pkgs.ngrok
-    # pkgs.conda
     pkgs.cloudflared
     pkgs.yt-dlp
     pkgs.poetry
     pkgs.libffi
-    # Fleek Bling
-    pkgs.git
     pkgs.htop
-    pkgs.github-cli
     pkgs.glab
     pkgs.fzf
-    pkgs.ripgrep
-    pkgs.vscode
     pkgs.just
     pkgs.kitty-themes
-    (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
     ];
     in
     basic_pkgs;
@@ -118,9 +101,5 @@ rec {
     settings.font_size = 14;
     theme = "Catppuccin-Mocha";
     shellIntegration.enableZshIntegration = true;
-  };
-
-  home.file.".config/zed/settings.json" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/zed/settings.json";
   };
 }

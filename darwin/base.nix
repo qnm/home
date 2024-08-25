@@ -51,6 +51,10 @@
   # I'd rather not have telemetry on my package manager.
   environment.variables.HOMEBREW_NO_ANALYTICS = "1";
 
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "FiraCode" ]; })
+  ];
+
   homebrew = {
     enable = true;
 

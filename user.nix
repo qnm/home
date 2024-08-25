@@ -27,10 +27,9 @@
     pkgs.vscode
     pkgs._1password
     pkgs._1password-gui
-  ] ++ (lib.optionals pkgs.stdenv.isDarwin [
-      # macos only
-      iterm2
-  ]) ++ (lib.optionals pkgs.stdenv.isLinux [
+    pkgs.deno
+    pkgs.llm
+  ] ++ (lib.optionals pkgs.stdenv.isLinux [
       # linux only
       dconf2nix
       flatpak
@@ -269,5 +268,28 @@
 
       lfs.enable = true;
       ignores = [ ".direnv" "result" ];
+  };
+
+  programs.starship = {
+    enable = true;
+    settings = {
+      command_timeout = 1000;
+      cmd_duration = {
+        min_time = 5000;
+        format = "took [$duration](bold yellow)";
+      };
+      git_metrics = {
+        disabled = false;
+      };
+      time = {
+        disabled = true;
+        use_12hr = true;
+        format = "[$time](bold yellow)";
+      };
+      directory = {
+        read_only = " ";
+        style = "bold blue";
+      };
+    };
   };
 }
