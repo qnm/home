@@ -88,6 +88,7 @@
       Amphetamine = 937984704;
       LocalSend = 1661733229;
       OllamaSpring = 6502970995;
+      HomeAssistant = 1099568401;
     };
   };
 }
