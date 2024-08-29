@@ -25,6 +25,9 @@ in {
 
     # for k8s
     pkgs.tilt
+
+    pkgs.awscli2
+    pkgs.aws-vault
   ];
 
   home.sessionPath = [
@@ -41,4 +44,14 @@ in {
     enable = true;
     package = pkgs.zulu17;
   };
+
+  # programs.awscli = {
+  #   enable = true;
+  #   settings = {
+  #     "default" = {
+  #       region = "ap-southeast-2";
+  #       output = "json";
+  #     };
+  #   };
+  # };
 }
