@@ -21,6 +21,7 @@
       "linear-linear"
       "notion"
       "orbstack"
+      "miniconda"
     ];
 
     taps = [
