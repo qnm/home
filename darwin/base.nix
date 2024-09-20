@@ -4,6 +4,7 @@
   services.nix-daemon.enable = true;
 
   programs.zsh.enable = true;
+  programs.fish.enable = true;
 
   # System Apps
   environment.systemPackages = with pkgs; [

@@ -272,6 +272,7 @@
 
   programs.starship = {
     enable = true;
+    enableFishIntegration = true;
     settings = {
       command_timeout = 1000;
       cmd_duration = {
