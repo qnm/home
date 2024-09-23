@@ -78,6 +78,7 @@
       "1password"
       "steam"
       "ollama"
+      "google-chrome"
     ];
 
     taps = [
