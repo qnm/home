@@ -28,6 +28,7 @@ in {
 
     pkgs.awscli2
     pkgs.aws-vault
+    pkgs.sqlfluff
   ];
 
   home.sessionPath = [
