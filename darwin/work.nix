@@ -30,6 +30,7 @@
       "notion"
       "orbstack"
       "miniconda"
+      "aws-vpn-client"
     ];
 
     taps = [
