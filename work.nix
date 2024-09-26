@@ -27,7 +27,16 @@ in {
     pkgs.tilt
 
     pkgs.awscli2
+    pkgs.ssm-session-manager-plugin
     pkgs.aws-vault
+    pkgs.google-cloud-sdk
+
+    (pkgs.python311.withPackages (ppkgs: [
+      ppkgs.virtualenv
+      ppkgs.notebook
+    ]))
+
+    pkgs.poetry
     pkgs.sqlfluff
   ];
 

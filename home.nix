@@ -47,22 +47,13 @@ rec {
     pkgs.ripgrep
     pkgs.curl
     pkgs.unzip
-    pkgs.ssm-session-manager-plugin
-    pkgs.asdf-vm
-    pkgs.adrgen
-    pkgs.google-cloud-sdk
-    pkgs.copilot-cli
     pkgs.yadm
     pkgs.jq
     pkgs.wget
     pkgs.gnupg
     pkgs.yadm
-    pkgs.graphviz
     pkgs.dconf2nix
-    pkgs.ruby_3_2
     pkgs.devbox
-    pkgs.docker
-    pkgs.docker-compose
     pkgs.curl
     pkgs.unzip
     pkgs.tmux
@@ -70,17 +61,15 @@ rec {
     pkgs.hurl
     pkgs.discord
     pkgs.nodejs_18
-    pkgs.go
     pkgs.ngrok
-    pkgs.cloudflared
     pkgs.yt-dlp
-    pkgs.poetry
     pkgs.libffi
     pkgs.htop
     pkgs.glab
     pkgs.fzf
     pkgs.just
     pkgs.kitty-themes
+    pkgs.nix-search-cli
     ];
     in
     basic_pkgs;
