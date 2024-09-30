@@ -70,7 +70,8 @@
         end
         # <<< conda initialize <<<
 
-        export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig
+        set -x PKG_CONFIG_PATH "${pkgs.openssl.dev}/lib/pkgconfig" $PKG_CONFIG_PATH
+        set -x PATH "$HOME/.cargo/bin/" $PATH
       '';
   };
 }
