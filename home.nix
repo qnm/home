@@ -43,6 +43,8 @@ rec {
       ppkgs.notebook
     ]))
     pkgs.cargo
+    pkgs.pkg-config
+    pkgs.openssl
     pkgs.devenv
     pkgs.shadowenv
     pkgs.ripgrep

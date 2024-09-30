@@ -32,6 +32,8 @@
       fi
       unset __conda_setup
       # <<< conda initialize <<<
+
+      export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig
     '';
   };
 
@@ -67,6 +69,8 @@
             end
         end
         # <<< conda initialize <<<
+
+        export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig
       '';
   };
 }
