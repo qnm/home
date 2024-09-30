@@ -42,6 +42,7 @@ rec {
       ppkgs.virtualenv
       ppkgs.notebook
     ]))
+    pkgs.cargo
     pkgs.devenv
     pkgs.shadowenv
     pkgs.ripgrep
