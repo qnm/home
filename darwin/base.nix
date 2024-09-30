@@ -86,7 +86,6 @@
 
     masApps = {
       OnePasswordForSafari = 1569813296;
-      Magnet = 441258766;
       Amphetamine = 937984704;
       LocalSend = 1661733229;
       OllamaSpring = 6502970995;
