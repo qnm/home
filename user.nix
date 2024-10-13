@@ -8,18 +8,21 @@
       esbenp.prettier-vscode
       mechatroner.rainbow-csv
     ];
-
-    userSettings = {
-      "workbench.colorTheme" = "Catppuccin Mocha";
-      "editor.formatOnSave" = true;
-      "[typescript]" = {
-        "editor.defaultFormatter" = "esbenp.prettier-vscode";
-      };
-      "extensions.experimental.affinity" = {
-        "asvetliakov.vscode-neovim" = 1;
-      };
-      "git.autofetch" = true;
-    };
+    
+    userSettings = with builtins; fromJSON ''
+    {
+      "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "editor.formatOnSave": true,
+      "editor.lineNumbers": "relative",
+      "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+      },
+      "git.autofetch": true,
+      "workbench.colorTheme": "Catppuccin Mocha"
+    }
+    '';
   };
 
   home.packages = with pkgs; [
@@ -101,15 +104,6 @@
     };
     languages = {
       language = [
-        {
-          name = "ruby";
-          config = {
-            solargraph = {
-              diagnostics = true;
-              formatting = true;
-            };
-          };
-        }
         {
           name = "tsx";
           formatter= {
