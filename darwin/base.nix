@@ -46,6 +46,12 @@
     remapCapsLockToControl = true;
   };
 
+  system.defaults = {
+    NSGlobalDomain = {
+      ApplePressAndHoldEnabled = false;
+    };
+  };
+
   # Add ability to used TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;
 
