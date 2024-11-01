@@ -38,6 +38,7 @@ in {
 
     pkgs.poetry
     pkgs.sqlfluff
+    pkgs.nodePackages.aws-cdk
   ];
 
   home.sessionPath = [
