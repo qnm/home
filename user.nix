@@ -7,6 +7,7 @@
       catppuccin.catppuccin-vsc
       esbenp.prettier-vscode
       mechatroner.rainbow-csv
+      dbaeumer.vscode-eslint
     ];
     
     userSettings = with builtins; fromJSON ''
@@ -20,7 +21,18 @@
         "asvetliakov.vscode-neovim": 1
       },
       "git.autofetch": true,
-      "workbench.colorTheme": "Catppuccin Mocha"
+      "workbench.colorTheme": "Catppuccin Mocha",
+      "sqlfluff.linter.run": "onSave",
+      "sqlfluff.experimental.format.executeInTerminal": true,
+      "editor.formatOnSave": false,
+      "terminal.integrated.inheritEnv": false,
+      "[sql]": {
+        "editor.defaultFormatter": "dorzey.vscode-sqlfluff"
+      },
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      },
+      "eslint.validate": ["javascript"]
     }
     '';
   };
