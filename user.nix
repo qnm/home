@@ -12,27 +12,28 @@
     
     userSettings = with builtins; fromJSON ''
     {
+      "[sql]": {
+        "editor.defaultFormatter": "dorzey.vscode-sqlfluff"
+      },
       "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
       },
-      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+      },
+      "editor.formatOnSave": false,
       "editor.lineNumbers": "relative",
+      "eslint.validate": [
+        "javascript"
+      ],
       "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
       },
       "git.autofetch": true,
-      "workbench.colorTheme": "Catppuccin Mocha",
-      "sqlfluff.linter.run": "onSave",
       "sqlfluff.experimental.format.executeInTerminal": true,
-      "editor.formatOnSave": false,
+      "sqlfluff.linter.run": "onSave",
       "terminal.integrated.inheritEnv": false,
-      "[sql]": {
-        "editor.defaultFormatter": "dorzey.vscode-sqlfluff"
-      },
-      "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-      },
-      "eslint.validate": ["javascript"]
+      "workbench.colorTheme": "Catppuccin Mocha"
     }
     '';
   };

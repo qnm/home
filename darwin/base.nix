@@ -10,6 +10,7 @@
   environment.systemPackages = with pkgs; [
     kitty
     terminal-notifier
+    # zed-editor
   ];
 
   nix = {
