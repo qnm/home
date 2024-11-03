@@ -65,13 +65,18 @@
             if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
                 . "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
             else
-                set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
+                fish_add_path "/opt/homebrew/Caskroom/miniconda/base/bin"
             end
         end
         # <<< conda initialize <<<
 
         set -x PKG_CONFIG_PATH "${pkgs.openssl.dev}/lib/pkgconfig" $PKG_CONFIG_PATH
-        set -x PATH "$HOME/.cargo/bin/" $PATH
+
+        # set up cargo
+        fish_add_path "$HOME/.cargo/bin/"
+
+        # set up direnv
+        direnv hook fish | source
       '';
   };
 }
