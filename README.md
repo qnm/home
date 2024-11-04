@@ -1,15 +1,31 @@
-# Dead Simple Home Manager
+# Home Manager Configuration
 
-I found it frustrating to establish a clear and simple setup for a cross-platform nix flake home-manager configuration. Experienced nix users offer their own intricate configurations with custom functions (sometimes recursive!) and external flakes that add too much complexity for a beginner, while basic guides fail to account for essential cross-platform functionality.
+More to be done, but this seems to get us up and running with the old fleek configuration.
 
-So, here's Dead Simple Home Manager, a straightforward and easy-to-understand nix flake configuration that works cross-platform. I've tested it on Linux and macOS, but it could easily generalize to other systems.
+```
+gh repo clone qnm/home
+cd home
+export NIXPKGS_ALLOW_UNFREE=1
+nix run . switch
+home-manager switch -b backup --impure --flake . #qnm
+```
 
-Just follow these steps:
+## Manual Installation
 
-1. First, install nix. I recommend [Zero-to-Nix](https://zero-to-nix.com/start/install) or the [official installer](https://nixos.org/download.html)
-2. Clone this repository: `git clone https://github.com/crasm/dead-simple-home-manager ~/.config/home-manager`
-3. Personalize `flake.nix` with your `user@host` and `system` values
-4. Personalize `home.nix` with your username and home directory
-4. Finally, run: `nix run home-manager/release-23.05 switch`
+* docker.io
+* steam
+* nvidia-container-toolkit
+* mesa-utils
+* nvidia-modprobe
 
-And that's it. You're up and running with a dead simple, cross-platform home-manager configuration.
+## Bootstrapping from MacOS
+
+* Install Nix
+* Install Brew https://brew.sh/
+* `nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake .`
+* `darwin-rebuild switch --flake .`
+
+## Boostrapping from ChromeOS
+
+* Install Nix
+* nix run home-manager/release-24.05 switch
