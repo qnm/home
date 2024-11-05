@@ -31,11 +31,6 @@ in {
     pkgs.aws-vault
     pkgs.google-cloud-sdk
 
-    (pkgs.python311.withPackages (ppkgs: [
-      ppkgs.virtualenv
-      ppkgs.notebook
-    ]))
-
     pkgs.poetry
     pkgs.sqlfluff
     pkgs.nodePackages.aws-cdk
