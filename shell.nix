@@ -1,5 +1,6 @@
 { pkgs, misc, ... }: {
   programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
 
   programs.zsh.profileExtra = ''
     [ -r ~/.nix-profile/etc/profile.d/nix.sh ] && source  ~/.nix-profile/etc/profile.d/nix.sh
