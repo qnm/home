@@ -4,15 +4,9 @@ let
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
   unsupported = builtins.abort "Unsupported Platform";
-  nixGL = inputs.nixGL.packages."${pkgs.system}".nixGLDefault;
 in
 rec {
   imports = [
-    # todo: remove when https://github.com/nix-community/home-manager/pull/5355 gets merged:
-    # (builtins.fetchurl {
-    #   url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
-    #   sha256 = "0g5yk54766vrmxz26l3j9qnkjifjis3z2izgpsfnczhw243dmxz9";
-    # })
     ./work.nix
     ./path.nix
     ./shell.nix
@@ -42,10 +36,7 @@ rec {
   # programs are installed and configuration applied to dotfiles
   home.packages =
     let
-      # nixGLwrap = config.lib.nixGL.wrap;
       basic_pkgs = [
-        # (nixGLwrap pkgs.mesa-demos)
-    # nixGL
     (pkgs.python311.withPackages (ppkgs: [
       ppkgs.virtualenv
       ppkgs.notebook
