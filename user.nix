@@ -8,6 +8,9 @@
       esbenp.prettier-vscode
       mechatroner.rainbow-csv
       dbaeumer.vscode-eslint
+      vscodevim.vim
+      github.copilot
+      esbenp.prettier-vscode
     ];
     
     userSettings = with builtins; fromJSON ''
@@ -16,6 +19,9 @@
         "editor.defaultFormatter": "dorzey.vscode-sqlfluff"
       },
       "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[typescriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
       },
       "editor.codeActionsOnSave": {
@@ -33,7 +39,8 @@
       "sqlfluff.experimental.format.executeInTerminal": true,
       "sqlfluff.linter.run": "onSave",
       "terminal.integrated.inheritEnv": false,
-      "workbench.colorTheme": "Catppuccin Mocha"
+      "workbench.colorTheme": "Catppuccin Mocha",
+      "vscode-neovim.neovimExecutablePaths.darwin": "/Users/qnm/.nix-profile/bin/nvim"
     }
     '';
   };

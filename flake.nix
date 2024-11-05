@@ -44,9 +44,6 @@
             users.users.qnm.home = "/Users/qnm";
           })
         ];
-        specialArgs = {
-          inherit inputs;
-        };
       };
     };
 

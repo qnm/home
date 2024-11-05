@@ -1,4 +1,4 @@
-{ config, pkgs, misc, inputs, lib, allowed-unfree-packages, ... }:
+{ config, pkgs, misc, lib, allowed-unfree-packages, ... }:
 
 let
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
