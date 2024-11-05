@@ -49,23 +49,23 @@
       # linux only
       dconf2nix
       flatpak
-      pkgs.gnome-tweaks
-      pkgs.gnome-keyring
-      pkgs.gnome-screenshot
-      pkgs.nautilus
-      gnome.gnome-shell-extensions
+      # pkgs.gnome-tweaks
+      # pkgs.gnome-keyring
+      # pkgs.gnome-screenshot
+      # pkgs.nautilus
+      # gnome.gnome-shell-extensions
       # gnomeExtensions.appindicator
       # gnomeExtensions.pop-shell
       # gnomeExtensions.dash-to-dock
       # gnomeExtensions.caffeine
-      gnome-extension-manager
-      rocmPackages.rocminfo
-      rocmPackages.hipcc
-      tidal-hifi
-      shortwave
-      pkgs.signal-desktop
-      pkgs.ollama-cuda
-      (alpaca.override { ollama = ollama-cuda; } )
+      # gnome-extension-manager
+      # rocmPackages.rocminfo
+      # rocmPackages.hipcc
+      # tidal-hifi
+      # shortwave
+      # pkgs.signal-desktop
+      # pkgs.ollama-cuda
+      # (alpaca.override { ollama = ollama-cuda; } )
   ]);
 
   programs.gh = {

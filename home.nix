@@ -1,6 +1,9 @@
 { config, pkgs, misc, inputs, lib, allowed-unfree-packages, ... }:
 
 let
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+  unsupported = builtins.abort "Unsupported Platform";
   nixGL = inputs.nixGL.packages."${pkgs.system}".nixGLDefault;
 in
 rec {
@@ -17,6 +20,11 @@ rec {
     ./aliases.nix
     ./programs.nix
   ];
+
+  home.username = "qnm";
+  home.homeDirectory =
+    if isLinux then "/home/qnm" else
+    if isDarwin then "/Users/qnm" else unsupported;
 
   nixpkgs = {
     # Configure your nixpkgs instance
