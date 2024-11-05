@@ -98,7 +98,7 @@ rec {
   programs.kitty = {
     enable = true;
     settings.font_size = 14;
-    theme = "Catppuccin-Mocha";
+    themeFile = "Catppuccin-Mocha";
     shellIntegration.enableZshIntegration = true;
   };
 }

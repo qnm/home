@@ -41,7 +41,7 @@
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     pkgs.vscode
-    pkgs._1password
+    pkgs._1password-cli
     pkgs._1password-gui
     pkgs.deno
     pkgs.llm

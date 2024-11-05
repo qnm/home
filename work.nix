@@ -15,7 +15,7 @@ in {
 
   home.packages = [
     pkgs.zoom-us
-    pkgs.slack-dark
+    pkgs.slack
     pkgs.watchman
     # pkgs.android-studio won't run on m3
     # pkgs.cypress won't isnstall on aarch64-darwin
