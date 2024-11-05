@@ -100,5 +100,6 @@ rec {
     settings.font_size = 14;
     themeFile = "Catppuccin-Mocha";
     shellIntegration.enableZshIntegration = true;
+    package = config.lib.nixGL.wrap pkgs.kitty;
   };
 }

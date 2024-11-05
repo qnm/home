@@ -59,10 +59,16 @@
         };
         modules = [
           ({ pkgs, ...}: {
-            # home.packages = with pkgs; [ nixgl.nixglMesa ];
+            nixGL.packages = nixgl.packages;
+            nixGL.defaultWrapper = "mesa";
+            nixGL.installScripts = [ "mesa" ];
           })
           ./home.nix
         ];
+
+        extraSpecialArgs = {
+          inherit nixgl;
+        };
       });
     };
   };
