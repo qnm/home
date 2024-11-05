@@ -30,65 +30,56 @@ rec {
     };
   };
 
-  # managed by fleek, modify ~/.fleek.yml to change installed packages
-
   # packages are just installed (no configuration applied)
   # programs are installed and configuration applied to dotfiles
-  home.packages =
-    let
-      basic_pkgs = [
-    (pkgs.python311.withPackages (ppkgs: [
-      ppkgs.virtualenv
-      ppkgs.notebook
-    ]))
-    pkgs.cargo
-    pkgs.pkg-config
-    pkgs.openssl
-    pkgs.devenv
-    pkgs.shadowenv
-    pkgs.ripgrep
-    pkgs.curl
-    pkgs.unzip
-    pkgs.yadm
-    pkgs.jq
-    pkgs.wget
-    pkgs.gnupg
-    pkgs.yadm
-    pkgs.dconf2nix
-    pkgs.devbox
-    pkgs.curl
-    pkgs.unzip
-    pkgs.tmux
-    pkgs.localsend
-    pkgs.hurl
-    pkgs.discord
-    pkgs.nodejs_18
-    pkgs.ngrok
-    pkgs.yt-dlp
-    pkgs.libffi
-    pkgs.htop
-    pkgs.glab
-    pkgs.fzf
-    pkgs.just
-    pkgs.kitty-themes
-    pkgs.nix-search-cli
-    ];
-    in
-    basic_pkgs;
+  home.packages = with pkgs; ([
+    cargo
+    pkg-config
+    openssl
+    devenv
+    shadowenv
+    ripgrep
+    curl
+    unzip
+    yadm
+    jq
+    wget
+    gnupg
+    yadm
+    dconf2nix
+    devbox
+    curl
+    unzip
+    tmux
+    localsend
+    hurl
+    discord
+    nodejs_18
+    ngrok
+    yt-dlp
+    libffi
+    htop
+    glab
+    fzf
+    just
+    kitty-themes
+    nix-search-cli
+  ]
+  ++ lib.optionals isLinux [
+    # GNU/Linux packages
+  ]
+  ++ lib.optionals isDarwin [
+    # macOS packages
+  ]);
 
   fonts.fontconfig.enable = true;
   home.stateVersion =
     "22.11"; # To figure this out (in-case it changes) you can comment out the line and see what version it expected.
   programs.home-manager.enable = true;
 
-  programs.alacritty = {
-    enable = true;
-    settings.font.size = 14;
-  };
-
   programs.kitty = {
     enable = true;
-    settings.font_size = 14;
+    settings.font_size = 12;
     themeFile = "Catppuccin-Mocha";
     shellIntegration.enableZshIntegration = true;
     package = config.lib.nixGL.wrap pkgs.kitty;
