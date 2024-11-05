@@ -47,15 +47,15 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-    pkgs.vscode
-    pkgs._1password-cli
-    pkgs._1password-gui
-    pkgs.deno
-    pkgs.llm
+    deno
+    # llm
   ] ++ (lib.optionals pkgs.stdenv.isLinux [
       # linux only
+      vscode
       dconf2nix
       flatpak
+      1password-cli
+      1password-gui
       # pkgs.gnome-tweaks
       # pkgs.gnome-keyring
       # pkgs.gnome-screenshot
@@ -100,74 +100,6 @@
         mkdir -p $HOME/.home-manager-share
         cp -Lr --no-preserve=mode,ownership ${config.home.homeDirectory}/.nix-profile/share/* $HOME/.home-manager-share
       '';
-    };
-  };
-
-  programs.helix = {
-    enable = true;
-    settings = {
-      theme = "catppuccin_mocha";
-      editor = {
-        line-number = "relative";
-        lsp.display-messages = true;
-        cursorline = true;
-        color-modes = true;
-        cursor-shape = {
-          insert = "bar";
-          normal = "block";
-          select = "underline";
-        };
-        indent-guides = {
-          render = true;
-        };
-      };
-    };
-    languages = {
-      language = [
-        {
-          name = "tsx";
-          formatter= {
-            command = "cd $FILE_LOCATION && prettier";
-            args = [
-              "--config-precedence"
-              "prefer-file"
-              "--stdin-filepath"
-              "file.tsx"
-            ];
-          };
-        }
-        {
-          name = "javascript";
-          formatter = {
-            command = "prettier";
-            args = [
-              "--parser"
-              "typescript"
-            ];
-          };
-          auto-format = true;
-        }
-      ];
-    };
-    themes = {
-      catpuccin_mocha_test = let
-        rosewater = "#f5e0dc";
-        flamingo = "#f2cdcd";
-        pink = "#f5c2e7";
-        mauve = "#cba6f7";
-        red = "#f38ba8";
-        maroon = "#eba0ac";
-        peach = "#fab387";
-        yellow = "#f9e2af";
-        green = "#a6e3a1";
-        teal = "#94e2d5";
-        sky = "#89dceb";
-        sapphire = "#74c7ec";
-        blue = "#89b4fa";
-        lavender = "#b4befe";
-      in {
-        "type" = yellow;
-      };
     };
   };
 
@@ -243,7 +175,6 @@
         '';
       }
       lightline-vim
-      coc-solargraph
       coc-tsserver
       coc-json
     ];
