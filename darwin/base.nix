@@ -10,7 +10,6 @@
   environment.systemPackages = with pkgs; [
     kitty
     terminal-notifier
-    # zed-editor
   ];
 
   nix = {
@@ -81,11 +80,11 @@
     casks = [
       "firefox"
       "unnaturalscrollwheels" # Enable natural scrolling in the trackpad but regular scroll on an external mouse
-      "zed" # whilst it cannot be built on macos
       "1password"
       "steam"
       "ollama"
       "google-chrome"
+      "kitty"
     ];
 
     taps = [
