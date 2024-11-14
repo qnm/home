@@ -59,6 +59,7 @@
   environment.variables.HOMEBREW_NO_ANALYTICS = "1";
 
   fonts.packages = with pkgs; [
+    fira-code
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
 
@@ -85,6 +86,7 @@
       "ollama"
       "google-chrome"
       "kitty"
+      "wezterm"
     ];
 
     taps = [

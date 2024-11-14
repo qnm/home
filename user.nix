@@ -39,6 +39,8 @@
       "sqlfluff.experimental.format.executeInTerminal": true,
       "sqlfluff.linter.run": "onSave",
       "terminal.integrated.inheritEnv": false,
+      "typescript.tsdk": "./node_modules/typescript/lib",
+      "typescript.enablePromptUseWorkspaceTsdk": true,
       "workbench.colorTheme": "Catppuccin Mocha",
       "vscode-neovim.neovimExecutablePaths.darwin": "/Users/qnm/.nix-profile/bin/nvim"
     }

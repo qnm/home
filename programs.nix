@@ -3,6 +3,25 @@
     programs.direnv.nix-direnv.enable = true;
     programs.dircolors.enable = true;
     programs.gh.enable = true;
+    programs.wezterm = {
+        enable = true;
+        extraConfig = ''
+            local wezterm = require 'wezterm';
+
+            return {
+                color_scheme = "Catppuccin Mocha";
+                font = wezterm.font 'FiraCode Nerd Font';
+                font_size = 13.0;
+                keys = {
+                    {
+                        key = 'r',
+                        mods = 'CMD|SHIFT',
+                        action = wezterm.action.ReloadConfiguration,
+                    },
+                };
+            }
+        '';
+    };
 
     programs.zed-editor = {
         enable = true;
