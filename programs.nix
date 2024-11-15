@@ -25,7 +25,7 @@
 
     programs.zed-editor = {
         enable = true;
-        extensions = [];
+        extensions = [ "swift" "nix" "xy-zed" "catppuccin" ];
         userKeymaps = with builtins; fromJSON ''
             [
                 {
