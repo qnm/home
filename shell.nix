@@ -52,6 +52,11 @@
 
     shellInit =
       ''
+        if test -d /opt/homebrew
+            # Homebrew is installed on MacOS
+            /opt/homebrew/bin/brew shellenv | source
+        end
+
         # nix
         if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
             fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
