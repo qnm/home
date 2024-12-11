@@ -1,4 +1,4 @@
-{ config, pkgs, misc, lib, allowed-unfree-packages, ... }:
+{ pkgs, ... }:
 
 let
   androidPath = "$HOME/Library/Android/sdk";
@@ -24,12 +24,12 @@ in {
     pkgs.husky
 
     # for k8s
-    pkgs.tilt
+    # pkgs.tilt broken build
 
     pkgs.awscli2
     pkgs.ssm-session-manager-plugin
     pkgs.aws-vault
-    pkgs.google-cloud-sdk
+    # pkgs.aws-sam-cli
 
     pkgs.poetry
     pkgs.sqlfluff
@@ -49,6 +49,21 @@ in {
   programs.java = {
     enable = true;
     package = pkgs.zulu17;
+  };
+
+  programs.rbenv = {
+    enable = true;
+    plugins = [
+      {
+        name = "ruby-build";
+        src = pkgs.fetchFromGitHub {
+          owner = "rbenv";
+          repo = "ruby-build";
+          rev = "v20241105";
+          hash = "sha256-VutUrVO6+7mGNOYnK8f+2epAbaiqNboelh8MSFz0WaI=";
+        };
+      }
+    ];
   };
 
   # programs.awscli = {

@@ -1,5 +1,4 @@
-{ pkgs, misc, ... }: {
-  # DO NOT EDIT: This file is managed by fleek. Manual changes will be overwritten.# zsh
+{ pkgs, ... }: {
   programs.zsh.profileExtra = ''
     [ -r ~/.nix-profile/etc/profile.d/nix.sh ] && source  ~/.nix-profile/etc/profile.d/nix.sh
     export XCURSOR_PATH=$XCURSOR_PATH:/usr/share/icons:~/.local/share/icons:~/.icons:~/.nix-profile/share/icons
@@ -40,15 +39,44 @@
   programs.fish = {
     enable = true;
 
-    plugins = [{
-      name="foreign-env";
-      src = pkgs.fetchFromGitHub {
-        owner = "oh-my-fish";
-        repo = "plugin-foreign-env";
-        rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
-        sha256 = "00xqlyl3lffc5l0viin1nyp819wf81fncqyz87jx8ljjdhilmgbs";
-      };
-    }];
+    plugins = [
+      {
+        name="foreign-env";
+        src = pkgs.fetchFromGitHub {
+          owner = "oh-my-fish";
+          repo = "plugin-foreign-env";
+          rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
+          sha256 = "00xqlyl3lffc5l0viin1nyp819wf81fncqyz87jx8ljjdhilmgbs";
+        };
+      }
+      {
+        name="fisher";
+        src = pkgs.fetchFromGitHub {
+          owner = "jorgebucaran";
+          repo = "fisher";
+          rev = "1f0dc2b4970da160605638cb0f157079660d6e04";
+          sha256 = "pR5RKU+zIb7CS0Y6vjx2QIZ8Iu/3ojRfAcAdjCOxl1U=";
+        };
+      }
+      {
+        name="nvm.fish";
+        src = pkgs.fetchFromGitHub {
+          owner = "jorgebucaran";
+          repo = "nvm.fish";
+          rev = "a0892d0bb2304162d5faff561f030bb418cac34d";
+          sha256 = "GTEkCm+OtxMS3zJI5gnFvvObkrpepq1349/LcEPQRDo=";
+        };
+      }
+      {
+        name="fish-nvm";
+        src = pkgs.fetchFromGitHub {
+          owner = "FabioAntunes";
+          repo = "fish-nvm";
+          rev = "57ddb124cc0b6ae7e2825855dd34f33b8492a35b";
+          sha256 = "wB1p4MWKeNdfMaJlUwkG+bJmmEMRK+ntykgkSuDf6wE=";
+        };
+      }
+    ];
 
     shellInit =
       ''

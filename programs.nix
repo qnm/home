@@ -1,4 +1,4 @@
-{ pkgs, misc, ... }: {
+{ ... }: {
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
     programs.dircolors.enable = true;
@@ -25,7 +25,7 @@
 
     programs.zed-editor = {
         enable = true;
-        extensions = [ "swift" "nix" "xy-zed" "catppuccin" ];
+        extensions = [ "swift" "nix" "xy-zed" "catppuccin" "sql" ];
         userKeymaps = with builtins; fromJSON ''
             [
                 {
@@ -42,6 +42,7 @@
                 }
             ]
         '';
+
         userSettings = with builtins; fromJSON ''
             {
                 "editor.codeActionsOnSave": {

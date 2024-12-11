@@ -3,6 +3,9 @@
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
 
+  # set version
+  system.stateVersion = 4;
+
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
@@ -17,7 +20,7 @@
     gc.automatic = true;
     optimise.automatic = true;
     settings = {
-      auto-optimise-store = true;
+      # auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
       substituters = [
           "https://cache.nixos.org/"
@@ -61,6 +64,7 @@
   fonts.packages = with pkgs; [
     fira-code
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
+    # pkgs.nerd-fonts.fira-code
   ];
 
   homebrew = {

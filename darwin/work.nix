@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   # System Apps
   environment.systemPackages = with pkgs; [
@@ -18,6 +18,14 @@
     };
 
     brews = [
+      # "zulu"
+      # "rbenv"
+      # "ruby-build"
+      "go@1.20"
+      "nvm"
+      "yarn"
+      "postgresql@14"
+      "redis"
     ];
 
     # Update these applicatons manually.

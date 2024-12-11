@@ -1,11 +1,10 @@
-{ config, pkgs, misc, lib, allowed-unfree-packages, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
   unsupported = builtins.abort "Unsupported Platform";
-in
-rec {
+in {
   imports = [
     ./work.nix
     ./path.nix
@@ -33,6 +32,9 @@ rec {
   # packages are just installed (no configuration applied)
   # programs are installed and configuration applied to dotfiles
   home.packages = with pkgs; ([
+    nixd
+    nil
+    nixfmt-rfc-style
     cargo
     pkg-config
     openssl

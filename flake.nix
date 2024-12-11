@@ -22,7 +22,7 @@
     };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, nixgl, home-manager, ... }@inputs: {
+  outputs = { nix-darwin, nixpkgs, nixgl, home-manager, ... }: {
     darwinConfigurations = {
       "macbookpro" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -34,7 +34,7 @@
 
           # setup home-manager
           home-manager.darwinModules.home-manager
-          ({
+          {
             home-manager = {
               # include the home-manager module
               users.qnm = import ./home.nix;
@@ -42,7 +42,7 @@
             };
 
             users.users.qnm.home = "/Users/qnm";
-          })
+          }
         ];
       };
     };
@@ -55,7 +55,7 @@
           overlays = [ nixgl.overlay ];
         };
         modules = [
-          ({ pkgs, ...}: {
+          ({...}: {
             nixGL.packages = nixgl.packages;
             nixGL.defaultWrapper = "mesa";
             nixGL.installScripts = [ "mesa" ];

@@ -1,4 +1,4 @@
-{ config, pkgs, misc, ... }: {
+{ config, pkgs, ... }: {
   programs.vscode = {
     enable = true;
     extensions = with pkgs.vscode-extensions; [
@@ -12,7 +12,7 @@
       github.copilot
       esbenp.prettier-vscode
     ];
-    
+
     userSettings = with builtins; fromJSON ''
     {
       "[sql]": {
@@ -48,8 +48,10 @@
   };
 
   home.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     deno
+    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    # nerd-fonts.fira-code
+    # nerd-fonts.droid-sans-mono
     # llm
   ] ++ (lib.optionals pkgs.stdenv.isLinux [
       # linux only
