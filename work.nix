@@ -13,27 +13,34 @@ in {
     };
   };
 
-  home.packages = [
-    pkgs.zoom-us
-    pkgs.slack
-    pkgs.watchman
-    # pkgs.android-studio won't run on m3
-    # pkgs.cypress won't isnstall on aarch64-darwin
+  home.packages = with pkgs; [
+    zoom-us
+    slack
+    watchman
+    # android-studio won't run on m3
+    # cypress won't install on aarch64-darwin
 
     # for commits
-    pkgs.husky
+    husky
 
     # for k8s
-    # pkgs.tilt broken build
+    # tilt broken build
 
-    pkgs.awscli2
-    pkgs.ssm-session-manager-plugin
-    pkgs.aws-vault
-    # pkgs.aws-sam-cli
+    awscli2
+    ssm-session-manager-plugin
+    aws-vault
+    # aws-sam-cli
 
-    pkgs.poetry
-    pkgs.sqlfluff
-    pkgs.nodePackages.aws-cdk
+    poetry
+    sqlfluff
+    nodePackages.aws-cdk
+
+    # gcloud
+    (google-cloud-sdk.withExtraComponents [
+      google-cloud-sdk.components.gke-gcloud-auth-plugin
+      google-cloud-sdk.components.pubsub-emulator
+      google-cloud-sdk.components.cloud_sql_proxy
+    ])
   ];
 
   home.sessionPath = [
