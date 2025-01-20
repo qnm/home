@@ -29,6 +29,7 @@
         modules = [
           # load base darwin
           ./darwin/base.nix
+
           # load work darwin
           ./darwin/work.nix
 
@@ -48,7 +49,7 @@
     };
 
     homeConfigurations = {
-      "qnm@penguin" = home-manager.lib.homeManagerConfiguration ({
+      "qnm@penguin" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";
           allowUnfree = true;
@@ -71,7 +72,7 @@
         extraSpecialArgs = {
           inherit nixgl;
         };
-      });
+      };
     };
   };
 }
