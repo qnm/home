@@ -184,7 +184,7 @@
     ];
 
     extraPackages = with pkgs; [ fzf ];
-    extraPython3Packages = ps: with ps; [ /* python-language-server */ ];
+    extraPython3Packages = ps: [ /* python-language-server */ ];
   };
 
   # gitconfig

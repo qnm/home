@@ -26,6 +26,7 @@
       "yarn"
       "postgresql@14"
       "redis"
+      "aws-sam-cli"
     ];
 
     # Update these applicatons manually.
