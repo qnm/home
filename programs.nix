@@ -19,6 +19,9 @@
         macos-titlebar-style = "transparent";
         window-colorspace = "display-p3";
       };
+      # disabled until packaged for darwin
+      # installVimSyntax = true;
+      # enableFishIntegration = true;
     };
     programs.wezterm = {
         enable = true;
