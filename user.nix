@@ -49,9 +49,8 @@
 
   home.packages = with pkgs; [
     deno
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-    # nerd-fonts.fira-code
-    # nerd-fonts.droid-sans-mono
+    nerd-fonts.fira-code
+    nerd-fonts.droid-sans-mono
     # llm
   ] ++ (lib.optionals pkgs.stdenv.isLinux [
       # linux only

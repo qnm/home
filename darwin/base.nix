@@ -63,8 +63,7 @@
 
   fonts.packages = with pkgs; [
     fira-code
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
-    # pkgs.nerd-fonts.fira-code
+    pkgs.nerd-fonts.fira-code
   ];
 
   homebrew = {
@@ -91,6 +90,7 @@
       "google-chrome"
       "kitty"
       "wezterm"
+      "ghostty"
     ];
 
     taps = [
@@ -102,7 +102,8 @@
       LocalSend = 1661733229;
       OllamaSpring = 6502970995;
       HomeAssistant = 1099568401;
-      # NTS = 1204567739;
+      Kagi = 1622835804;
+      NTS = 1204567739;
     };
   };
 }

@@ -3,6 +3,23 @@
     programs.direnv.nix-direnv.enable = true;
     programs.dircolors.enable = true;
     programs.gh.enable = true;
+    programs.ghostty = {
+      enable = true;
+      package = null;
+      settings = {
+        theme = "catppuccin-mocha";
+        font-size = 13;
+        shell-integration-features = "no-cursor,sudo,no-title";
+        cursor-style = "block";
+        background-opacity = 0.96;
+        mouse-hide-while-typing = true;
+        mouse-scroll-multiplier = 2;
+        window-padding-balance = true;
+        window-save-state = "always";
+        macos-titlebar-style = "transparent";
+        window-colorspace = "display-p3";
+      };
+    };
     programs.wezterm = {
         enable = true;
         extraConfig = ''
