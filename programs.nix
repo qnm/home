@@ -8,7 +8,8 @@
       package = null;
       settings = {
         theme = "catppuccin-mocha";
-        font-size = 13;
+        font-family = "FiraCode Nerd Font Mono";
+        font-size = 15;
         shell-integration-features = "no-cursor,sudo,no-title";
         cursor-style = "block";
         background-opacity = 0.96;
