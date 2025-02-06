@@ -51,6 +51,7 @@
     deno
     nerd-fonts.fira-code
     nerd-fonts.droid-sans-mono
+    nerd-fonts.caskaydia-cove
     # llm
   ] ++ (lib.optionals pkgs.stdenv.isLinux [
       # linux only

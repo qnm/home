@@ -8,7 +8,7 @@
       package = null;
       settings = {
         theme = "catppuccin-mocha";
-        font-family = "FiraCode Nerd Font Mono";
+        font-family = "CaskaydiaCove Nerd Font Mono";
         font-size = 15;
         shell-integration-features = "no-cursor,sudo,no-title";
         cursor-style = "block";
@@ -94,7 +94,7 @@
                     }
                 },
                 "terminal": {
-                    "font_family": "Menlo"
+                    "font_family": "CaskaydiaCove Nerd Font"
                 },
                 "lsp": {
                     "vtsls": {
