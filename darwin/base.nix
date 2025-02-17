@@ -86,6 +86,7 @@
       "kitty"
       "wezterm"
       "ghostty"
+      "logitech-g-hub"
     ];
 
     taps = [
