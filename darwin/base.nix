@@ -1,8 +1,5 @@
 { pkgs, lib, ... }:
 {
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
   # set version
   system.stateVersion = 4;
 
@@ -34,8 +31,6 @@
     };
   };
 
-  nix.configureBuildUsers = true;
-
   # Enable experimental nix command and flakes
   nix.extraOptions = ''
   '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
@@ -56,7 +51,7 @@
   };
 
   # Add ability to used TouchID for sudo authentication
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # I'd rather not have telemetry on my package manager.
   environment.variables.HOMEBREW_NO_ANALYTICS = "1";

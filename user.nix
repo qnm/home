@@ -1,7 +1,7 @@
 { config, pkgs, ... }: {
   programs.vscode = {
     enable = true;
-    extensions = with pkgs.vscode-extensions; [
+    profiles.default.extensions = with pkgs.vscode-extensions; [
       asvetliakov.vscode-neovim
       bbenoist.nix
       catppuccin.catppuccin-vsc
@@ -13,7 +13,7 @@
       esbenp.prettier-vscode
     ];
 
-    userSettings = with builtins; fromJSON ''
+    profiles.default.userSettings = with builtins; fromJSON ''
     {
       "[sql]": {
         "editor.defaultFormatter": "dorzey.vscode-sqlfluff"

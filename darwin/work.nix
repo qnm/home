@@ -4,8 +4,9 @@
   environment.systemPackages = with pkgs; [
     # Data Build Tool with adapters
     (dbt.withAdapters (adapters: [
-      adapters.dbt-snowflake
+      # adapters.dbt-snowflake
     ]))
+    libpq
   ];
 
   homebrew = {
