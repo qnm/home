@@ -70,7 +70,7 @@
                     "source.fixAll.eslint": true
                 },
                 "features": {
-                    "inline_completion_provider": "copilot"
+                    "edit_prediction_provider": "zed"
                 },
                 "assistant": {
                         "default_model": {
@@ -81,6 +81,7 @@
                 },
                 "jupyter.enabled": true,
                 "vim_mode": true,
+                "load_direnv": "shell_hook",
                 "ui_font_size": 16,
                 "buffer_font_size": 16,
                 "theme": {
