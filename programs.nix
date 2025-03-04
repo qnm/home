@@ -24,6 +24,8 @@
       # installVimSyntax = true;
       # enableFishIntegration = true;
     };
+    # still in unstable
+    # programs.goose-cli.enable = true;
     programs.wezterm = {
         enable = true;
         extraConfig = ''
