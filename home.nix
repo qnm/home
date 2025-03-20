@@ -43,11 +43,10 @@ in {
     ripgrep
     curl
     unzip
-    yadm
+    # yadm
     jq
     wget
     gnupg
-    yadm
     dconf2nix
     devbox
     curl
@@ -79,12 +78,4 @@ in {
   home.stateVersion =
     "22.11"; # To figure this out (in-case it changes) you can comment out the line and see what version it expected.
   programs.home-manager.enable = true;
-
-  programs.kitty = {
-    enable = true;
-    settings.font_size = 12;
-    themeFile = "Catppuccin-Mocha";
-    shellIntegration.enableZshIntegration = true;
-    package = config.lib.nixGL.wrap pkgs.kitty;
-  };
 }

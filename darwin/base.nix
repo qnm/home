@@ -8,7 +8,6 @@
 
   # System Apps
   environment.systemPackages = with pkgs; [
-    kitty
     terminal-notifier
   ];
 
@@ -78,8 +77,6 @@
       "steam"
       "ollama"
       "google-chrome"
-      "kitty"
-      "wezterm"
       "ghostty"
       "logitech-g-hub"
     ];
