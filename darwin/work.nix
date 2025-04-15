@@ -28,6 +28,7 @@
       "postgresql@14"
       "redis"
       "aws-sam-cli"
+      "cocoapods"
     ];
 
     # Update these applicatons manually.
