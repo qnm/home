@@ -55,7 +55,7 @@ in {
     localsend
     hurl
     discord
-    nodejs_18
+    nodejs_20
     ngrok
     yt-dlp
     libffi
