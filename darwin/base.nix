@@ -2,6 +2,7 @@
 {
   # set version
   system.stateVersion = 4;
+  system.primaryUser = "qnm";
 
   programs.zsh.enable = true;
   programs.fish.enable = true;
