@@ -25,6 +25,7 @@ in {
 
     # for k8s
     # tilt broken build
+    yarn
 
     awscli2
     ssm-session-manager-plugin
