@@ -29,7 +29,7 @@ in {
     awscli2
     ssm-session-manager-plugin
     aws-vault
-    # aws-sam-cli
+    aws-sam-cli
 
     poetry
     sqlfluff

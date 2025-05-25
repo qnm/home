@@ -27,7 +27,7 @@
       "yarn"
       "postgresql@14"
       "redis"
-      "aws-sam-cli"
+      # "aws-sam-cli"
       "cocoapods"
     ];
 
