@@ -42,6 +42,12 @@ in {
       google-cloud-sdk.components.pubsub-emulator
       google-cloud-sdk.components.cloud_sql_proxy
     ])
+
+    # Data Build Tool with adapters
+    (dbt.withAdapters (adapters: [
+      adapters.dbt-snowflake
+    ]))
+    libpq
   ];
 
   home.sessionPath = [

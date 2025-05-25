@@ -1,14 +1,5 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  # System Apps
-  environment.systemPackages = with pkgs; [
-    # Data Build Tool with adapters
-    (dbt.withAdapters (adapters: [
-      adapters.dbt-snowflake
-    ]))
-    libpq
-  ];
-
   homebrew = {
     enable = true;
 
