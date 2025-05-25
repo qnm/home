@@ -19,15 +19,10 @@
     };
 
     brews = [
-      # "zulu"
-      # "rbenv"
-      # "ruby-build"
       "go@1.20"
       "nvm"
-      # "yarn"
       "postgresql@14"
       "redis"
-      # "aws-sam-cli"
       "cocoapods"
     ];
 
