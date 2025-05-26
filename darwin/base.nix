@@ -13,22 +13,7 @@
   ];
 
   nix = {
-    package = pkgs.nix;
-    gc.automatic = true;
-    optimise.automatic = true;
-    settings = {
-      # auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
-      substituters = [
-          "https://cache.nixos.org/"
-      ];
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      ];
-      trusted-users = [
-        "@admin" # covers wheel group
-      ];
-    };
+    enable = false;
   };
 
   # Enable experimental nix command and flakes
