@@ -26,71 +26,71 @@
     };
     # still in unstable
     # programs.goose-cli.enable = true;
-    programs.zed-editor = {
-        enable = true;
-        extensions = [ "swift" "nix" "xy-zed" "catppuccin" "sql" ];
-        userKeymaps = with builtins; fromJSON ''
-            [
-                {
-                    "context": "Workspace",
-                    "bindings": {}
-                },
-                {
-                    "context": "Editor",
-                    "bindings": {
-                        "ctrl-k": "copilot::Suggest",
-                        "ctrl-shift-k": "copilot::NextSuggestion",
-                        "ctrl-j": "editor::AcceptInlineCompletion"
-                    }
-                }
-            ]
-        '';
+    # programs.zed-editor = {
+    #     enable = true;
+    #     extensions = [ "swift" "nix" "xy-zed" "catppuccin" "sql" ];
+    #     userKeymaps = with builtins; fromJSON ''
+    #         [
+    #             {
+    #                 "context": "Workspace",
+    #                 "bindings": {}
+    #             },
+    #             {
+    #                 "context": "Editor",
+    #                 "bindings": {
+    #                     "ctrl-k": "copilot::Suggest",
+    #                     "ctrl-shift-k": "copilot::NextSuggestion",
+    #                     "ctrl-j": "editor::AcceptInlineCompletion"
+    #                 }
+    #             }
+    #         ]
+    #     '';
 
-        userSettings = with builtins; fromJSON ''
-            {
-                "editor.codeActionsOnSave": {
-                    "source.fixAll.eslint": true
-                },
-                "features": {
-                    "edit_prediction_provider": "zed"
-                },
-                "assistant": {
-                        "default_model": {
-                        "provider": "ollama",
-                        "model": "llama3.2:1b-instruct-q5_0"
-                    },
-                    "version": "2"
-                },
-                "jupyter.enabled": true,
-                "vim_mode": true,
-                "load_direnv": "shell_hook",
-                "ui_font_size": 16,
-                "buffer_font_size": 16,
-                "theme": {
-                    "mode": "system",
-                    "light": "One Light",
-                    "dark": "Catppuccin Mocha"
-                },
-                "language_models": {
-                    "ollama": {
-                        "api_url": "http://localhost:11434"
-                    }
-                },
-                "terminal": {
-                    "font_family": "CaskaydiaCove Nerd Font"
-                },
-                "lsp": {
-                    "vtsls": {
-                        "settings": {
-                            "typescript": {
-                                "preferences": {
-                                    "importModuleSpecifier": "relative"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        '';
-    };
+    #     userSettings = with builtins; fromJSON ''
+    #         {
+    #             "editor.codeActionsOnSave": {
+    #                 "source.fixAll.eslint": true
+    #             },
+    #             "features": {
+    #                 "edit_prediction_provider": "zed"
+    #             },
+    #             "assistant": {
+    #                     "default_model": {
+    #                     "provider": "ollama",
+    #                     "model": "llama3.2:1b-instruct-q5_0"
+    #                 },
+    #                 "version": "2"
+    #             },
+    #             "jupyter.enabled": true,
+    #             "vim_mode": true,
+    #             "load_direnv": "shell_hook",
+    #             "ui_font_size": 16,
+    #             "buffer_font_size": 16,
+    #             "theme": {
+    #                 "mode": "system",
+    #                 "light": "One Light",
+    #                 "dark": "Catppuccin Mocha"
+    #             },
+    #             "language_models": {
+    #                 "ollama": {
+    #                     "api_url": "http://localhost:11434"
+    #                 }
+    #             },
+    #             "terminal": {
+    #                 "font_family": "CaskaydiaCove Nerd Font"
+    #             },
+    #             "lsp": {
+    #                 "vtsls": {
+    #                     "settings": {
+    #                         "typescript": {
+    #                             "preferences": {
+    #                                 "importModuleSpecifier": "relative"
+    #                             }
+    #                         }
+    #                     }
+    #                 }
+    #             }
+    #         }
+    #     '';
+    # };
 }
