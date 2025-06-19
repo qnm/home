@@ -20,7 +20,6 @@ home-manager switch -b backup --impure --flake . #qnm
 
 ## Bootstrapping from MacOS
 
-* Install Nix
+* Install Nix using https://determinate.systems/
 * Install Brew https://brew.sh/
-* `nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake .`
-* `darwin-rebuild switch --flake .`
+* `sudo darwin-rebuild switch --flake .`
