@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 let
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
@@ -6,6 +6,7 @@ let
   unsupported = builtins.abort "Unsupported Platform";
 in {
   imports = [
+    # ./1password.nix
     ./work.nix
     ./path.nix
     ./shell.nix
