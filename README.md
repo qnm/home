@@ -21,5 +21,7 @@ home-manager switch -b backup --impure --flake . #qnm
 ## Bootstrapping from MacOS
 
 * Install Nix using https://determinate.systems/
-* Install Brew https://brew.sh/
-* `sudo darwin-rebuild switch --flake .`
+
+## Updating MacOS
+
+* `sudo ./rebuild-mac.sh`
