@@ -48,6 +48,8 @@ in {
       adapters.dbt-snowflake
     ]))
     libpq
+
+    _1password-cli
   ];
 
   home.sessionPath = [

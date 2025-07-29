@@ -28,7 +28,6 @@
       "orbstack"
       "miniconda"
       "aws-vpn-client"
-      "1password-cli"
     ];
 
     taps = [
