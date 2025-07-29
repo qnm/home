@@ -6,7 +6,7 @@
       url = "github:nixos/nixpkgs/25.05";
     };
 
-    _1password-shell-plugins = {
+    password-shell-plugins = {
       url = "github:1Password/shell-plugins";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -27,7 +27,7 @@
     };
   };
 
-  outputs = { nix-darwin, nixpkgs, nixgl, home-manager, ... }: {
+  outputs = { nix-darwin, nixpkgs, nixgl, password-shell-plugins, home-manager, ... }: {
     darwinConfigurations = {
       "macbookpro" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -43,7 +43,12 @@
           {
             home-manager = {
               # include the home-manager module
-              users.qnm = import ./home.nix;
+              users.qnm = { ... }: {
+                imports = [
+                  password-shell-plugins.hmModules.default
+                  ./home.nix
+                ];
+              };
               backupFileExtension = "backup";
             };
 
@@ -72,6 +77,7 @@
               Environment="XDG_DATA_DIRS=%h/.nix-profile/share:%h/.local/share:%h/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share"
             '';
           })
+          password-shell-plugins.hmModules.default
           ./home.nix
         ];
         extraSpecialArgs = {
