@@ -10,6 +10,7 @@
   # System Apps
   environment.systemPackages = with pkgs; [
     terminal-notifier
+    unnaturalscrollwheels
   ];
 
   nix = {
@@ -58,7 +59,6 @@
     # version, it could lead to data loss.
     casks = [
       "firefox"
-      "unnaturalscrollwheels" # Enable natural scrolling in the trackpad but regular scroll on an external mouse
       "1password"
       "steam"
       "ollama"
