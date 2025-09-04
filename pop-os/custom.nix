@@ -1,9 +1,9 @@
-{ pkgs, misc, lib, ... }:
+{ lib, ... }:
 
 with lib.hm.gvariant;
 
 {
-  # FEEL FREE TO EDIT: This file is NOT managed by fleek. 
+  # FEEL FREE TO EDIT: This file is NOT managed by fleek.
   fonts.fontconfig.enable = true;
 
   dconf.settings = {
@@ -23,7 +23,12 @@ with lib.hm.gvariant;
     "org/gnome/desktop/input-sources" = {
       current = mkUint32 0;
       per-window = false;
-      sources = [ (mkTuple [ "xkb" "au" ]) ];
+      sources = [
+        (mkTuple [
+          "xkb"
+          "au"
+        ])
+      ];
       xkb-options = [ "ctrl:nocaps" ];
     };
 
@@ -65,13 +70,48 @@ with lib.hm.gvariant;
 
     "org/gnome/mutter" = {
       edge-tiling = true;
-      experimental-features = [ "x11-randr-fractional-scaling" "scale-monitor-framebuffer" ];
+      experimental-features = [
+        "x11-randr-fractional-scaling"
+        "scale-monitor-framebuffer"
+      ];
     };
 
     "org/gnome/shell" = {
       disable-user-extensions = false;
-      enabled-extensions = [ "pop-cosmic@system76.com" "pop-shell@system76.com" "system76-power@system76.com" "ubuntu-appindicators@ubuntu.com" "cosmic-dock@system76.com" "cosmic-workspaces@system76.com" "caffeine@patapon.info" "appindicatorsupport@rgcjonas.gmail.com" "user-theme@gnome-shell-extensions.gcampax.github.com" "openweather-extension@jenslody.de" "nano-system-monitor@eeeeeio" "ding@rastersoft.com" "Vitals@CoreCoding.com" ];
-      favorite-apps = [ "pop-cosmic-launcher.desktop" "pop-cosmic-workspaces.desktop" "pop-cosmic-applications.desktop" "org.gnome.Epiphany.desktop" "org.mozilla.firefox.desktop" "com.mastermindzh.tidal-hifi.desktop" "hu.irl.cameractrls.desktop" "md.obsidian.Obsidian.desktop" "code.desktop" "com.onepassword.OnePassword.desktop" "org.signal.Signal.desktop" "org.gnome.Terminal.desktop" "org.gnome.Nautilus.desktop" "io.elementary.appcenter.desktop" "gnome-control-center.desktop" "de.haeckerfelix.Shortwave.desktop" "org.gnome.Fractal.desktop" ];
+      enabled-extensions = [
+        "pop-cosmic@system76.com"
+        "pop-shell@system76.com"
+        "system76-power@system76.com"
+        "ubuntu-appindicators@ubuntu.com"
+        "cosmic-dock@system76.com"
+        "cosmic-workspaces@system76.com"
+        "caffeine@patapon.info"
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
+        "openweather-extension@jenslody.de"
+        "nano-system-monitor@eeeeeio"
+        "ding@rastersoft.com"
+        "Vitals@CoreCoding.com"
+      ];
+      favorite-apps = [
+        "pop-cosmic-launcher.desktop"
+        "pop-cosmic-workspaces.desktop"
+        "pop-cosmic-applications.desktop"
+        "org.gnome.Epiphany.desktop"
+        "org.mozilla.firefox.desktop"
+        "com.mastermindzh.tidal-hifi.desktop"
+        "hu.irl.cameractrls.desktop"
+        "md.obsidian.Obsidian.desktop"
+        "code.desktop"
+        "com.onepassword.OnePassword.desktop"
+        "org.signal.Signal.desktop"
+        "org.gnome.Terminal.desktop"
+        "org.gnome.Nautilus.desktop"
+        "io.elementary.appcenter.desktop"
+        "gnome-control-center.desktop"
+        "de.haeckerfelix.Shortwave.desktop"
+        "org.gnome.Fractal.desktop"
+      ];
       welcome-dialog-last-shown-version = "42.0";
     };
 
@@ -103,7 +143,12 @@ with lib.hm.gvariant;
 
     "org/gnome/terminal/legacy/profiles:" = {
       default = "95894cfd-82f7-430d-af6e-84d168bc34f5";
-      list = [ "de8a9081-8352-4ce4-9519-5de655ad9361" "71a9971e-e829-43a9-9b2f-4565c855d664" "5083e06b-024e-46be-9cd2-892b814f1fc8" "95894cfd-82f7-430d-af6e-84d168bc34f5" ];
+      list = [
+        "de8a9081-8352-4ce4-9519-5de655ad9361"
+        "71a9971e-e829-43a9-9b2f-4565c855d664"
+        "5083e06b-024e-46be-9cd2-892b814f1fc8"
+        "95894cfd-82f7-430d-af6e-84d168bc34f5"
+      ];
     };
 
     "org/gnome/terminal/legacy/profiles:/:5083e06b-024e-46be-9cd2-892b814f1fc8" = {
@@ -115,7 +160,24 @@ with lib.hm.gvariant;
       highlight-background-color = "#24273a";
       highlight-colors-set = true;
       highlight-foreground-color = "#5b6078";
-      palette = [ "#494d64" "#ed8796" "#a6da95" "#eed49f" "#8aadf4" "#f5bde6" "#8bd5ca" "#b8c0e0" "#5b6078" "#ed8796" "#a6da95" "#eed49f" "#8aadf4" "#f5bde6" "#8bd5ca" "#a5adcb" ];
+      palette = [
+        "#494d64"
+        "#ed8796"
+        "#a6da95"
+        "#eed49f"
+        "#8aadf4"
+        "#f5bde6"
+        "#8bd5ca"
+        "#b8c0e0"
+        "#5b6078"
+        "#ed8796"
+        "#a6da95"
+        "#eed49f"
+        "#8aadf4"
+        "#f5bde6"
+        "#8bd5ca"
+        "#a5adcb"
+      ];
       use-theme-colors = false;
       visible-name = "Catppuccin Macchiato";
     };
@@ -129,7 +191,24 @@ with lib.hm.gvariant;
       highlight-background-color = "#303446";
       highlight-colors-set = true;
       highlight-foreground-color = "#626880";
-      palette = [ "#51576d" "#e78284" "#a6d189" "#e5c890" "#8caaee" "#f4b8e4" "#81c8be" "#b5bfe2" "#626880" "#e78284" "#a6d189" "#e5c890" "#8caaee" "#f4b8e4" "#81c8be" "#a5adce" ];
+      palette = [
+        "#51576d"
+        "#e78284"
+        "#a6d189"
+        "#e5c890"
+        "#8caaee"
+        "#f4b8e4"
+        "#81c8be"
+        "#b5bfe2"
+        "#626880"
+        "#e78284"
+        "#a6d189"
+        "#e5c890"
+        "#8caaee"
+        "#f4b8e4"
+        "#81c8be"
+        "#a5adce"
+      ];
       use-theme-colors = false;
       visible-name = "Catppuccin Frappe";
     };
@@ -144,7 +223,24 @@ with lib.hm.gvariant;
       highlight-colors-set = true;
       highlight-foreground-color = "#585b70";
       login-shell = true;
-      palette = [ "#45475a" "#f38ba8" "#a6e3a1" "#f9e2af" "#89b4fa" "#f5c2e7" "#94e2d5" "#bac2de" "#585b70" "#f38ba8" "#a6e3a1" "#f9e2af" "#89b4fa" "#f5c2e7" "#94e2d5" "#a6adc8" ];
+      palette = [
+        "#45475a"
+        "#f38ba8"
+        "#a6e3a1"
+        "#f9e2af"
+        "#89b4fa"
+        "#f5c2e7"
+        "#94e2d5"
+        "#bac2de"
+        "#585b70"
+        "#f38ba8"
+        "#a6e3a1"
+        "#f9e2af"
+        "#89b4fa"
+        "#f5c2e7"
+        "#94e2d5"
+        "#a6adc8"
+      ];
       use-theme-colors = false;
       visible-name = "Catppuccin Mocha";
     };
@@ -155,7 +251,24 @@ with lib.hm.gvariant;
       foreground-color = "rgb(131,148,150)";
       highlight-colors-set = false;
       login-shell = true;
-      palette = [ "rgb(7,54,66)" "rgb(220,50,47)" "rgb(133,153,0)" "rgb(181,137,0)" "rgb(38,139,210)" "rgb(211,54,130)" "rgb(42,161,152)" "rgb(238,232,213)" "rgb(0,43,54)" "rgb(203,75,22)" "rgb(88,110,117)" "rgb(101,123,131)" "rgb(131,148,150)" "rgb(108,113,196)" "rgb(147,161,161)" "rgb(253,246,227)" ];
+      palette = [
+        "rgb(7,54,66)"
+        "rgb(220,50,47)"
+        "rgb(133,153,0)"
+        "rgb(181,137,0)"
+        "rgb(38,139,210)"
+        "rgb(211,54,130)"
+        "rgb(42,161,152)"
+        "rgb(238,232,213)"
+        "rgb(0,43,54)"
+        "rgb(203,75,22)"
+        "rgb(88,110,117)"
+        "rgb(101,123,131)"
+        "rgb(131,148,150)"
+        "rgb(108,113,196)"
+        "rgb(147,161,161)"
+        "rgb(253,246,227)"
+      ];
       use-theme-colors = false;
       use-theme-transparency = true;
     };
@@ -169,7 +282,24 @@ with lib.hm.gvariant;
       highlight-background-color = "#eff1f5";
       highlight-colors-set = true;
       highlight-foreground-color = "#acb0be";
-      palette = [ "#5c5f77" "#d20f39" "#40a02b" "#df8e1d" "#1e66f5" "#ea76cb" "#179299" "#acb0be" "#6c6f85" "#d20f39" "#40a02b" "#df8e1d" "#1e66f5" "#ea76cb" "#179299" "#bcc0cc" ];
+      palette = [
+        "#5c5f77"
+        "#d20f39"
+        "#40a02b"
+        "#df8e1d"
+        "#1e66f5"
+        "#ea76cb"
+        "#179299"
+        "#acb0be"
+        "#6c6f85"
+        "#d20f39"
+        "#40a02b"
+        "#df8e1d"
+        "#1e66f5"
+        "#ea76cb"
+        "#179299"
+        "#bcc0cc"
+      ];
       use-theme-colors = false;
       visible-name = "Catppuccin Latte";
     };
