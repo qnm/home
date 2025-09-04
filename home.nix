@@ -4,7 +4,8 @@ let
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
   unsupported = builtins.abort "Unsupported Platform";
-in {
+in
+{
   imports = [
     # ./1password.nix
     ./work.nix
@@ -17,8 +18,12 @@ in {
 
   home.username = "qnm";
   home.homeDirectory =
-    if isLinux then "/home/qnm" else
-    if isDarwin then "/Users/qnm" else unsupported;
+    if isLinux then
+      "/home/qnm"
+    else if isDarwin then
+      "/Users/qnm"
+    else
+      unsupported;
 
   nixpkgs = {
     # Configure your nixpkgs instance
@@ -32,52 +37,56 @@ in {
 
   # packages are just installed (no configuration applied)
   # programs are installed and configuration applied to dotfiles
-  home.packages = with pkgs; ([
-    nixd
-    nil
-    nixfmt-rfc-style
-    cargo
-    pkg-config
-    openssl
-    devenv
-    shadowenv
-    ripgrep
-    curl
-    unzip
-    # yadm
-    jq
-    wget
-    gnupg
-    dconf2nix
-    devbox
-    curl
-    unzip
-    tmux
-    localsend
-    hurl
-    discord
-    nodejs_20
-    ngrok
-    yt-dlp
-    libffi
-    htop
-    glab
-    fzf
-    just
-    kitty-themes
-    nix-search-cli
-    fnm
-    ast-grep
-  ]
-  ++ lib.optionals isLinux [
-    # GNU/Linux packages
-  ]
-  ++ lib.optionals isDarwin [
-    # macOS packages
-  ]);
+  home.packages =
+    with pkgs;
+    (
+      [
+        nixd
+        nil
+        nixfmt-rfc-style
+        cargo
+        pkg-config
+        openssl
+        devenv
+        shadowenv
+        ripgrep
+        curl
+        unzip
+        # yadm
+        jq
+        wget
+        gnupg
+        dconf2nix
+        devbox
+        curl
+        unzip
+        tmux
+        localsend
+        hurl
+        discord
+        nodejs_20
+        ngrok
+        yt-dlp
+        libffi
+        htop
+        glab
+        fzf
+        just
+        kitty-themes
+        nix-search-cli
+        fnm
+        ast-grep
+        claude-code
+      ]
+      ++ lib.optionals isLinux [
+        # GNU/Linux packages
+      ]
+      ++ lib.optionals isDarwin [
+        # macOS packages
+      ]
+    );
 
   fonts.fontconfig.enable = true;
-  home.stateVersion =
-    "22.11"; # To figure this out (in-case it changes) you can comment out the line and see what version it expected.
+  home.stateVersion = "22.11"; # To figure this out (in-case it changes) you can comment out the line and see what version it expected.
   programs.home-manager.enable = true;
 }
