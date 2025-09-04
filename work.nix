@@ -2,7 +2,8 @@
 
 let
   androidPath = "$HOME/Library/Android/sdk";
-in {
+in
+{
   nixpkgs = {
     # Configure your nixpkgs instance
     config = {

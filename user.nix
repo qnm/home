@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   programs.vscode = {
     enable = true;
     profiles.default.extensions = with pkgs.vscode-extensions; [
@@ -13,52 +14,58 @@
       esbenp.prettier-vscode
     ];
 
-    profiles.default.userSettings = with builtins; fromJSON ''
-    {
-      "[sql]": {
-        "editor.defaultFormatter": "dorzey.vscode-sqlfluff"
-      },
-      "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-      },
-      "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-      },
-      "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
-      },
-      "editor.formatOnSave": false,
-      "editor.lineNumbers": "relative",
-      "eslint.validate": [
-        "javascript"
-      ],
-      "extensions.experimental.affinity": {
-        "asvetliakov.vscode-neovim": 1
-      },
-      "git.autofetch": true,
-      "sqlfluff.experimental.format.executeInTerminal": true,
-      "sqlfluff.linter.run": "onSave",
-      "terminal.integrated.inheritEnv": false,
-      "typescript.tsdk": "./node_modules/typescript/lib",
-      "typescript.enablePromptUseWorkspaceTsdk": true,
-      "workbench.colorTheme": "Catppuccin Mocha",
-      "vscode-neovim.neovimExecutablePaths.darwin": "/Users/qnm/.nix-profile/bin/nvim"
-    }
-    '';
+    profiles.default.userSettings =
+      with builtins;
+      fromJSON ''
+        {
+          "[sql]": {
+            "editor.defaultFormatter": "dorzey.vscode-sqlfluff"
+          },
+          "[typescript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+          },
+          "[typescriptreact]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+          },
+          "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit"
+          },
+          "editor.formatOnSave": false,
+          "editor.lineNumbers": "relative",
+          "eslint.validate": [
+            "javascript"
+          ],
+          "extensions.experimental.affinity": {
+            "asvetliakov.vscode-neovim": 1
+          },
+          "git.autofetch": true,
+          "sqlfluff.experimental.format.executeInTerminal": true,
+          "sqlfluff.linter.run": "onSave",
+          "terminal.integrated.inheritEnv": false,
+          "typescript.tsdk": "./node_modules/typescript/lib",
+          "typescript.enablePromptUseWorkspaceTsdk": true,
+          "workbench.colorTheme": "Catppuccin Mocha",
+          "vscode-neovim.neovimExecutablePaths.darwin": "/Users/qnm/.nix-profile/bin/nvim"
+        }
+      '';
   };
 
-  home.packages = with pkgs; [
-    deno
-    nerd-fonts.fira-code
-    nerd-fonts.droid-sans-mono
-    nerd-fonts.caskaydia-cove
-    # llm
-  ] ++ (lib.optionals pkgs.stdenv.isLinux [
+  home.packages =
+    with pkgs;
+    [
+      deno
+      nerd-fonts.fira-code
+      nerd-fonts.droid-sans-mono
+      nerd-fonts.caskaydia-cove
+      # llm
+    ]
+    ++ (lib.optionals pkgs.stdenv.isLinux [
       # linux only
       vscode
       dconf2nix
       flatpak
-      1password-cli
+      1
+      password-cli
       # 1password-gui
       # pkgs.gnome-tweaks
       # pkgs.gnome-keyring
@@ -77,7 +84,7 @@
       # pkgs.signal-desktop
       # pkgs.ollama-cuda
       # (alpaca.override { ollama = ollama-cuda; } )
-  ]);
+    ]);
 
   programs.gh = {
     enable = true;
@@ -97,7 +104,10 @@
 
   home.activation = {
     linkDesktopApplications = {
-      after = [ "writeBoundary" "createXdgUserDirectories" ];
+      after = [
+        "writeBoundary"
+        "createXdgUserDirectories"
+      ];
       before = [ ];
       data = ''
         rm -rf $HOME/.home-manager-share
@@ -184,39 +194,46 @@
     ];
 
     extraPackages = with pkgs; [ fzf ];
-    extraPython3Packages = ps: [ /* python-language-server */ ];
+    extraPython3Packages =
+      ps:
+      [
+        # python-language-server
+      ];
   };
 
   # gitconfig
   programs.git = {
-      enable = true;
-      aliases = {
-          pushall = "!git remote | xargs -L1 git push --all";
-          graph = "log --decorate --oneline --graph";
-          add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
+    enable = true;
+    aliases = {
+      pushall = "!git remote | xargs -L1 git push --all";
+      graph = "log --decorate --oneline --graph";
+      add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
+    };
+    userName = "Rob Sharp";
+    userEmail = "rob@sharp.id.au";
+    extraConfig = {
+      feature.manyFiles = false;
+      init.defaultBranch = "main";
+      gpg.format = "ssh";
+      push = {
+        autoSetupRemote = true;
       };
-      userName = "Rob Sharp";
-      userEmail = "rob@sharp.id.au";
-      extraConfig = {
-          feature.manyFiles = false;
-          init.defaultBranch = "main";
-          gpg.format = "ssh";
-          push = {
-            autoSetupRemote = true;
-          };
-          core = {
-            editor = "nvim";
-            whitespace = "fix,-indent-with-non-tab,trailing-space,cr-at-eol";
-          };
+      core = {
+        editor = "nvim";
+        whitespace = "fix,-indent-with-non-tab,trailing-space,cr-at-eol";
       };
+    };
 
-      signing = {
-          key = "";
-          signByDefault = builtins.stringLength "" > 0;
-      };
+    signing = {
+      key = "";
+      signByDefault = builtins.stringLength "" > 0;
+    };
 
-      lfs.enable = true;
-      ignores = [ ".direnv" "result" ];
+    lfs.enable = true;
+    ignores = [
+      ".direnv"
+      "result"
+    ];
   };
 
   programs.starship = {

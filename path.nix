@@ -1,6 +1,7 @@
-{ ... }: {
- home.sessionPath = [
+{ ... }:
+{
+  home.sessionPath = [
     "$HOME/bin"
     "$HOME/.local/bin"
- ];
+  ];
 }

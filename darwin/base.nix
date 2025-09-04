@@ -18,11 +18,12 @@
   };
 
   # Enable experimental nix command and flakes
-  nix.extraOptions = ''
-  '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
-    extra-platforms = x86_64-darwin aarch64-darwin
-    extra-nix-path = nixpkgs=flake:nixpkgs
-  '';
+  nix.extraOptions =
+    ''''
+    + lib.optionalString (pkgs.system == "aarch64-darwin") ''
+      extra-platforms = x86_64-darwin aarch64-darwin
+      extra-nix-path = nixpkgs=flake:nixpkgs
+    '';
 
   # Setup Keyboard
   system.keyboard = {

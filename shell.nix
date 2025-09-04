@@ -1,10 +1,14 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs._1password-shell-plugins = {
     # enable 1Password shell plugins for bash, zsh, and fish shell
     enable = true;
     # the specified packages as well as 1Password CLI will be
     # automatically installed and configured to use shell plugins
-    plugins = with pkgs; [gh awscli2];
+    plugins = with pkgs; [
+      gh
+      awscli2
+    ];
   };
 
   programs.zsh.profileExtra = ''
@@ -49,7 +53,7 @@
 
     plugins = [
       {
-        name="foreign-env";
+        name = "foreign-env";
         src = pkgs.fetchFromGitHub {
           owner = "oh-my-fish";
           repo = "plugin-foreign-env";
@@ -58,7 +62,7 @@
         };
       }
       {
-        name="fisher";
+        name = "fisher";
         src = pkgs.fetchFromGitHub {
           owner = "jorgebucaran";
           repo = "fisher";
@@ -68,41 +72,40 @@
       }
     ];
 
-    shellInit =
-      ''
-        if test -d /opt/homebrew
-            # Homebrew is installed on MacOS
-            /opt/homebrew/bin/brew shellenv | source
-        end
+    shellInit = ''
+      if test -d /opt/homebrew
+          # Homebrew is installed on MacOS
+          /opt/homebrew/bin/brew shellenv | source
+      end
 
-        # nix
-        if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-            fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-        end
+      # nix
+      if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+          fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+      end
 
-        # >>> conda initialize >>>
-        # !! Contents within this block are managed by 'conda init' !!
-        if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
-            eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
-        else
-            if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
-                . "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
-            else
-                fish_add_path "/opt/homebrew/Caskroom/miniconda/base/bin"
-            end
-        end
-        # <<< conda initialize <<<
+      # >>> conda initialize >>>
+      # !! Contents within this block are managed by 'conda init' !!
+      if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
+          eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
+      else
+          if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+              . "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+          else
+              fish_add_path "/opt/homebrew/Caskroom/miniconda/base/bin"
+          end
+      end
+      # <<< conda initialize <<<
 
-        set -x PKG_CONFIG_PATH "${pkgs.openssl.dev}/lib/pkgconfig" $PKG_CONFIG_PATH
+      set -x PKG_CONFIG_PATH "${pkgs.openssl.dev}/lib/pkgconfig" $PKG_CONFIG_PATH
 
-        # set up cargo
-        fish_add_path "$HOME/.cargo/bin/"
+      # set up cargo
+      fish_add_path "$HOME/.cargo/bin/"
 
-        # set up direnv
-        direnv hook fish | source
+      # set up direnv
+      direnv hook fish | source
 
-        # set up fnm
-        fnm env --use-on-cd | source
-      '';
+      # set up fnm
+      fnm env --use-on-cd | source
+    '';
   };
 }
