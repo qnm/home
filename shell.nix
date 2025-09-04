@@ -66,24 +66,6 @@
           sha256 = "pR5RKU+zIb7CS0Y6vjx2QIZ8Iu/3ojRfAcAdjCOxl1U=";
         };
       }
-      {
-        name="nvm.fish";
-        src = pkgs.fetchFromGitHub {
-          owner = "jorgebucaran";
-          repo = "nvm.fish";
-          rev = "a0892d0bb2304162d5faff561f030bb418cac34d";
-          sha256 = "GTEkCm+OtxMS3zJI5gnFvvObkrpepq1349/LcEPQRDo=";
-        };
-      }
-      {
-        name="fish-nvm";
-        src = pkgs.fetchFromGitHub {
-          owner = "FabioAntunes";
-          repo = "fish-nvm";
-          rev = "57ddb124cc0b6ae7e2825855dd34f33b8492a35b";
-          sha256 = "wB1p4MWKeNdfMaJlUwkG+bJmmEMRK+ntykgkSuDf6wE=";
-        };
-      }
     ];
 
     shellInit =
@@ -118,6 +100,9 @@
 
         # set up direnv
         direnv hook fish | source
+
+        # set up fnm
+        fnm env --use-on-cd | source
       '';
   };
 }

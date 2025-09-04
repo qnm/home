@@ -29,7 +29,7 @@
 
   outputs = { nix-darwin, nixpkgs, nixgl, password-shell-plugins, home-manager, ... }: {
     darwinConfigurations = {
-      "macbookpro" = nix-darwin.lib.darwinSystem {
+      "robMBP" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           # load base darwin

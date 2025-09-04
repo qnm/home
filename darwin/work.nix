@@ -21,7 +21,7 @@
     # As brew would update them by unninstalling and installing the newest
     # version, it could lead to data loss.
     casks = [
-      "pop"
+      "pop-app"
       "android-studio"
       "linear-linear"
       "notion"

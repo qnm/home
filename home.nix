@@ -67,6 +67,7 @@ in {
     kitty-themes
     nix-search-cli
     fnm
+    ast-grep
   ]
   ++ lib.optionals isLinux [
     # GNU/Linux packages

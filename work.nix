@@ -27,6 +27,8 @@ in {
     # tilt broken build
     yarn
 
+    fnm
+
     awscli2
     ssm-session-manager-plugin
     aws-vault
