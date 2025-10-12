@@ -62,7 +62,7 @@
       "firefox"
       "1password"
       "steam"
-      "ollama"
+      "ollama-app"
       "google-chrome"
       "ghostty"
       "logitech-g-hub"

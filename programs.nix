@@ -8,7 +8,7 @@
     enable = true;
     package = null;
     settings = {
-      theme = "catppuccin-mocha";
+      theme = "Catppuccin Mocha";
       font-family = "CaskaydiaCove Nerd Font Mono";
       font-size = 15;
       shell-integration-features = "no-cursor,sudo,no-title";
