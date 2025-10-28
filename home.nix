@@ -14,6 +14,7 @@ in
     ./user.nix
     ./aliases.nix
     ./programs.nix
+    ./gemini.nix
   ];
 
   home.username = "qnm";

@@ -53,6 +53,7 @@
     };
 
     brews = [
+      "gemini-cli"
     ];
 
     # Update these applicatons manually.

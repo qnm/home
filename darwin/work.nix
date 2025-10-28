@@ -28,6 +28,7 @@
       "orbstack"
       "miniconda"
       "aws-vpn-client"
+      "dbeaver-community"
     ];
 
     taps = [
