@@ -82,7 +82,7 @@
               {
                 nixGL.packages = nixgl.packages;
                 nixGL.defaultWrapper = "mesa";
-                nixGL.installScripts = [ "mesa" ];
+                nixGL.addScripts = [ "mesa" ];
 
                 xdg.configFile."systemd/user/cros-garcon.service.d/override.conf".text = ''
                   [Service]
