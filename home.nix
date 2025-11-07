@@ -78,6 +78,11 @@ in
         fnm
         ast-grep
         claude-code
+        # Migrated from Homebrew
+        mas
+        redis
+        postgresql_14
+        cocoapods
       ]
       ++ lib.optionals isLinux [
         # GNU/Linux packages

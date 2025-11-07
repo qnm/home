@@ -53,7 +53,7 @@
     };
 
     brews = [
-      "gemini-cli"
+      # gemini-cli moved to home.nix if available in nixpkgs
     ];
 
     # Update these applicatons manually.
