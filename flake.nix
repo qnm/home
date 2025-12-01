@@ -6,6 +6,11 @@
       url = "github:nixos/nixpkgs/25.05";
     };
 
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     password-shell-plugins = {
       url = "github:1Password/shell-plugins";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,12 +39,25 @@
       nixgl,
       password-shell-plugins,
       home-manager,
+      claude-code-nix,
       ...
     }:
+    let
+      overlays = [
+        (final: prev: {
+          claude-code = claude-code-nix.packages.${prev.system}.default;
+        })
+      ];
+    in
     {
       darwinConfigurations = {
         "robMBP" = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
+          pkgs = import nixpkgs {
+            system = "aarch64-darwin";
+            config.allowUnfree = true;
+            inherit overlays;
+          };
           modules = [
             # load base darwin
             ./darwin/base.nix
@@ -74,7 +92,7 @@
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             allowUnfree = true;
-            overlays = [ nixgl.overlay ];
+            overlays = overlays ++ [ nixgl.overlay ];
           };
           modules = [
             (

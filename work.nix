@@ -53,6 +53,8 @@ in
     libpq
 
     _1password-cli
+
+    eas-cli
   ];
 
   home.sessionPath = [
