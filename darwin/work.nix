@@ -29,6 +29,9 @@
       "miniconda"
       "aws-vpn-client"
       "dbeaver-community"
+      "claude"
+      "claude-code"
+      "copilot-cli"
     ];
 
     taps = [

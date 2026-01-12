@@ -67,6 +67,7 @@
       "google-chrome"
       "ghostty"
       "logitech-g-hub"
+      "adobe-digital-editions"
     ];
 
     taps = [
