@@ -50,7 +50,6 @@ in
         openssl
         devenv
         shadowenv
-        ripgrep
         curl
         unzip
         # yadm

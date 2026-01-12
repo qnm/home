@@ -4,6 +4,12 @@
   programs.direnv.nix-direnv.enable = true;
   programs.dircolors.enable = true;
   programs.gh.enable = true;
+  programs.ripgrep = {
+    enable = true;
+    arguments = [
+      "--type-add=tsx:*.tsx"
+    ];
+  };
   programs.ghostty = {
     enable = true;
     package = null;
