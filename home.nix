@@ -94,4 +94,7 @@ in
   fonts.fontconfig.enable = true;
   home.stateVersion = "22.11"; # To figure this out (in-case it changes) you can comment out the line and see what version it expected.
   programs.home-manager.enable = true;
+
+  # Darwin-specific settings - link apps instead of copying
+  targets.darwin.linkApps.enable = lib.mkIf isDarwin true;
 }

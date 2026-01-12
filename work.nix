@@ -33,7 +33,7 @@ in
     awscli2
     ssm-session-manager-plugin
     aws-vault
-    aws-sam-cli
+    # aws-sam-cli  # Temporarily disabled - broken in nixpkgs 25.11
 
     poetry
     sqlfluff

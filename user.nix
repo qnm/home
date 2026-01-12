@@ -194,24 +194,24 @@
     ];
 
     extraPackages = with pkgs; [ fzf ];
-    extraPython3Packages =
-      ps:
-      [
-        # python-language-server
-      ];
+    extraPython3Packages = ps: [
+      # python-language-server
+    ];
   };
 
   # gitconfig
   programs.git = {
     enable = true;
-    aliases = {
-      pushall = "!git remote | xargs -L1 git push --all";
-      graph = "log --decorate --oneline --graph";
-      add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
-    };
-    userName = "Rob Sharp";
-    userEmail = "rob@sharp.id.au";
-    extraConfig = {
+    settings = {
+      alias = {
+        pushall = "!git remote | xargs -L1 git push --all";
+        graph = "log --decorate --oneline --graph";
+        add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
+      };
+      user = {
+        name = "Rob Sharp";
+        email = "rob@sharp.id.au";
+      };
       feature.manyFiles = false;
       init.defaultBranch = "main";
       gpg.format = "ssh";
