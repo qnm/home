@@ -16,6 +16,7 @@
       "redis"
       "cocoapods"
       "aws-sam-cli"
+      "withgraphite/tap/graphite"
     ];
 
     # Update these applicatons manually.
@@ -36,6 +37,7 @@
     ];
 
     taps = [
+      "withgraphite/tap"
     ];
 
     masApps = {

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nix eval:*)",
+      "Bash(/opt/homebrew/Caskroom/miniconda/base/bin/pip list:*)",
+      "Bash(/opt/homebrew/Caskroom/miniconda/base/bin/pip install:*)",
+      "Bash(dbt --version:*)"
+    ]
+  }
+}
