@@ -10,6 +10,8 @@
     };
 
     brews = [
+      "csvkit"
+      "duckdb"
       "go@1.20"
       "nvm"
       "postgresql@14"
@@ -32,7 +34,6 @@
       "aws-vpn-client"
       "dbeaver-community"
       "claude"
-      "claude-code"
       "copilot-cli"
     ];
 

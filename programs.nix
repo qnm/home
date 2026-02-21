@@ -26,6 +26,9 @@
       window-save-state = "always";
       macos-titlebar-style = "transparent";
       window-colorspace = "display-p3";
+      keybind = [
+        "shift+enter=text:\\n"
+      ];
     };
     # disabled until packaged for darwin
     # installVimSyntax = true;
