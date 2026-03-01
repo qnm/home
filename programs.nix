@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, lib, ... }:
 {
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
@@ -12,7 +12,7 @@
   };
   programs.ghostty = {
     enable = true;
-    # package = null;
+    package = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin null;
     settings = {
       theme = "Catppuccin Mocha";
       font-family = "CaskaydiaCove Nerd Font Mono";

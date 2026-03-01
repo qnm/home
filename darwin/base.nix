@@ -20,7 +20,7 @@
   # Enable experimental nix command and flakes
   nix.extraOptions =
     ''''
-    + lib.optionalString (pkgs.system == "aarch64-darwin") ''
+    + lib.optionalString (pkgs.stdenv.hostPlatform.system == "aarch64-darwin") ''
       extra-platforms = x86_64-darwin aarch64-darwin
       extra-nix-path = nixpkgs=flake:nixpkgs
     '';
@@ -35,6 +35,11 @@
     NSGlobalDomain = {
       ApplePressAndHoldEnabled = false;
     };
+  };
+
+  # hack in the obsidian cli
+  programs.fish.shellAliases = {
+    obsidian = "/Applications/Obsidian.app/Contents/MacOS/Obsidian";
   };
 
   # Add ability to used TouchID for sudo authentication
@@ -77,7 +82,7 @@
       Amphetamine = 937984704;
       LocalSend = 1661733229;
       OllamaSpring = 6502970995;
-      HomeAssistant = 1099568401;
+      # HomeAssistant = 1099568401;
       Kagi = 1622835804;
       # NTS = 1204567739;
     };

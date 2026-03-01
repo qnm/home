@@ -38,16 +38,6 @@ in
     )
   '';
 
-  nixpkgs = {
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = (_: true);
-    };
-  };
-
   # packages are just installed (no configuration applied)
   # programs are installed and configuration applied to dotfiles
   home.packages =
