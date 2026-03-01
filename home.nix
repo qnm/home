@@ -32,7 +32,7 @@ in
         model: "pc105",
         layout: "us",
         variant: "",
-        options: Some("ctrl:swapcaps"),
+        options: Some("ctrl:nocaps"),
         repeat_delay: 600,
         repeat_rate: 25,
     )
