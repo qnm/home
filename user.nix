@@ -64,8 +64,7 @@
       vscode
       dconf2nix
       flatpak
-      1
-      password-cli
+      _1password-cli
       # 1password-gui
       # pkgs.gnome-tweaks
       # pkgs.gnome-keyring

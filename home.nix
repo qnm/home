@@ -26,6 +26,28 @@ in
     else
       unsupported;
 
+  home.file.".config/cosmic/com.system76.CosmicComp/v1/xkb_config".text = ''
+    (
+        rules: "",
+        model: "pc105",
+        layout: "us",
+        variant: "",
+        options: Some("ctrl:swapcaps"),
+        repeat_delay: 600,
+        repeat_rate: 25,
+    )
+  '';
+
+  nixpkgs = {
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+
+      # Workaround for https://github.com/nix-community/home-manager/issues/2942
+      allowUnfreePredicate = (_: true);
+    };
+  };
+
   # packages are just installed (no configuration applied)
   # programs are installed and configuration applied to dotfiles
   home.packages =
@@ -69,16 +91,16 @@ in
         claude-code
         codespelunker
         # Migrated from Homebrew
-        mas
         redis
         postgresql_14
-        cocoapods
       ]
       ++ lib.optionals isLinux [
         # GNU/Linux packages
       ]
       ++ lib.optionals isDarwin [
         # macOS packages
+        mas
+        cocoapods
       ]
     );
 

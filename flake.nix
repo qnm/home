@@ -89,6 +89,27 @@
       };
 
       homeConfigurations = {
+        "qnm@pop-os" = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            allowUnfree = true;
+            overlays = overlays ++ [ nixgl.overlay ];
+          };
+          modules = [
+            (
+              { ... }:
+              {
+                nixGL.packages = nixgl.packages;
+                nixGL.defaultWrapper = "mesa";
+              }
+            )
+            password-shell-plugins.hmModules.default
+            ./home.nix
+          ];
+          extraSpecialArgs = {
+            inherit nixgl;
+          };
+        };
         "qnm@penguin" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
@@ -101,7 +122,6 @@
               {
                 nixGL.packages = nixgl.packages;
                 nixGL.defaultWrapper = "mesa";
-                nixGL.addScripts = [ "mesa" ];
 
                 xdg.configFile."systemd/user/cros-garcon.service.d/override.conf".text = ''
                   [Service]

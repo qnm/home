@@ -12,7 +12,7 @@
   };
   programs.ghostty = {
     enable = true;
-    package = null;
+    # package = null;
     settings = {
       theme = "Catppuccin Mocha";
       font-family = "CaskaydiaCove Nerd Font Mono";
