@@ -26,6 +26,18 @@ in
     else
       unsupported;
 
+  systemd.user.services = lib.mkIf isLinux {
+    cosmic-display = {
+      Unit.Description = "Set cosmic display settings";
+      Unit.After = [ "graphical-session.target" ];
+      Install.WantedBy = [ "graphical-session.target" ];
+      Service = {
+        Type = "oneshot";
+        ExecStart = "/usr/bin/cosmic-randr mode DP-3 3440 1440 --refresh 144 --adaptive-sync true";
+      };
+    };
+  };
+
   xdg.configFile."cosmic/com.system76.CosmicComp/v1/xkb_config".text = ''
     (
       rules: "",
