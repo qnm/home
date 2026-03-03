@@ -26,15 +26,31 @@ in
     else
       unsupported;
 
-  home.file.".config/cosmic/com.system76.CosmicComp/v1/xkb_config".text = ''
+  xdg.configFile."cosmic/com.system76.CosmicComp/v1/xkb_config".text = ''
     (
-        rules: "",
-        model: "pc105",
-        layout: "us",
-        variant: "",
-        options: Some("ctrl:nocaps"),
-        repeat_delay: 600,
-        repeat_rate: 25,
+      rules: "",
+      model: "pc105",
+      layout: "us",
+      variant: "",
+      options: Some("ctrl:nocaps"),
+      repeat_delay: 600,
+      repeat_rate: 25,
+    )
+  '';
+
+  xdg.configFile."cosmic/com.system76.CosmicComp/v1/input_config".text = ''
+    (
+      state: Enabled,
+      acceleration: Some((
+        profile: None,
+        speed: -0.3291627775420733,
+      )),
+      scroll_config: Some((
+        method: None,
+        natural_scroll: Some(true),
+        scroll_button: None,
+        scroll_factor: None,
+      )),
     )
   '';
 
