@@ -99,8 +99,8 @@
             (
               { ... }:
               {
-                nixGL.packages = nixgl.packages;
-                nixGL.defaultWrapper = "mesa";
+                targets.genericLinux.nixGL.packages = nixgl.packages;
+                targets.genericLinux.nixGL.defaultWrapper = "mesa";
               }
             )
             password-shell-plugins.hmModules.default
@@ -120,8 +120,8 @@
             (
               { ... }:
               {
-                nixGL.packages = nixgl.packages;
-                nixGL.defaultWrapper = "mesa";
+                targets.genericLinux.nixGL.packages = nixgl.packages;
+                targets.genericLinux.nixGL.defaultWrapper = "mesa";
 
                 xdg.configFile."systemd/user/cros-garcon.service.d/override.conf".text = ''
                   [Service]
