@@ -92,7 +92,7 @@
         "qnm@pop-os" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
-            allowUnfree = true;
+            config.allowUnfree = true;
             overlays = overlays ++ [ nixgl.overlay ];
           };
           modules = [
@@ -113,7 +113,7 @@
         "qnm@penguin" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
-            allowUnfree = true;
+            config.allowUnfree = true;
             overlays = overlays ++ [ nixgl.overlay ];
           };
           modules = [
