@@ -58,8 +58,6 @@
     };
 
     brews = [
-      # gemini-cli moved to home.nix if available in nixpkgs
-      "mas"
     ];
 
     # Update these applicatons manually.
@@ -74,18 +72,15 @@
       "ghostty"
       "logitech-g-hub"
       "adobe-digital-editions"
+      "home-assistant"
+      "keepingyouawake"
+      "localsend"
     ];
 
     taps = [
     ];
 
-    masApps = {
-      Amphetamine = 937984704;
-      LocalSend = 1661733229;
-      OllamaSpring = 6502970995;
-      # HomeAssistant = 1099568401;
-      Kagi = 1622835804;
-      # NTS = 1204567739;
-    };
+    # Install manually from App Store: Kagi
+    masApps = {};
   };
 }

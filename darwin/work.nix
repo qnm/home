@@ -39,8 +39,7 @@
     taps = [
     ];
 
-    masApps = {
-      XCode = 497799835;
-    };
+    # Install manually: Xcode (xcode-select --install or App Store)
+    masApps = {};
   };
 }
