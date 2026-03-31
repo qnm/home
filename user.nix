@@ -217,6 +217,7 @@
       push = {
         autoSetupRemote = true;
       };
+      diff.external = "difft";
       core = {
         editor = "nvim";
         whitespace = "fix,-indent-with-non-tab,trailing-space,cr-at-eol";

@@ -10,6 +10,9 @@
       "--type-add=tsx:*.tsx"
     ];
   };
+  programs.mergiraf.enable = true;
+  programs.difftastic.enable = true;
+
   programs.ghostty = {
     enable = true;
     package = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin null;

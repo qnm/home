@@ -117,7 +117,6 @@ in
       ]
       ++ lib.optionals isDarwin [
         # macOS packages
-        mas
         cocoapods
       ]
     );
