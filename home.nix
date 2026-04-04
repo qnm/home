@@ -15,6 +15,7 @@ in
     ./aliases.nix
     ./programs.nix
     ./gemini.nix
+    ./claude-code.nix
   ];
 
   home.username = "qnm";
@@ -106,7 +107,6 @@ in
         nix-search-cli
         fnm
         ast-grep
-        claude-code
         codespelunker
         # Migrated from Homebrew
         redis
