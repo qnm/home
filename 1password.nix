@@ -10,6 +10,9 @@
     plugins = with pkgs; [
       gh
       awscli2
+      cargo
+      postgresql
+      nodePackages.wrangler
     ];
   };
 }
