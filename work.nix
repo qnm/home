@@ -23,7 +23,7 @@ in
     awscli2
     ssm-session-manager-plugin
     aws-vault
-    # aws-sam-cli  # Temporarily disabled - broken in nixpkgs 25.11
+    # aws-sam-cli  # broken in nixpkgs 25.11 (click dependency conflict)
 
     poetry
     sqlfluff
@@ -70,8 +70,8 @@ in
         src = pkgs.fetchFromGitHub {
           owner = "rbenv";
           repo = "ruby-build";
-          rev = "v20241105";
-          hash = "sha256-VutUrVO6+7mGNOYnK8f+2epAbaiqNboelh8MSFz0WaI=";
+          rev = "v20260327";
+          hash = "sha256-7k7GGPUhJcfL6z83bQDvpuFaWz0IpUbw/7OY3xnN5+g=";
         };
       }
     ];

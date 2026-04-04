@@ -87,7 +87,6 @@ in
         jq
         wget
         gnupg
-        dconf2nix
         devbox
         curl
         unzip
@@ -105,7 +104,6 @@ in
         just
         kitty-themes
         nix-search-cli
-        fnm
         ast-grep
         codespelunker
         # Migrated from Homebrew
