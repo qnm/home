@@ -1,6 +1,6 @@
 # Home Manager Configuration
 
-More to be done, but this seems to get us up and running with the old fleek configuration.
+Home manager and nix-darwin configuration for personal machines.
 
 ```
 gh repo clone qnm/home
