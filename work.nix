@@ -25,6 +25,11 @@ in
     aws-vault
     # aws-sam-cli  # broken in nixpkgs 25.11 (click dependency conflict)
 
+    # Migrated from Homebrew
+    csvkit
+    duckdb
+    go_1_25
+
     poetry
     sqlfluff
     nodePackages.aws-cdk

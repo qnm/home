@@ -10,13 +10,6 @@
     };
 
     brews = [
-      "csvkit"
-      "duckdb"
-      "go@1.20"
-      "nvm"
-      "postgresql@14"
-      "redis"
-      "cocoapods"
       "aws-sam-cli"
     ];
 

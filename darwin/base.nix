@@ -66,7 +66,6 @@
       "adobe-digital-editions"
       "home-assistant"
       "keepingyouawake"
-      "localsend"
     ];
 
     taps = [
