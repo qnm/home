@@ -116,6 +116,10 @@ in
       ++ lib.optionals isDarwin [
         # macOS packages
         cocoapods
+        colima
+        docker
+        docker-compose
+        docker-buildx
       ]
     );
 
