@@ -106,6 +106,7 @@ in
         nix-search-cli
         ast-grep
         codespelunker
+        spr
         # Migrated from Homebrew
         redis
         postgresql_14
