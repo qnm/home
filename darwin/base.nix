@@ -66,9 +66,11 @@
       "adobe-digital-editions"
       "home-assistant"
       "keepingyouawake"
+      "bysiber/cleardisk/cleardisk"
     ];
 
     taps = [
+      "bysiber/cleardisk"
     ];
 
     # Install manually from App Store: Kagi
