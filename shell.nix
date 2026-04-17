@@ -68,6 +68,19 @@
       }
     ];
 
+    functions = {
+      wt-status = {
+        description = "Show PR state for each worktree branch";
+        body = ''
+          for b in (git worktree list --porcelain | awk '/^branch /{print $2}' | sed 's|refs/heads/||')
+              set state (gh pr list --head $b --state all --json state -q '.[0].state' 2>/dev/null)
+              test -z "$state"; and set state no-pr
+              printf '%-40s %s\n' $b $state
+          end
+        '';
+      };
+    };
+
     shellInit = ''
       if test -d /opt/homebrew
           # Homebrew is installed on MacOS
