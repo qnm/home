@@ -16,6 +16,7 @@ in
     ./programs.nix
     ./gemini.nix
     ./claude-code.nix
+    ./openwhispr.nix
   ];
 
   home.username = "qnm";
@@ -123,6 +124,12 @@ in
         docker-buildx
       ]
     );
+
+  home.sessionVariables = lib.mkIf isDarwin {
+    DOCKER_HOST = "unix://$HOME/.colima/default/docker.sock";
+    TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE = "/var/run/docker.sock";
+    NODE_OPTIONS = "--dns-result-order=ipv4first";
+  };
 
   fonts.fontconfig.enable = true;
   home.stateVersion = "22.11"; # To figure this out (in-case it changes) you can comment out the line and see what version it expected.
