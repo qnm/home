@@ -19,7 +19,7 @@
     casks = [
       "pop-app"
       "android-studio"
-      "linear-linear"
+      "linear"
       "notion"
       "orbstack"
       "miniconda"
