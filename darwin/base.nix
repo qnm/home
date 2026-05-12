@@ -65,6 +65,7 @@
       "logitech-g-hub"
       "home-assistant"
       "keepingyouawake"
+      "zed"
       "bysiber/cleardisk/cleardisk"
     ];
 

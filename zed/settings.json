@@ -1,0 +1,54 @@
+{
+  "project_panel": {
+    "entry_spacing": "standard",
+    "dock": "left"
+  },
+  "use_system_window_tabs": false,
+  "edit_predictions": {
+    "provider": "zed"
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry",
+    },
+  },
+  "base_keymap": "VSCode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+  },
+  "auto_install_extensions": {
+    "swift": true,
+    "nix": true,
+    "xy-zed": true,
+    "catppuccin": true,
+    "sql": true,
+  },
+  "jupyter.enabled": true,
+  "vim_mode": true,
+  "load_direnv": "shell_hook",
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Catppuccin Mocha",
+  },
+  "terminal": {
+    "font_family": "CaskaydiaCove Nerd Font",
+  },
+  "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "preferences": {
+            "importModuleSpecifier": "relative",
+          },
+        },
+      },
+    },
+  },
+}
