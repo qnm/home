@@ -6,6 +6,7 @@
 
   programs.zsh.enable = true;
   programs.fish.enable = true;
+  environment.shells = [ pkgs.fish ];
 
   # System Apps
   environment.systemPackages = with pkgs; [
@@ -62,7 +63,6 @@
       "ollama-app"
       "google-chrome"
       "logitech-g-hub"
-      "adobe-digital-editions"
       "home-assistant"
       "keepingyouawake"
       "bysiber/cleardisk/cleardisk"
