@@ -10,6 +10,7 @@ Prerequisites:
 * Homebrew — https://brew.sh (nix-darwin manages casks/taps via the `homebrew` module)
 * Hostname matches a `darwinConfigurations` key in `flake.nix` (e.g. `robMBP`). Check with `scutil --get LocalHostName`; set with `sudo scutil --set LocalHostName robMBP` if needed.
 * Username matches `system.primaryUser` (currently `qnm`).
+* 1Password desktop app → Settings → Developer: enable **"Integrate with 1Password CLI"** (and "Use the SSH agent"). Required by the `_1password-shell-plugins` wrappers for `gh`, `aws`, etc. — without it they fail with `Shell Plugins can only be used with the 1Password app integration enabled`. The toggle can get reset by 1Password updates.
 
 Then:
 
