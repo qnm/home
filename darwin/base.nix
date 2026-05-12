@@ -61,7 +61,6 @@
       "steam"
       "ollama-app"
       "google-chrome"
-      "ghostty"
       "logitech-g-hub"
       "adobe-digital-editions"
       "home-assistant"

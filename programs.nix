@@ -14,7 +14,7 @@
 
   programs.ghostty = {
     enable = true;
-    package = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin null;
+    package = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin pkgs.ghostty-bin;
     settings = {
       theme = "Catppuccin Mocha";
       font-family = "CaskaydiaCove Nerd Font Mono";
@@ -32,9 +32,8 @@
         "shift+enter=text:\\n"
       ];
     };
-    # disabled until packaged for darwin
-    # installVimSyntax = true;
-    # enableFishIntegration = true;
+    installVimSyntax = true;
+    enableFishIntegration = true;
   };
   # still in unstable
   # programs.goose-cli.enable = true;
