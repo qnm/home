@@ -108,6 +108,7 @@ in
         ast-grep
         codespelunker
         spr
+        qmd
         # Migrated from Homebrew
         redis
         postgresql_14

@@ -26,6 +26,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    llm-agents-nix = {
+      url = "github:numtide/llm-agents.nix";
+    };
+
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,12 +44,14 @@
       password-shell-plugins,
       home-manager,
       claude-code-nix,
+      llm-agents-nix,
       ...
     }:
     let
       overlays = [
         (final: prev: {
           claude-code = claude-code-nix.packages.${prev.system}.default;
+          qmd = llm-agents-nix.packages.${prev.system}.qmd;
         })
       ];
     in
