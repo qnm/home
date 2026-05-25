@@ -1,7 +1,7 @@
 {
   "project_panel": {
     "entry_spacing": "standard",
-    "dock": "left"
+    "dock": "right"
   },
   "use_system_window_tabs": false,
   "edit_predictions": {
