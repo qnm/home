@@ -11,6 +11,7 @@
 
     brews = [
       "aws-sam-cli"
+      "snowflake-cli"
     ];
 
     # Update these applicatons manually.
