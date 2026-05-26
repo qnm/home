@@ -123,6 +123,7 @@ in
         docker
         docker-compose
         docker-buildx
+        monitorcontrol
       ]
     );
 
