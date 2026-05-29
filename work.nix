@@ -50,6 +50,8 @@ in
     _1password-cli
 
     eas-cli
+
+    openvpn
   ];
 
   home.sessionPath = [
