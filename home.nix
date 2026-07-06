@@ -96,7 +96,7 @@ in
         hurl
         discord
         nodejs_20
-        pnpm
+        corepack
         ngrok
         yt-dlp
         libffi
