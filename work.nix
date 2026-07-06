@@ -38,7 +38,6 @@ in
 
     # for k8s
     # tilt broken build
-    yarn
 
     fnm
 
