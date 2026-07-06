@@ -109,6 +109,8 @@ in
         codespelunker
         spr
         qmd
+        age
+        age-plugin-yubikey
         # Migrated from Homebrew
         redis
         postgresql_14

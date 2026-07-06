@@ -63,12 +63,9 @@
       "home-assistant"
       "keepingyouawake"
       "zed"
-      "bysiber/cleardisk/cleardisk"
     ];
 
-    taps = [
-      "bysiber/cleardisk"
-    ];
+    taps = [];
 
     # Install manually from App Store: Kagi
     masApps = {};

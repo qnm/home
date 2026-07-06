@@ -34,6 +34,11 @@
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -45,6 +50,7 @@
       home-manager,
       claude-code-nix,
       llm-agents-nix,
+      agenix,
       ...
     }:
     let
@@ -52,6 +58,15 @@
         (final: prev: {
           claude-code = claude-code-nix.packages.${prev.system}.default;
           qmd = llm-agents-nix.packages.${prev.system}.qmd;
+          age = prev.symlinkJoin {
+            name = "age";
+            paths = [ prev.age ];
+            buildInputs = [ prev.makeWrapper ];
+            postBuild = ''
+              wrapProgram $out/bin/age \
+                --prefix PATH : ${prev.age-plugin-yubikey}/bin
+            '';
+          };
         })
       ];
     in
@@ -82,6 +97,7 @@
                   {
                     imports = [
                       password-shell-plugins.hmModules.default
+                      agenix.homeManagerModules.default
                       ./home.nix
                     ];
                   };
@@ -110,6 +126,7 @@
               }
             )
             password-shell-plugins.hmModules.default
+            agenix.homeManagerModules.default
             ./home.nix
           ];
           extraSpecialArgs = {
@@ -137,6 +154,7 @@
               }
             )
             password-shell-plugins.hmModules.default
+            agenix.homeManagerModules.default
             ./home.nix
           ];
           extraSpecialArgs = {

@@ -1,9 +1,31 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 let
   androidPath = "$HOME/Library/Android/sdk";
 in
 {
+  home.file.".config/age/age-yubikey-identity-4187e3da.txt".source = ./secrets/age-yubikey-identity-4187e3da.txt;
+  home.file.".config/age/age-yubikey-identity-9a478637.txt".source = ./secrets/age-yubikey-identity-9a478637.txt;
+
+  age.identityPaths = [
+    "${config.home.homeDirectory}/.config/age/age-yubikey-identity-4187e3da.txt"  # usbc-a
+    "${config.home.homeDirectory}/.config/age/age-yubikey-identity-9a478637.txt"  # mini-usbc
+  ];
+
+  age.secrets.aws-amber-domain-owner.file = ./secrets/aws-amber-domain-owner.age;
+
+  programs.fish.functions.npm-login = {
+    description = "Authenticate npm with CodeArtifact";
+    body = ''
+      set domain_owner (cat ${config.age.secrets.aws-amber-domain-owner.path})
+      aws-vault exec amber-code-artifact -- aws codeartifact login \
+        --tool npm \
+        --domain amber \
+        --domain-owner $domain_owner \
+        --repository npm \
+        --region ap-southeast-2
+    '';
+  };
   home.packages = with pkgs; [
     zoom-us
     slack
