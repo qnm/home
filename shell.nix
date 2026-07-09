@@ -79,6 +79,14 @@
           end
         '';
       };
+      corepack-setup = {
+        description = "Update corepack and enable pnpm for current fnm Node version";
+        body = ''
+          npm install -g corepack@latest
+          corepack enable pnpm
+          echo "corepack "(corepack --version)" enabled for node "(node --version)
+        '';
+      };
     };
 
     shellInit = ''
