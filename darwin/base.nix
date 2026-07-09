@@ -68,6 +68,8 @@
     taps = [];
 
     # Install manually from App Store: Kagi
-    masApps = {};
+    masApps = {
+      Lichess = 1662361230;
+    };
   };
 }
