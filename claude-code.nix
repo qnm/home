@@ -17,6 +17,12 @@
       env = {
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
       };
+      statusLine = {
+        type = "command";
+        command = "bunx -y ccstatusline@latest";
+        padding = 0;
+        refreshInterval = 10;
+      };
       sandbox = {
         enabled = true;
         excludedCommands = [
