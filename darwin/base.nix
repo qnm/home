@@ -70,6 +70,11 @@
       "bysiber/cleardisk"
     ];
 
+    # trusted: true is not supported until nix-darwin 26.11+, use extraConfig for now
+    extraConfig = ''
+      tap "bysiber/cleardisk", trusted: true
+    '';
+
     # Install manually from App Store: Kagi
     masApps = {};
   };

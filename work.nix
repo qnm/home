@@ -12,7 +12,7 @@ in
     # cypress won't install on aarch64-darwin
 
     # for commits
-    husky
+    # husky  # removed: conflicts with husky bundled inside pi-coding-agent
 
     # for k8s
     # tilt broken build

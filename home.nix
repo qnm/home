@@ -19,6 +19,8 @@ in
     ./openwhispr.nix
   ];
 
+  programs.pi.coding-agent.enable = true;
+
   home.username = "qnm";
   home.homeDirectory =
     if isLinux then
@@ -108,6 +110,7 @@ in
         ast-grep
         codespelunker
         spr
+        pkgs.gh-stack
         qmd
         # Migrated from Homebrew
         redis

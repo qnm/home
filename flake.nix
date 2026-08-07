@@ -6,6 +6,10 @@
       url = "github:nixos/nixpkgs/25.11";
     };
 
+    nixpkgs-unstable = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
+
     claude-code-nix = {
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,12 +26,16 @@
     };
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-25.11";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     llm-agents-nix = {
       url = "github:numtide/llm-agents.nix";
+    };
+
+    pi = {
+      url = "github:lukasl-dev/pi.nix";
     };
 
     nixgl = {
@@ -40,11 +48,13 @@
     {
       nix-darwin,
       nixpkgs,
+      nixpkgs-unstable,
       nixgl,
       password-shell-plugins,
       home-manager,
       claude-code-nix,
       llm-agents-nix,
+      pi,
       ...
     }:
     let
@@ -52,6 +62,7 @@
         (final: prev: {
           claude-code = claude-code-nix.packages.${prev.system}.default;
           qmd = llm-agents-nix.packages.${prev.system}.qmd;
+          gh-stack = nixpkgs-unstable.legacyPackages.${prev.system}.gh-stack;
         })
       ];
     in
@@ -82,6 +93,7 @@
                   {
                     imports = [
                       password-shell-plugins.hmModules.default
+                      pi.homeModules.coding-agent
                       ./home.nix
                     ];
                   };
@@ -110,6 +122,7 @@
               }
             )
             password-shell-plugins.hmModules.default
+            pi.homeModules.coding-agent
             ./home.nix
           ];
           extraSpecialArgs = {
@@ -137,6 +150,7 @@
               }
             )
             password-shell-plugins.hmModules.default
+            pi.homeModules.coding-agent
             ./home.nix
           ];
           extraSpecialArgs = {
