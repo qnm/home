@@ -38,6 +38,16 @@
       url = "github:lukasl-dev/pi.nix";
     };
 
+    pi-catppuccin = {
+      url = "github:otahontas/pi-coding-agent-catppuccin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    catppuccin = {
+      url = "github:catppuccin/nix/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,6 +65,8 @@
       claude-code-nix,
       llm-agents-nix,
       pi,
+      pi-catppuccin,
+      catppuccin,
       ...
     }:
     let
@@ -93,7 +105,9 @@
                   {
                     imports = [
                       password-shell-plugins.hmModules.default
+                      catppuccin.homeModules.catppuccin
                       pi.homeModules.coding-agent
+                      pi-catppuccin.homeManagerModules.default
                       ./home.nix
                     ];
                   };
@@ -122,7 +136,9 @@
               }
             )
             password-shell-plugins.hmModules.default
+            catppuccin.homeModules.catppuccin
             pi.homeModules.coding-agent
+            pi-catppuccin.homeManagerModules.default
             ./home.nix
           ];
           extraSpecialArgs = {
@@ -150,7 +166,9 @@
               }
             )
             password-shell-plugins.hmModules.default
+            catppuccin.homeModules.catppuccin
             pi.homeModules.coding-agent
+            pi-catppuccin.homeManagerModules.default
             ./home.nix
           ];
           extraSpecialArgs = {

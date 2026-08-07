@@ -5,7 +5,6 @@
     profiles.default.extensions = with pkgs.vscode-extensions; [
       asvetliakov.vscode-neovim
       bbenoist.nix
-      catppuccin.catppuccin-vsc
       esbenp.prettier-vscode
       mechatroner.rainbow-csv
       dbaeumer.vscode-eslint
@@ -44,7 +43,6 @@
           "terminal.integrated.inheritEnv": false,
           "typescript.tsdk": "./node_modules/typescript/lib",
           "typescript.enablePromptUseWorkspaceTsdk": true,
-          "workbench.colorTheme": "Catppuccin Mocha",
           "vscode-neovim.neovimExecutablePaths.darwin": "/Users/qnm/.nix-profile/bin/nvim"
         }
       '';
@@ -127,6 +125,11 @@
       set modeline
       set number " turn on line numbers
 
+      " theme (colorscheme itself comes from catppuccin/nix)
+      syntax enable
+      set background=dark
+      set termguicolors
+
       " 80-col highlighting
       highlight OverLength ctermbg=red ctermfg=white guibg=#592929
       match OverLength /\%81v.\+/
@@ -149,17 +152,6 @@
           let g:ctrlp_map = '<c-p>'
           let g:ctrlp_cmd = 'CtrlP'
           let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
-        '';
-      }
-      {
-        plugin = catppuccin-nvim;
-        type = "viml";
-        config = ''
-          " theme
-          syntax enable
-          set background=dark
-          colorscheme catppuccin-mocha
-          set termguicolors
         '';
       }
       {

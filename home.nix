@@ -18,7 +18,18 @@ in
     ./openwhispr.nix
   ];
 
+  # Single source of truth for theming; per-program modules follow this flavor.
+  # Opt individual programs out with `catppuccin.<program>.enable = false;`.
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+    # upstream still targets `programs.gemini-cli`, renamed to
+    # `programs.antigravity-cli` in home-manager 26.05; we use neither
+    gemini-cli.enable = false;
+  };
+
   programs.pi.coding-agent.enable = true;
+  programs.pi.catppuccin.enable = true;
 
   home.username = "qnm";
   home.homeDirectory =

@@ -24,7 +24,7 @@
     enable = true;
     package = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin pkgs.ghostty-bin;
     settings = {
-      theme = "Catppuccin Mocha";
+      # theme is set by catppuccin/nix (see `catppuccin` in home.nix)
       font-family = "CaskaydiaCove Nerd Font Mono";
       font-size = 15;
       shell-integration-features = "no-cursor,sudo,no-title";
