@@ -29,6 +29,13 @@ in
   };
 
   programs.pi.coding-agent.enable = true;
+  programs.pi.coding-agent.settings.packages = [
+    # shared
+    "npm:@narumitw/pi-lsp"
+    "npm:@narumitw/pi-github-pr"
+    # work
+    "npm:pi-linear"
+  ];
   programs.pi.catppuccin.enable = true;
 
   home.username = "qnm";
