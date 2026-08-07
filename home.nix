@@ -14,7 +14,6 @@ in
     ./user.nix
     ./aliases.nix
     ./programs.nix
-    ./gemini.nix
     ./claude-code.nix
     ./openwhispr.nix
   ];
