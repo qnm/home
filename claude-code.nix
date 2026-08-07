@@ -1,10 +1,9 @@
 { pkgs, ... }:
 {
-  home.file.".claude/skills/hegelian-dialectic-skill/SKILL.md".source =
-    pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/KyleAMathews/hegelian-dialectic-skill/refs/heads/main/SKILL.md";
-      hash = "sha256-hhAKJTTg5D+UpTETunCmYj54X5qx9ERu2gZXZ1UcPN0=";
-    };
+  home.file.".claude/skills/hegelian-dialectic-skill/SKILL.md".source = pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/KyleAMathews/hegelian-dialectic-skill/refs/heads/main/SKILL.md";
+    hash = "sha256-hhAKJTTg5D+UpTETunCmYj54X5qx9ERu2gZXZ1UcPN0=";
+  };
 
   programs.claude-code = {
     enable = true;

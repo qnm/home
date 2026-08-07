@@ -33,6 +33,14 @@ Used for macOS apps not well-supported by nixpkgs (e.g., `aws-vpn-client` cask i
 - `work.nix`, `user.nix`, `shell.nix`, `programs.nix` — domain-specific modules
 - `darwin/base.nix`, `darwin/work.nix` — macOS-specific (nix-darwin + brew)
 
+## Formatting
+
+Before making any git commit, run `nixfmt` on all `.nix` files:
+
+```bash
+find . -name '*.nix' -not -path '*/\.*' | xargs nixfmt
+```
+
 ## Adding Packages
 
 When adding a new package, always ask whether it's work-specific. Work packages go in `work.nix`, personal/shared packages go in `home.nix` or `user.nix`.

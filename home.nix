@@ -78,7 +78,7 @@ in
       [
         nixd
         nil
-        nixfmt-rfc-style
+        nixfmt
         cargo
         pkg-config
         openssl
@@ -97,7 +97,7 @@ in
         localsend
         hurl
         discord
-        nodejs_20
+        nodejs_22
         ngrok
         yt-dlp
         libffi

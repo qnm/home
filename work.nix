@@ -7,7 +7,7 @@ in
   home.packages = with pkgs; [
     zoom-us
     slack
-    watchman
+    # watchman: install via Homebrew (nixpkgs 26.05 build broken on aarch64-darwin)
     # android-studio won't run on m3
     # cypress won't install on aarch64-darwin
 
@@ -32,7 +32,7 @@ in
 
     poetry
     sqlfluff
-    nodePackages.aws-cdk
+    aws-cdk-cli
 
     # gcloud
     (google-cloud-sdk.withExtraComponents [

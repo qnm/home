@@ -122,6 +122,7 @@
     vimAlias = true;
     withNodeJs = true;
     withPython3 = true;
+    withRuby = false;
     extraConfig = ''
       set modeline
       set number " turn on line numbers
@@ -142,7 +143,8 @@
 
     plugins = with pkgs.vimPlugins; [
       {
-        plugin = ctrlp;
+        plugin = ctrlp-vim;
+        type = "viml";
         config = ''
           let g:ctrlp_map = '<c-p>'
           let g:ctrlp_cmd = 'CtrlP'
@@ -151,6 +153,7 @@
       }
       {
         plugin = catppuccin-nvim;
+        type = "viml";
         config = ''
           " theme
           syntax enable
@@ -161,6 +164,7 @@
       }
       {
         plugin = coc-nvim;
+        type = "viml";
         config = ''
           let g:coc_global_extensions = ['coc-solargraph']
 
@@ -188,7 +192,6 @@
         '';
       }
       lightline-vim
-      coc-tsserver
       coc-json
     ];
 

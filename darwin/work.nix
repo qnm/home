@@ -12,6 +12,8 @@
     brews = [
       "aws-sam-cli"
       "snowflake-cli"
+      "watchman"
+      "colima"
     ];
 
     # Update these applicatons manually.
@@ -22,18 +24,23 @@
       "android-studio"
       "linear"
       "notion"
-      "orbstack"
       "miniconda"
       "aws-vpn-client"
       "dbeaver-community"
       "claude"
       "copilot-cli"
+      "docker/tap/sbx"
     ];
 
     taps = [
+      "docker/tap"
     ];
 
+    extraConfig = ''
+      tap "docker/tap", trusted: true
+    '';
+
     # Install manually: Xcode (xcode-select --install or App Store)
-    masApps = {};
+    masApps = { };
   };
 }

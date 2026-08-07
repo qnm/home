@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:nixos/nixpkgs/25.11";
+      url = "github:nixos/nixpkgs/26.05";
     };
 
     nixpkgs-unstable = {
@@ -21,12 +21,12 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-darwin = {
-      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -60,9 +60,9 @@
     let
       overlays = [
         (final: prev: {
-          claude-code = claude-code-nix.packages.${prev.system}.default;
-          qmd = llm-agents-nix.packages.${prev.system}.qmd;
-          gh-stack = nixpkgs-unstable.legacyPackages.${prev.system}.gh-stack;
+          claude-code = claude-code-nix.packages.${prev.stdenv.hostPlatform.system}.default;
+          qmd = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.qmd;
+          gh-stack = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.gh-stack;
         })
       ];
     in

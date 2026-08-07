@@ -12,7 +12,7 @@
       awscli2
       cargo
       postgresql
-      nodePackages.wrangler
+      wrangler
     ];
   };
 }

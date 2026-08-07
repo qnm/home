@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
@@ -9,7 +14,10 @@
       "--type-add=tsx:*.tsx"
     ];
   };
-  programs.mergiraf.enable = true;
+  programs.mergiraf = {
+    enable = true;
+    enableGitIntegration = true;
+  };
   programs.difftastic.enable = true;
 
   programs.ghostty = {
