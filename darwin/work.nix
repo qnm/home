@@ -10,10 +10,7 @@
     };
 
     brews = [
-      "aws-sam-cli"
-      "snowflake-cli"
       "watchman"
-      "colima"
     ];
 
     # Update these applicatons manually.
@@ -28,7 +25,6 @@
       "aws-vpn-client"
       "dbeaver-community"
       "claude"
-      "copilot-cli"
       "docker/tap/sbx"
     ];
 

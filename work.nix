@@ -7,7 +7,8 @@ in
   home.packages = with pkgs; [
     zoom-us
     slack
-    # watchman: install via Homebrew (nixpkgs 26.05 build broken on aarch64-darwin)
+    # watchman: install via Homebrew (folly fails to build on aarch64-darwin
+    # in the pinned nixpkgs; missing memset-benchmark-darwin.patch)
     # android-studio won't run on m3
     # cypress won't install on aarch64-darwin
 
@@ -23,12 +24,13 @@ in
     awscli2
     ssm-session-manager-plugin
     aws-vault
-    # aws-sam-cli  # broken in nixpkgs 25.11 (click dependency conflict)
+    aws-sam-cli
 
     # Migrated from Homebrew
     csvkit
     duckdb
     go_1_25
+    snowflake-cli
 
     poetry
     sqlfluff
