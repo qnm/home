@@ -59,7 +59,6 @@
       "steam"
       "ollama-app"
       "google-chrome"
-      "logitech-g-hub"
       "home-assistant"
       "keepingyouawake"
       "zed"
