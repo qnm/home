@@ -69,6 +69,26 @@
     ];
 
     functions = {
+      nix-gc = {
+        description = "Garbage collect nix store; optionally delete old generations (e.g. `nix-gc 14d`)";
+        body = ''
+          set -l age $argv[1]
+          echo "Store size before:"
+          du -sh /nix/store 2>/dev/null
+          if test -n "$age"
+              echo "Deleting profile generations older than $age..."
+              sudo nix-collect-garbage --delete-older-than $age
+              nix-collect-garbage --delete-older-than $age
+          else
+              echo "Collecting unreachable store paths..."
+              sudo nix-collect-garbage
+              nix-collect-garbage
+          end
+          echo "Store size after:"
+          du -sh /nix/store 2>/dev/null
+        '';
+      };
+
       wt-status = {
         description = "Show PR state for each worktree branch";
         body = ''
