@@ -77,6 +77,12 @@
           gh-stack = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.gh-stack;
         })
       ];
+
+      piBunModule =
+        { pkgs, ... }:
+        {
+          programs.pi.coding-agent.package = pi.packages.${pkgs.stdenv.hostPlatform.system}.coding-agent-bun;
+        };
     in
     {
       darwinConfigurations = {
@@ -108,6 +114,7 @@
                       catppuccin.homeModules.catppuccin
                       pi.homeModules.coding-agent
                       pi-catppuccin.homeManagerModules.default
+                      piBunModule
                       ./home.nix
                     ];
                   };
@@ -139,6 +146,7 @@
             catppuccin.homeModules.catppuccin
             pi.homeModules.coding-agent
             pi-catppuccin.homeManagerModules.default
+            piBunModule
             ./home.nix
           ];
           extraSpecialArgs = {
@@ -169,6 +177,7 @@
             catppuccin.homeModules.catppuccin
             pi.homeModules.coding-agent
             pi-catppuccin.homeManagerModules.default
+            piBunModule
             ./home.nix
           ];
           extraSpecialArgs = {
