@@ -85,7 +85,8 @@
         };
     in
     {
-      darwinConfigurations = {
+      darwinConfigurations = rec {
+        robMBPWifi = robMBP;
         "robMBP" = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           pkgs = import nixpkgs {
