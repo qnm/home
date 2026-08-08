@@ -50,6 +50,11 @@
       upgrade = true;
     };
 
+    brews = [
+      # nixpkgs wrangler build is broken on macOS (pnpm/DTS EBADF)
+      "cloudflare-wrangler2"
+    ];
+
     # Update these applicatons manually.
     # As brew would update them by unninstalling and installing the newest
     # version, it could lead to data loss.
