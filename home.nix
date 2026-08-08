@@ -34,6 +34,7 @@ in
     # shared
     "npm:@narumitw/pi-lsp"
     "npm:@narumitw/pi-github-pr"
+    "npm:pi-deepinfra"
     # work
     "npm:pi-linear"
   ];
