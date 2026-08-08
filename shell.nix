@@ -99,6 +99,39 @@
           end
         '';
       };
+
+      rotate-gh-token = {
+        description = "Safely rotate GitHub CLI PAT inside 1Password without credential loops";
+        body = ''
+          echo "🔑 Step 1: Requesting fresh OAuth token from GitHub..."
+          # Find the underlying raw gh binary path to bypass active 1Password interception
+          set -l raw_gh (which gh)
+
+          # Trigger authentication directly with the required scopes
+          $raw_gh auth login --scopes repo,workflow,write:packages
+
+          echo "🔒 Step 2: Fetching the new token string..."
+          set -l new_token ($raw_gh auth token)
+
+          if test -z "$new_token"
+              echo "❌ Error: Failed to retrieve a new token from gh. Rotation aborted."
+              return 1
+          end
+
+          echo "💾 Step 3: Pushing the new token directly into 1Password vault item 'gh pat'..."
+          # Explicitly use 'token' as verified by your item schema requirements
+          op item edit "gh pat" "token=$new_token" --vault "Employee"
+
+          echo "🧹 Step 4: Purging plaintext session residuals from disk..."
+          rm -f ~/.config/gh/hosts.yml
+
+          echo "🔄 Step 5: Reloading 1Password environment maps..."
+          source ~/.config/op/plugins.sh
+
+          echo "✅ Success! Testing your new 1Password shell plugin mapping:"
+          gh auth status
+        '';
+      };
     };
 
     shellInit = ''
