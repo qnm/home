@@ -69,6 +69,13 @@
     ];
 
     functions = {
+      nix-rebuild = {
+        description = "Rebuild and switch nix-darwin configuration from this flake";
+        body = ''
+          sudo darwin-rebuild switch --flake .#(hostname -s) $argv
+        '';
+      };
+
       nix-gc = {
         description = "Garbage collect nix store; optionally delete old generations (e.g. `nix-gc 14d`)";
         body = ''
