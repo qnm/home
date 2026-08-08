@@ -29,6 +29,7 @@ in
   };
 
   programs.pi.coding-agent.enable = true;
+  programs.pi.coding-agent.settings.shellPath = "${pkgs.fish}/bin/fish";
   programs.pi.coding-agent.settings.packages = [
     # shared
     "npm:@narumitw/pi-lsp"
