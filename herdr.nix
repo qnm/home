@@ -25,7 +25,7 @@ in
       # repo reads as the workspace label ("amber-core") — the session name is
       # carried in the terminal_title_stripped token, which the default layout
       # leaves out.
-      sidebar.agents.rows_by_agent.claude = [
+      sidebar.agents.rows = [
         [
           "state_icon"
           "workspace"
