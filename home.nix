@@ -15,6 +15,7 @@ in
     ./aliases.nix
     ./programs.nix
     ./claude-code.nix
+    ./herdr.nix
     ./openwhispr.nix
   ];
 
@@ -131,6 +132,7 @@ in
         spr
         pkgs.gh-stack
         qmd
+        # herdr is installed by ./herdr.nix alongside its config
         # Migrated from Homebrew
         redis
         postgresql_14

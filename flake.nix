@@ -52,6 +52,12 @@
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # deliberately not following our nixpkgs: herdr pins nixos-unstable plus a
+    # rust-overlay toolchain, and won't build against 26.05
+    herdr = {
+      url = "github:herdrdev/herdr/v0.8.0";
+    };
   };
 
   outputs =
@@ -67,6 +73,7 @@
       pi,
       pi-catppuccin,
       catppuccin,
+      herdr,
       ...
     }:
     let
@@ -75,6 +82,7 @@
           claude-code = claude-code-nix.packages.${prev.stdenv.hostPlatform.system}.default;
           qmd = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.qmd;
           gh-stack = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.gh-stack;
+          herdr = herdr.packages.${prev.stdenv.hostPlatform.system}.default;
         })
       ];
 
