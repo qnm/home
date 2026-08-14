@@ -31,6 +31,8 @@ in
 
   programs.pi.coding-agent.enable = true;
   programs.pi.coding-agent.settings.shellPath = "${pkgs.fish}/bin/fish";
+  programs.pi.coding-agent.settings.defaultProvider = "deepinfra";
+  programs.pi.coding-agent.settings.defaultModel = "moonshotai/Kimi-K2.7-Code";
   programs.pi.coding-agent.settings.packages = [
     # shared
     "npm:@narumitw/pi-lsp"
