@@ -35,6 +35,7 @@ in
   programs.pi.coding-agent.settings.defaultModel = "moonshotai/Kimi-K2.7-Code";
   programs.pi.coding-agent.settings.packages = [
     # shared
+    "npm:pi-lsp"
     "npm:@narumitw/pi-lsp"
     "npm:@narumitw/pi-github-pr"
     "npm:pi-deepinfra"
