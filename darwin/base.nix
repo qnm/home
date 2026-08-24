@@ -51,8 +51,8 @@
     };
 
     brews = [
-      # nixpkgs wrangler build is broken on macOS (pnpm/DTS EBADF)
-      "cloudflare-wrangler2"
+      # wrangler now comes from nixpkgs-unstable via the flake overlay; 26.05's
+      # build is still broken on macOS (pnpm/DTS EBADF)
     ];
 
     # Update these applicatons manually.

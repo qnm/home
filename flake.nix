@@ -89,6 +89,9 @@
           claude-code = claude-code-nix.packages.${prev.stdenv.hostPlatform.system}.default;
           qmd = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.qmd;
           gh-stack = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.gh-stack;
+          # 26.05's wrangler fails to build from source (its tsup step dies with
+          # EBADF); unstable's is cached and works
+          wrangler = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.wrangler;
           herdr = herdr.packages.${prev.stdenv.hostPlatform.system}.default;
           quint-llm-kit-src = quint-llm-kit;
         })
