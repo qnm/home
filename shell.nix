@@ -26,6 +26,12 @@
     ];
   };
 
+  # Without this, the shell plugins fail to unlock the vault and fall through to
+  # an interactive prompt that never resolves (op CLI can't reach the desktop
+  # app's biometric channel unless it's explicitly opted in).
+  # https://github.com/1Password/shell-plugins/issues/587
+  home.sessionVariables.OP_BIOMETRIC_UNLOCK_ENABLED = "true";
+
   programs.zsh.enableCompletion = true;
   programs.zsh.enable = true;
 
