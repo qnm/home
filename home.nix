@@ -137,8 +137,9 @@ in
         uv
         quint
         # herdr is installed by ./herdr.nix alongside its config
-        # Migrated from Homebrew
-        redis
+        # Migrated from Homebrew.
+        # postgresql is here for psql; nixpkgs has no client-only package
+        # (libpq is library-only) and nothing declares a postgres service.
         postgresql_14
       ]
       ++ lib.optionals isLinux [
