@@ -7,7 +7,6 @@ let
 in
 {
   imports = [
-    # ./1password.nix
     ./work.nix
     ./path.nix
     ./shell.nix

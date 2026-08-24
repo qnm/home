@@ -8,6 +8,21 @@
     plugins = with pkgs; [
       gh
       awscli2
+      cargo
+      # the module derives the op plugin name from meta.mainProgram; postgresql
+      # doesn't set one, so it falls back to "postgresql" and the support check
+      # fails -- op's plugin is called "psql". `//` only shadows meta, so the
+      # derivation (and its store path) is unchanged.
+      # postgresql_14 rather than pkgs.postgresql (17) to match home.packages.
+      (
+        postgresql_14
+        // {
+          meta = postgresql_14.meta // {
+            mainProgram = "psql";
+          };
+        }
+      )
+      wrangler
     ];
   };
 
