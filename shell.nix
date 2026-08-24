@@ -132,14 +132,12 @@
         description = "Safely rotate GitHub CLI PAT inside 1Password without credential loops";
         body = ''
           echo "🔑 Step 1: Requesting fresh OAuth token from GitHub..."
-          # Find the underlying raw gh binary path to bypass active 1Password interception
-          set -l raw_gh (which gh)
-
-          # Trigger authentication directly with the required scopes
-          $raw_gh auth login --scopes repo,workflow,write:packages
+          # `command` skips the 1Password wrapper function and runs the real gh
+          # binary, so gh doesn't ask op for the very token we're rotating
+          command gh auth login --scopes repo,workflow,write:packages
 
           echo "🔒 Step 2: Fetching the new token string..."
-          set -l new_token ($raw_gh auth token)
+          set -l new_token (command gh auth token)
 
           if test -z "$new_token"
               echo "❌ Error: Failed to retrieve a new token from gh. Rotation aborted."
