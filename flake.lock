@@ -444,6 +444,22 @@
         "type": "github"
       }
     },
+    "quint-llm-kit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782909526,
+        "narHash": "sha256-foxnLAWxLKItABamN83sN1lX7BiPKGCbD6F6hSJCypc=",
+        "owner": "quint-co",
+        "repo": "quint-llm-kit",
+        "rev": "cc75369f741af7d490936f82002c2d28e3b3d78d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "quint-co",
+        "repo": "quint-llm-kit",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "catppuccin": "catppuccin",
@@ -457,7 +473,8 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "password-shell-plugins": "password-shell-plugins",
         "pi": "pi",
-        "pi-catppuccin": "pi-catppuccin"
+        "pi-catppuccin": "pi-catppuccin",
+        "quint-llm-kit": "quint-llm-kit"
       }
     },
     "rust-overlay": {

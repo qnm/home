@@ -136,6 +136,7 @@ in
         pkgs.gh-stack
         qmd
         uv
+        quint
         # herdr is installed by ./herdr.nix alongside its config
         # Migrated from Homebrew
         redis
