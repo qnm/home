@@ -14,6 +14,7 @@ in
     ./aliases.nix
     ./programs.nix
     ./claude-code.nix
+    ./skills.nix
     ./herdr.nix
     ./openwhispr.nix
   ];
@@ -34,7 +35,9 @@ in
   programs.pi.coding-agent.settings.defaultModel = "moonshotai/Kimi-K2.7-Code";
   programs.pi.coding-agent.settings.packages = [
     # shared
-    "npm:pi-lsp"
+    # only one lsp extension: both register `lsp_diagnostics` and pi refuses
+    # to load the second. @narumitw ships default server configs; plain
+    # pi-lsp needs a hand-written ~/.pi/agent/lsp.json.
     "npm:@narumitw/pi-lsp"
     "npm:@narumitw/pi-github-pr"
     "npm:pi-deepinfra"

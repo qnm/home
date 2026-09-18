@@ -58,12 +58,6 @@
     herdr = {
       url = "github:herdrdev/herdr/v0.8.0";
     };
-
-    # skills only; not a flake
-    quint-llm-kit = {
-      url = "github:quint-co/quint-llm-kit";
-      flake = false;
-    };
   };
 
   outputs =
@@ -80,7 +74,6 @@
       pi-catppuccin,
       catppuccin,
       herdr,
-      quint-llm-kit,
       ...
     }:
     let
@@ -93,7 +86,6 @@
           # EBADF); unstable's is cached and works
           wrangler = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.wrangler;
           herdr = herdr.packages.${prev.stdenv.hostPlatform.system}.default;
-          quint-llm-kit-src = quint-llm-kit;
         })
       ];
 
