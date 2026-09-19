@@ -10,10 +10,10 @@ Prerequisites:
 * Homebrew — https://brew.sh (nix-darwin manages casks/taps via the `homebrew` module)
 * Hostname matches a `darwinConfigurations` key in `flake.nix` (e.g. `robMBP`). Check with `scutil --get LocalHostName`; set with `sudo scutil --set LocalHostName robMBP` if needed.
 * Username matches `system.primaryUser` (currently `qnm`).
-* GitHub auth for `git clone` (`gh auth login`, or the 1Password SSH agent). The
-  skills in [qnm/skills](https://github.com/qnm/skills) come from a private
-  repo, so without credentials the first `switch` warns and leaves those skills
-  dangling in `~/.claude/skills` instead of failing.
+* GitHub auth for `git clone` (`gh auth login`, or the 1Password SSH agent).
+  Every agent skill comes from the private
+  [qnm/skills](https://github.com/qnm/skills), so without credentials the first
+  `switch` warns and leaves `~/.claude/skills` empty instead of failing.
 * 1Password desktop app → Settings → Developer: enable **"Integrate with 1Password CLI"** (and "Use the SSH agent"). Required by the `_1password-shell-plugins` wrappers for `gh`, `aws`, etc. — without it they fail with `Shell Plugins can only be used with the 1Password app integration enabled`. The toggle can get reset by 1Password updates.
 
 Then:
@@ -29,44 +29,25 @@ This one command builds nix-darwin, activates the config, and runs home-manager 
 
 ## Skills
 
-Agent skills are git checkouts under `~/Developer`, one per upstream, listed in
-[skills-sources.nix](skills-sources.nix). `skills.nix` clones each one at
-activation, pins it to the recorded revision, and symlinks every skill
-directory into `~/.claude/skills` with `mkOutOfStoreSymlink`, passing the same
-paths to pi. A skill can be edited in place and takes effect without a rebuild.
+Agent skills live entirely in the private
+[qnm/skills](https://github.com/qnm/skills), which vendors each upstream as a
+git submodule, carries the manifest of what installs under which name, and
+carries the local edits as patches. Nothing is vendored here: this repository
+is public.
 
-Nothing is vendored: this repository is public, so upstream skills are fetched
-rather than republished. Adding an upstream skill is adding its name to a list
-in `skills-sources.nix`.
+[skills.nix](skills.nix) holds no list of skills. It guarantees that checkout
+and its submodules are in place, then runs `skills-patch`, which applies the
+patches and writes `~/.claude/skills` from the manifest. pi is pointed at the
+same directory and discovers them at run time.
 
-Anything needing local edits lives in the private
-[qnm/skills](https://github.com/qnm/skills) instead, so the upstream checkouts
-stay clean and bumping a revision is a plain fast-forward. That repo's README
-records which of its skills are forks, what changed, and their licenses.
+So adding, renaming, patching or removing a skill is a change to that repo and
+a `skills-patch link`, never a rebuild. `darwin-rebuild` is only needed if
+`skills.nix` itself changes. See that repo's `update-skills` and
+`patch-a-skill` skills for the procedures.
 
-A checkout with uncommitted changes is never moved by activation, and an
-upstream that cannot be fetched warns instead of failing the rebuild.
+`skills-patch` verbs: `status`, `link` to rewrite the symlinks, `apply` to
+replay patches, `capture` to compile local edits back into patches, `reset` to
+discard them.
 
-## Updating macOS
-
-```
-sudo -H ./rebuild-mac.sh
-```
-
-## Linux (home-manager only)
-
-```
-gh repo clone qnm/home
-cd home
-nix run home-manager/release-25.11 -- switch --flake .#qnm@pop-os
-```
-
-Replace `qnm@pop-os` with the matching entry in `homeConfigurations` (e.g. `qnm@penguin`).
-
-### Manual Installation (Linux)
-
-* docker.io
-* steam
-* nvidia-container-toolkit
-* mesa-utils
-* nvidia-modprobe
+A submodule with uncaptured edits is reported and left alone rather than being
+reset, and a repo that cannot be fetched warns instead of failing the rebuild.

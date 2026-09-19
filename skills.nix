@@ -5,89 +5,299 @@
   ...
 }:
 let
-  # Skills are git checkouts under ~/Developer, one per upstream, pinned by
-  # revision in ./skills-sources.nix. Each skill directory is symlinked into
-  # ~/.claude/skills out-of-store, so edits are live without a rebuild, and the
-  # checkout they point into keeps its own history.
+  # Every skill lives in ~/Developer/qnm/skills: hand-written ones at the top
+  # level, upstreams vendored as git submodules under upstream/. That repo also
+  # owns the manifest (skills.toml) and the local edits (patches/), so adding,
+  # renaming or patching a skill is a change to one repo and never a rebuild.
   #
-  # Nothing is vendored here: this repository is public, and the upstreams are
-  # fetched at activation rather than republished.
+  # This module's whole job is to guarantee the repo is there and let
+  # `skills-patch` do the rest. ~/.claude/skills is written by the tool rather
+  # than home.file, because a home.file set is fixed at eval time and the
+  # manifest is deliberately not.
   #
-  # `programs.claude-code.skills` is deliberately not used: it links each skill
-  # recursively, file by file, which defeats an out-of-store symlink.
-  root = "${config.home.homeDirectory}/Developer";
+  # Nothing is vendored here: this repository is public.
+  repo = "${config.home.homeDirectory}/Developer/qnm/skills";
 
-  sources = import ./skills-sources.nix { inherit lib; };
+  claude = "${config.home.homeDirectory}/.claude/skills";
 
-  paths = lib.concatMapAttrs (
-    _: source: lib.mapAttrs (_: dir: "${root}/${source.clone}/${dir}") source.skills
-  ) sources;
+  # `git diff` is unusable raw here: a global diff.external rewrites it into
+  # something that is not a patch, silently and with a zero exit. Every read of
+  # a diff goes through diff_of.
+  skills-patch = pkgs.writeShellApplication {
+    name = "skills-patch";
+    runtimeInputs = with pkgs; [
+      git
+      coreutils
+      python3
+    ];
+    text = ''
+      repo=${lib.escapeShellArg repo}
+      claude=${lib.escapeShellArg claude}
+      patches="$repo/patches"
+      manifest="$repo/skills.toml"
 
-  names = lib.concatMap (source: lib.attrNames source.skills) (lib.attrValues sources);
+      # Rows are read from the manifest at run time, never baked in.
+      #   sources: <source> <submodule-or-.>
+      #   skills:  <source> <install-name> <dir-relative-to-source>
+      rows() {
+        python3 - "$manifest" "$1" <<'PY'
+      import sys, tomllib
+      manifest, what = sys.argv[1], sys.argv[2]
+      with open(manifest, "rb") as fh:
+          data = tomllib.load(fh)
+      for source, body in data.items():
+          sub = body.get("submodule", ".")
+          if what == "sources":
+              print(source, sub)
+              continue
+          for key, value in body.items():
+              if key in ("submodule", "renamed"):
+                  continue
+              for name in value:
+                  print(source, name, f"{key}/{name}" if key else name)
+          for name, path in body.get("renamed", {}).items():
+              print(source, name, path)
+      PY
+      }
 
-  collisions = lib.unique (lib.filter (name: lib.count (other: other == name) names > 1) names);
+      sources() { rows sources; }
+      skills() { rows skills; }
+
+      root_of() {
+        local sub
+        sub=$(sources | awk -v s="$1" '$1 == s { print $2 }')
+        if [ "$sub" = "." ]; then echo "$repo"; else echo "$repo/$sub"; fi
+      }
+
+      vendored() { sources | awk '$2 != "." { print $1, $2 }'; }
+
+      diff_of() { git -C "$1" -c diff.external= diff --no-ext-diff --binary -- "''${@:2}"; }
+
+      changed_of() { git -C "$1" -c diff.external= diff --no-ext-diff --name-only; }
+
+      dirs_of() { skills | awk -v s="$1" '$1 == s { print $3 }'; }
+
+      # The tree is "as captured" when every skill's diff is byte for byte its
+      # patch file, and nothing outside a skill has changed. That is the only
+      # dirty state apply may safely rebuild from.
+      as_captured() {
+        local name=$1 tree=$2 rowsource skill dir path covered want have
+        while read -r rowsource skill dir; do
+          [ "$rowsource" = "$name" ] || continue
+          want=""
+          [ -e "$patches/$name/$skill.patch" ] && want=$(cat "$patches/$name/$skill.patch")
+          have=$(diff_of "$tree" "$dir")
+          [ "$want" = "$have" ] || return 1
+        done < <(skills)
+
+        while read -r path; do
+          [ -n "$path" ] || continue
+          covered=0
+          for dir in $(dirs_of "$name"); do
+            case "$path" in "$dir"/*) covered=1 ;; esac
+          done
+          [ "$covered" = 1 ] || return 1
+        done < <(changed_of "$tree")
+        return 0
+      }
+
+      # ~/.claude/skills is ours: every link in it points into the repo. One
+      # that no longer has a manifest row is a skill that was removed.
+      link() {
+        local failed=0 source name dir target existing want
+        mkdir -p "$claude"
+        want=$(mktemp)
+        while read -r source name dir; do
+          [ -n "$name" ] || continue
+          printf '%s\n' "$name" >> "$want"
+          target="$(root_of "$source")/$dir"
+          if [ ! -d "$target" ]; then
+            echo "skills-patch: $name has no directory at $target"
+            failed=1
+            continue
+          fi
+          ln -sfn "$target" "$claude/$name"
+        done < <(skills)
+
+        if [ "$(sort "$want" | uniq -d | wc -l | tr -d ' ')" != 0 ]; then
+          echo "skills-patch: two sources claim $(sort "$want" | uniq -d | tr '\n' ' ')"
+          failed=1
+        fi
+
+        for existing in "$claude"/*; do
+          [ -L "$existing" ] || continue
+          name=$(basename "$existing")
+          case "$(readlink "$existing")" in "$repo"/*) ;; *) continue ;; esac
+          if ! grep -qxF "$name" "$want"; then
+            rm -f "$existing"
+            echo "skills-patch: $name is no longer in the manifest, unlinked"
+          fi
+        done
+        rm -f "$want"
+        return "$failed"
+      }
+
+      apply() {
+        local failed=0 name submodule tree patch
+        while read -r name submodule; do
+          [ -n "$name" ] || continue
+          tree="$repo/$submodule"
+
+          if [ ! -e "$tree/.git" ]; then
+            echo "skills-patch: $submodule is not checked out, run 'git -C $repo submodule update --init'"
+            failed=1
+            continue
+          fi
+
+          if [ -n "$(git -C "$tree" status --porcelain)" ]; then
+            if ! as_captured "$name" "$tree"; then
+              echo "skills-patch: $name has uncaptured edits, left as is (capture, or reset to discard)"
+              continue
+            fi
+            git -C "$tree" checkout -- .
+          fi
+
+          for patch in "$patches/$name"/*.patch; do
+            [ -e "$patch" ] || continue
+            if ! git -C "$tree" apply -p1 "$patch"; then
+              echo "skills-patch: $patch does not apply to $name"
+              failed=1
+            fi
+          done
+        done < <(vendored)
+        return "$failed"
+      }
+
+      capture() {
+        local failed=0 name submodule tree path covered dir rowsource skill out body stale base
+        while read -r name submodule; do
+          [ -n "$name" ] || continue
+          tree="$repo/$submodule"
+          [ -e "$tree/.git" ] || continue
+
+          while read -r path; do
+            [ -n "$path" ] || continue
+            covered=0
+            for dir in $(dirs_of "$name"); do
+              case "$path" in "$dir"/*) covered=1 ;; esac
+            done
+            if [ "$covered" = 0 ]; then
+              echo "skills-patch: $name edit outside any skill, not captured: $path"
+              failed=1
+            fi
+          done < <(changed_of "$tree")
+
+          mkdir -p "$patches/$name"
+          while read -r rowsource skill dir; do
+            [ "$rowsource" = "$name" ] || continue
+            out="$patches/$name/$skill.patch"
+            body=$(diff_of "$tree" "$dir")
+            if [ -n "$body" ]; then
+              printf '%s\n' "$body" > "$out"
+              echo "skills-patch: captured $skill"
+            elif [ -e "$out" ]; then
+              rm -f "$out"
+              echo "skills-patch: $skill matches upstream, dropped its patch"
+            fi
+          done < <(skills)
+
+          for stale in "$patches/$name"/*.patch; do
+            [ -e "$stale" ] || continue
+            base=$(basename "$stale" .patch)
+            if ! skills | awk -v s="$name" -v k="$base" '$1 == s && $2 == k { f = 1 } END { exit !f }'; then
+              rm -f "$stale"
+              echo "skills-patch: $base is not a skill of $name, dropped its patch"
+            fi
+          done
+        done < <(vendored)
+        return "$failed"
+      }
+
+      reset() {
+        local name submodule tree
+        while read -r name submodule; do
+          [ -n "$name" ] || continue
+          tree="$repo/$submodule"
+          [ -e "$tree/.git" ] || continue
+          if [ -n "$(git -C "$tree" status --porcelain)" ]; then
+            git -C "$tree" checkout -- .
+            git -C "$tree" clean -qfd
+            echo "skills-patch: $name back to pristine"
+          fi
+        done < <(vendored)
+      }
+
+      status() {
+        local name submodule tree changed linked dangling
+        while read -r name submodule; do
+          [ -n "$name" ] || continue
+          tree="$repo/$submodule"
+          if [ ! -e "$tree/.git" ]; then
+            echo "$name: not checked out"
+            continue
+          fi
+          changed=$(git -C "$tree" status --porcelain | wc -l | tr -d ' ')
+          if [ "$changed" = 0 ]; then
+            echo "$name: pristine at $(git -C "$tree" rev-parse --short HEAD)"
+          elif as_captured "$name" "$tree"; then
+            echo "$name: $changed file(s) changed, all captured"
+          else
+            echo "$name: $changed file(s) changed, NOT captured"
+            git -C "$tree" status --short | sed 's/^/  /'
+          fi
+        done < <(vendored)
+
+        linked=$(skills | wc -l | tr -d ' ')
+        dangling=0
+        for existing in "$claude"/*; do
+          [ -L "$existing" ] && [ ! -e "$existing" ] && dangling=$((dangling + 1))
+        done
+        echo "links: $linked in the manifest, $dangling dangling"
+      }
+
+      case "''${1:-status}" in
+        link) link ;;
+        apply) apply ;;
+        capture) capture ;;
+        reset) reset ;;
+        status) status ;;
+        *)
+          echo "usage: skills-patch [link|apply|capture|reset|status]" >&2
+          exit 2
+          ;;
+      esac
+    '';
+  };
 
   git = "${pkgs.git}/bin/git";
-
-  ensure =
-    source:
-    "ensureSkillSource ${lib.escapeShellArg source.url} ${lib.escapeShellArg "${root}/${source.clone}"} ${lib.escapeShellArg (toString source.rev)}";
 in
 {
-  assertions = [
-    {
-      assertion = collisions == [ ];
-      message = "skills-sources.nix: more than one source claims ${lib.concatStringsSep ", " collisions}";
-    }
-  ];
+  home.packages = [ skills-patch ];
 
-  home.file = lib.mapAttrs' (
-    name: path:
-    lib.nameValuePair ".claude/skills/${name}" {
-      source = config.lib.file.mkOutOfStoreSymlink path;
-    }
-  ) paths;
+  # pi discovers skills from a directory at run time, so it needs no eval-time
+  # list and stays in step without a rebuild.
+  programs.pi.coding-agent.settings.skills = [ claude ];
 
-  # pi: list of skill dirs passed via repeated `--skill`.
-  programs.pi.coding-agent.skills = lib.attrValues paths;
+  # Runs after linkGeneration, because ~/.claude/skills is no longer a
+  # home.file set: linking earlier would have this generation's links removed
+  # as the previous generation's are cleaned up. A repo that cannot be fetched
+  # warns rather than failing the whole activation, and local edits are never
+  # discarded: `apply` reports an uncaptured tree and moves on.
+  home.activation.skills = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    if [ ! -d ${lib.escapeShellArg repo}/.git ]; then
+      $DRY_RUN_CMD mkdir -p "$(dirname ${lib.escapeShellArg repo})"
+      $DRY_RUN_CMD ${git} clone --quiet --recurse-submodules \
+        https://github.com/qnm/skills ${lib.escapeShellArg repo} \
+        || echo "skills: cannot clone qnm/skills, ~/.claude/skills will be empty"
+    fi
 
-  # Runs after the write boundary and before linkGeneration, so the checkouts
-  # exist by the time the symlinks into them are written. A source that cannot
-  # be fetched warns and leaves its symlinks dangling rather than failing the
-  # whole activation, and a checkout with local changes is never moved.
-  home.activation.skillSources = lib.hm.dag.entryBetween [ "linkGeneration" ] [ "writeBoundary" ] ''
-    ensureSkillSource() {
-      local url="$1" dir="$2" rev="$3"
-
-      if [ ! -d "$dir/.git" ]; then
-        $DRY_RUN_CMD mkdir -p "$(dirname "$dir")"
-        if ! $DRY_RUN_CMD ${git} clone --quiet "$url" "$dir"; then
-          echo "skills: cannot clone $url, its skills will dangle in ~/.claude/skills"
-          return
-        fi
-      fi
-
-      if [ -z "$rev" ] || [ ! -d "$dir/.git" ]; then
-        return
-      fi
-
-      if [ "$(${git} -C "$dir" rev-parse HEAD 2>/dev/null)" = "$rev" ]; then
-        return
-      fi
-
-      if [ -n "$(${git} -C "$dir" status --porcelain)" ]; then
-        echo "skills: $dir has local changes, leaving it where it is instead of moving to $rev"
-        return
-      fi
-
-      if ! ${git} -C "$dir" cat-file -e "$rev^{commit}" 2>/dev/null; then
-        $DRY_RUN_CMD ${git} -C "$dir" fetch --quiet origin
-      fi
-
-      $DRY_RUN_CMD ${git} -C "$dir" checkout --quiet --detach "$rev" \
-        || echo "skills: cannot check out $rev in $dir"
-    }
-
-    ${lib.concatStringsSep "\n" (map ensure (lib.attrValues sources))}
+    if [ -d ${lib.escapeShellArg repo}/.git ]; then
+      $DRY_RUN_CMD ${git} -C ${lib.escapeShellArg repo} submodule update --init --quiet \
+        || echo "skills: cannot update submodules"
+      $DRY_RUN_CMD ${skills-patch}/bin/skills-patch apply \
+        || echo "skills: some patches did not apply, run 'skills-patch status'"
+      $DRY_RUN_CMD ${skills-patch}/bin/skills-patch link \
+        || echo "skills: some skills could not be linked, run 'skills-patch status'"
+    fi
   '';
 }
