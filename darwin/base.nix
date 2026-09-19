@@ -10,7 +10,6 @@
 
   # System Apps
   environment.systemPackages = with pkgs; [
-    terminal-notifier
     unnaturalscrollwheels
   ];
 
