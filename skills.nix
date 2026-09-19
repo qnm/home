@@ -25,10 +25,13 @@ let
   # a diff goes through diff_of.
   skills-patch = pkgs.writeShellApplication {
     name = "skills-patch";
-    runtimeInputs = with pkgs; [
-      git
-      coreutils
-      python3
+    runtimeInputs = [
+      pkgs.git
+      pkgs.coreutils
+      pkgs.gawk
+      pkgs.gnugrep
+      pkgs.gnused
+      pkgs.python3
     ];
     text = ''
       repo=${lib.escapeShellArg repo}
@@ -45,27 +48,41 @@ let
       manifest, what = sys.argv[1], sys.argv[2]
       with open(manifest, "rb") as fh:
           data = tomllib.load(fh)
+      out = []
       for source, body in data.items():
           sub = body.get("submodule", ".")
           if what == "sources":
-              print(source, sub)
+              out.append(f"{source} {sub}")
               continue
           for key, value in body.items():
               if key in ("submodule", "renamed"):
                   continue
               for name in value:
-                  print(source, name, f"{key}/{name}" if key else name)
+                  out.append(f"{source} {name} {key + '/' + name if key else name}")
           for name, path in body.get("renamed", {}).items():
-              print(source, name, path)
+              out.append(f"{source} {name} {path}")
+      try:
+          print("\n".join(out))
+      except BrokenPipeError:
+          pass
       PY
       }
 
-      sources() { rows sources; }
-      skills() { rows skills; }
+      # Read once: these are consulted inside loops, and a python start per
+      # lookup is the difference between instant and a visible pause.
+      SOURCE_ROWS=$(rows sources)
+      SKILL_ROWS=$(rows skills)
+
+      sources() { printf '%s\n' "$SOURCE_ROWS"; }
+      skills() { printf '%s\n' "$SKILL_ROWS"; }
 
       root_of() {
         local sub
         sub=$(sources | awk -v s="$1" '$1 == s { print $2 }')
+        if [ -z "$sub" ]; then
+          echo "skills-patch: no source named $1 in the manifest" >&2
+          return 1
+        fi
         if [ "$sub" = "." ]; then echo "$repo"; else echo "$repo/$sub"; fi
       }
 
@@ -110,7 +127,12 @@ let
         while read -r source name dir; do
           [ -n "$name" ] || continue
           printf '%s\n' "$name" >> "$want"
-          target="$(root_of "$source")/$dir"
+          local root
+          if ! root=$(root_of "$source"); then
+            failed=1
+            continue
+          fi
+          target="$root/$dir"
           if [ ! -d "$target" ]; then
             echo "skills-patch: $name has no directory at $target"
             failed=1
@@ -269,7 +291,7 @@ let
     '';
   };
 
-  git = "${pkgs.git}/bin/git";
+  gitBin = "${pkgs.git}/bin/git";
 in
 {
   home.packages = [ skills-patch ];
@@ -286,13 +308,13 @@ in
   home.activation.skills = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     if [ ! -d ${lib.escapeShellArg repo}/.git ]; then
       $DRY_RUN_CMD mkdir -p "$(dirname ${lib.escapeShellArg repo})"
-      $DRY_RUN_CMD ${git} clone --quiet --recurse-submodules \
+      $DRY_RUN_CMD ${gitBin} clone --quiet --recurse-submodules \
         https://github.com/qnm/skills ${lib.escapeShellArg repo} \
         || echo "skills: cannot clone qnm/skills, ~/.claude/skills will be empty"
     fi
 
     if [ -d ${lib.escapeShellArg repo}/.git ]; then
-      $DRY_RUN_CMD ${git} -C ${lib.escapeShellArg repo} submodule update --init --quiet \
+      $DRY_RUN_CMD ${gitBin} -C ${lib.escapeShellArg repo} submodule update --init --quiet \
         || echo "skills: cannot update submodules"
       $DRY_RUN_CMD ${skills-patch}/bin/skills-patch apply \
         || echo "skills: some patches did not apply, run 'skills-patch status'"
