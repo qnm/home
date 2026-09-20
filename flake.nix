@@ -82,12 +82,6 @@
           herdr = herdr.packages.${prev.stdenv.hostPlatform.system}.default;
         })
       ];
-
-      piBunModule =
-        { pkgs, ... }:
-        {
-          programs.pi.coding-agent.package = pi.packages.${pkgs.stdenv.hostPlatform.system}.coding-agent-bun;
-        };
     in
     {
       darwinConfigurations = rec {
@@ -120,7 +114,6 @@
                       catppuccin.homeModules.catppuccin
                       pi.homeModules.coding-agent
                       pi-catppuccin.homeManagerModules.default
-                      piBunModule
                       ./home.nix
                     ];
                   };
@@ -152,7 +145,6 @@
             catppuccin.homeModules.catppuccin
             pi.homeModules.coding-agent
             pi-catppuccin.homeManagerModules.default
-            piBunModule
             ./home.nix
           ];
           extraSpecialArgs = {
@@ -183,7 +175,6 @@
             catppuccin.homeModules.catppuccin
             pi.homeModules.coding-agent
             pi-catppuccin.homeManagerModules.default
-            piBunModule
             ./home.nix
           ];
           extraSpecialArgs = {
