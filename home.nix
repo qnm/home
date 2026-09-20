@@ -24,9 +24,6 @@ in
   catppuccin = {
     enable = true;
     flavor = "mocha";
-    # upstream still targets `programs.gemini-cli`, renamed to
-    # `programs.antigravity-cli` in home-manager 26.05; we use neither
-    gemini-cli.enable = false;
   };
 
   programs.pi.coding-agent.enable = true;
