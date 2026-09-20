@@ -3,16 +3,11 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:nixos/nixpkgs/26.05";
+      url = "github:nixos/nixpkgs/nixos-26.05";
     };
 
     nixpkgs-unstable = {
       url = "github:nixos/nixpkgs/nixos-unstable";
-    };
-
-    claude-code-nix = {
-      url = "github:sadjow/claude-code-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     password-shell-plugins = {
@@ -53,10 +48,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # deliberately not following our nixpkgs: herdr pins nixos-unstable plus a
-    # rust-overlay toolchain, and won't build against 26.05
+    # official packaging of the release binaries, not a source build. do not
+    # add a nixpkgs follows: it changes the hash and loses herdr.cachix.org
     herdr = {
-      url = "github:herdrdev/herdr/v0.8.0";
+      url = "github:herdrdev/herdr-nix";
     };
   };
 
@@ -68,7 +63,6 @@
       nixgl,
       password-shell-plugins,
       home-manager,
-      claude-code-nix,
       llm-agents-nix,
       pi,
       pi-catppuccin,
@@ -79,7 +73,7 @@
     let
       overlays = [
         (final: prev: {
-          claude-code = claude-code-nix.packages.${prev.stdenv.hostPlatform.system}.default;
+          claude-code = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.claude-code;
           qmd = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.qmd;
           gh-stack = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.gh-stack;
           # 26.05's wrangler fails to build from source (its tsup step dies with
