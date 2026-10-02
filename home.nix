@@ -17,6 +17,7 @@ in
     ./skills.nix
     ./herdr.nix
     ./openwhispr.nix
+    ./memwatch.nix
   ];
 
   # Single source of truth for theming; per-program modules follow this flavor.
