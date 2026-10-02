@@ -262,7 +262,11 @@ let
           if [ "$changed" = 0 ]; then
             echo "$name: pristine at $(git -C "$tree" rev-parse --short HEAD)"
           elif as_captured "$name" "$tree"; then
-            echo "$name: $changed file(s) changed, all captured"
+            if [ -z "$(git -C "$repo" status --porcelain -- "patches/$name")" ]; then
+              echo "$name: $changed file(s) changed, all captured and committed (the m on $submodule is expected)"
+            else
+              echo "$name: $changed file(s) changed, all captured, patches/$name not committed"
+            fi
           else
             echo "$name: $changed file(s) changed, NOT captured"
             git -C "$tree" status --short | sed 's/^/  /'
@@ -316,6 +320,7 @@ in
     if [ -d ${lib.escapeShellArg repo}/.git ]; then
       $DRY_RUN_CMD ${gitBin} -C ${lib.escapeShellArg repo} submodule update --init --quiet \
         || echo "skills: cannot update submodules"
+      $DRY_RUN_CMD ${gitBin} -C ${lib.escapeShellArg repo} config core.hooksPath .githooks
       $DRY_RUN_CMD ${skills-patch}/bin/skills-patch apply \
         || echo "skills: some patches did not apply, run 'skills-patch status'"
       $DRY_RUN_CMD ${skills-patch}/bin/skills-patch link \
