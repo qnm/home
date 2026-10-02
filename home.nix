@@ -18,6 +18,7 @@ in
     ./herdr.nix
     ./openwhispr.nix
     ./memwatch.nix
+  ./heavylock.nix
   ];
 
   # Single source of truth for theming; per-program modules follow this flavor.
