@@ -1,10 +1,6 @@
-level_min=${MEMWATCH_LEVEL_MIN:-15}
-tree_pct=${MEMWATCH_TREE_PCT:-50}
+level_min=${MEMWATCH_LEVEL_MIN:-20}
 interval=${MEMWATCH_INTERVAL:-5}
 dry_run=${MEMWATCH_DRY_RUN:-0}
-
-total_kb=$(($(/usr/sbin/sysctl -n hw.memsize) / 1024))
-tree_limit_kb=$((total_kb * tree_pct / 100))
 
 log() {
   echo "$(/bin/date '+%F %T') $*"
@@ -15,8 +11,7 @@ pick_victim() {
     /usr/bin/top -l 1 -stats pid,mem
     echo "--ps--"
     /bin/ps -axo pid=,ppid=,rss=,comm=
-  } | /usr/bin/awk \
-    -v level="$1" -v level_min="$level_min" -v tree_limit="$tree_limit_kb" '
+  } | /usr/bin/awk '
     $0 == "--ps--" { in_ps = 1; next }
     !in_ps {
       if ($1 ~ /^[0-9]+$/ && $2 ~ /^[0-9.]+[BKMG]/) {
@@ -47,14 +42,11 @@ pick_victim() {
         }
         total += rss[i]
         if (pid[i] in root) continue
-        if (rss[i] > child_rss) { child_rss = rss[i]; child = i }
         if (rss[i] > any_rss) { any_rss = rss[i]; any = i }
       }
 
-      if (total > tree_limit && child) v = child
-      else if (level < level_min && any) v = any
-      else exit
-      printf "%s %s %s %s\n", pid[v], rss[v], total, comm[v]
+      if (!any) exit
+      printf "%s %s %s %s\n", pid[any], rss[any], total, comm[any]
     }'
 }
 
@@ -68,11 +60,12 @@ terminate() {
   kill -KILL "$pid" 2>/dev/null || true
 }
 
-log "start: level_min=${level_min}% tree_limit=$((tree_limit_kb / 1024))MB dry_run=${dry_run}"
+log "start: level_min=${level_min}% dry_run=${dry_run}"
 
 while sleep "$interval"; do
   level=$(/usr/sbin/sysctl -n kern.memorystatus_level)
-  victim=$(pick_victim "$level")
+  [ "$level" -ge "$level_min" ] && continue
+  victim=$(pick_victim)
   [ -z "$victim" ] && continue
 
   read -r pid rss total name <<<"$victim"
