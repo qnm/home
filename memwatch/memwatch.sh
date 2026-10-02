@@ -11,22 +11,36 @@ log() {
 }
 
 pick_victim() {
-  /bin/ps -axo pid=,ppid=,rss=,comm= | /usr/bin/awk \
+  {
+    /usr/bin/top -l 1 -stats pid,mem
+    echo "--ps--"
+    /bin/ps -axo pid=,ppid=,rss=,comm=
+  } | /usr/bin/awk \
     -v level="$1" -v level_min="$level_min" -v tree_limit="$tree_limit_kb" '
+    $0 == "--ps--" { in_ps = 1; next }
+    !in_ps {
+      if ($1 ~ /^[0-9]+$/ && $2 ~ /^[0-9.]+[BKMG]/) {
+        v = $2 + 0; u = $2; sub(/^[0-9.]+/, "", u); u = substr(u, 1, 1)
+        if (u == "B") v /= 1024; else if (u == "M") v *= 1024; else if (u == "G") v *= 1048576
+        foot[$1] = int(v)
+      }
+      next
+    }
     {
-      pid[NR] = $1; ppid[NR] = $2; rss[NR] = $3
+      n++
+      pid[n] = $1; ppid[n] = $2; rss[n] = ($1 in foot) ? foot[$1] : $3
       name = $0; sub(/^ *[0-9]+ +[0-9]+ +[0-9]+ +/, "", name); sub(/.*\//, "", name)
-      comm[NR] = name
+      comm[n] = name
       if (name == "claude") { root[$1] = 1; tree[$1] = 1 }
     }
     END {
       do {
         grew = 0
-        for (i = 1; i <= NR; i++)
+        for (i = 1; i <= n; i++)
           if (!(pid[i] in tree) && (ppid[i] in tree)) { tree[pid[i]] = 1; grew = 1 }
       } while (grew)
 
-      for (i = 1; i <= NR; i++) {
+      for (i = 1; i <= n; i++) {
         if (!(pid[i] in tree)) {
           if (comm[i] == "watchman" && rss[i] > any_rss) { any_rss = rss[i]; any = i }
           continue
