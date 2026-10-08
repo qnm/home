@@ -18,7 +18,11 @@ in
     ./herdr.nix
     ./openwhispr.nix
     ./memwatch.nix
-  ./heavylock.nix
+    ./heavylock.nix
+    ./pushgate.nix
+    ./timeoutguard.nix
+    ./replysign.nix
+    ./handoffwrap.nix
   ];
 
   # Single source of truth for theming; per-program modules follow this flavor.
