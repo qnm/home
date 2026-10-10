@@ -9,6 +9,15 @@
       enabledPlugins = {
         "clangd-lsp@claude-plugins-official" = true;
         "amplitude@claude-plugins-official" = true;
+        "growth-skills@growth-skills" = true;
+      };
+      extraKnownMarketplaces = {
+        growth-skills = {
+          source = {
+            source = "github";
+            repo = "amberelectric/growth-skills";
+          };
+        };
       };
       env = {
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
