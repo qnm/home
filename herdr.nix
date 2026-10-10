@@ -43,6 +43,34 @@ let
   };
 
   mirrorRoot = "${herdr-mirror}/plugin";
+
+  awakeVersion = "0.2.2";
+
+  awakeRoot = pkgs.fetchFromGitHub {
+    owner = "susomejias";
+    repo = "herdr-awake";
+    rev = "71c90c3e7809732c1e44336632893a65306db0ef";
+    hash = "sha256-OH17INV6IyGvaUMzf4rXIecBvLt7ot02BpzKMAkN/kg=";
+  };
+
+  sbxVersion = "0.1.0";
+
+  sbxRoot = pkgs.stdenvNoCC.mkDerivation {
+    pname = "herdr-sbx-plugin";
+    version = sbxVersion;
+
+    src = pkgs.fetchFromGitHub {
+      owner = "dirien";
+      repo = "herdr-sbx-plugin";
+      rev = "v${sbxVersion}";
+      hash = "sha256-kmWO0c6ahLWOd696fM+UtPfgONXjWs1XxYSH1dA8iIg=";
+    };
+
+    installPhase = ''
+      cp -r . $out
+      echo ${pkgs.nodejs}/bin/node > $out/bin/node-path
+    '';
+  };
 in
 {
   # herdr comes from the flake input's overlay (see `herdr` in flake.nix); the
@@ -67,6 +95,26 @@ in
       enabled = true;
       source.kind = "local";
     }
+    {
+      plugin_id = "herdr.awake";
+      name = "Herdr Awake";
+      version = awakeVersion;
+      min_herdr_version = "0.7.0";
+      manifest_path = "${awakeRoot}/herdr-plugin.toml";
+      plugin_root = "${awakeRoot}";
+      enabled = true;
+      source.kind = "local";
+    }
+    {
+      plugin_id = "sbx.sandbox";
+      name = "Docker Sandboxes (sbx)";
+      version = sbxVersion;
+      min_herdr_version = "0.9.0";
+      manifest_path = "${sbxRoot}/herdr-plugin.toml";
+      plugin_root = "${sbxRoot}";
+      enabled = true;
+      source.kind = "local";
+    }
   ];
 
   # The plugin's keybindings reach the CLI through this fixed path. Left alone,
@@ -74,6 +122,17 @@ in
   # root on; managing it here repoints it on each switch instead, and the
   # plugin never replaces a link that already resolves.
   home.file.".local/bin/herdr-mirror".source = "${herdr-mirror}/bin/herdr-mirror";
+
+  programs.claude-code.settings.hooks.SessionStart = [
+    {
+      hooks = [
+        {
+          type = "command";
+          command = "${config.home.homeDirectory}/.claude/hooks/herdr-agent-state.sh session";
+        }
+      ];
+    }
+  ];
 
   # herdr rewrites config.toml itself (onboarding state, anything changed from
   # its UI), so the file lives in this repo and is symlinked out of the store —
