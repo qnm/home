@@ -22,6 +22,7 @@
       env = {
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
         CLAUDE_CODE_SUBAGENT_MODEL = "sonnet";
+        CLAUDE_CODE_AUTO_COMPACT_WINDOW = "400000";
       };
       statusLine = {
         type = "command";
