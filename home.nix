@@ -23,6 +23,7 @@ in
     ./timeoutguard.nix
     ./replysign.nix
     ./handoffwrap.nix
+    ./rex.nix
   ];
 
   # Single source of truth for theming; per-program modules follow this flavor.

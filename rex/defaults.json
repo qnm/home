@@ -1,0 +1,17 @@
+{
+  "Onboarding.firstRun": "not-needed",
+  "SUAutomaticallyUpdate": true,
+  "SUEnableAutomaticChecks": true,
+  "Workspace.darkThemeID": "custom-6394126A-FE12-4781-BCA1-BB73CD27D4C4",
+  "Workspace.lightThemeID": "merino-light",
+  "Workspace.interfaceStyle": "useTheme",
+  "Workspace.inactivePaneFadeMode": "both",
+  "Workspace.tabIconTintMode": "off",
+  "Workspace.terminalFontPointSize": 14,
+  "Workspace.terminalUsesDisplayP3": false,
+  "Workspace.usesStandardInactiveWindowPaneStyles": true,
+  "rex.agents.names-sessions": true,
+  "rex.server.automatic-restart-enabled": true,
+  "rex.server.block-plugin-reload-enabled": false,
+  "rex.server.run-mode": "bundled"
+}
