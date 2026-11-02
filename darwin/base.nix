@@ -76,6 +76,7 @@
       "home-assistant"
       "keepingyouawake"
       "zed"
+      "openlogi"
       "bysiber/cleardisk/cleardisk"
     ];
 
