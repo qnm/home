@@ -128,7 +128,6 @@ in
         discord
         nodejs_22
         ngrok
-        yt-dlp
         libffi
         htop
         glab
@@ -151,6 +150,7 @@ in
       ]
       ++ lib.optionals isLinux [
         # GNU/Linux packages
+        yt-dlp
       ]
       ++ lib.optionals isDarwin [
         # macOS packages

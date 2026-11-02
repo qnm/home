@@ -62,6 +62,7 @@
     brews = [
       # wrangler now comes from nixpkgs-unstable via the flake overlay; 26.05's
       # build is still broken on macOS (pnpm/DTS EBADF)
+      "yt-dlp"
     ];
 
     # Update these applicatons manually.
