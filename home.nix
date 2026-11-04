@@ -15,7 +15,6 @@ in
     ./programs.nix
     ./claude-code.nix
     ./skills.nix
-    ./herdr.nix
     ./openwhispr.nix
     ./memwatch.nix
     ./heavylock.nix
@@ -144,7 +143,6 @@ in
         qmd
         uv
         quint
-        # herdr is installed by ./herdr.nix alongside its config
         # Migrated from Homebrew.
         # postgresql is here for psql; nixpkgs has no client-only package
         # (libpq is library-only) and nothing declares a postgres service.

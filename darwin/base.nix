@@ -22,8 +22,8 @@
     # nix-darwin refuses to take the file over.
     knownSha256Hashes = [ "3bd68ef979a42070a44f8d82c205cfd8e8cca425d91253ec2c10a88179bb34aa" ];
     text = ''
-      extra-substituters = https://cache.numtide.com https://herdr.cachix.org
-      extra-trusted-public-keys = niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g= herdr.cachix.org-1:3nH7IStRsS0ASfdonA0DCRR2ZrSCeWitZ7Kwew0cR4I=
+      extra-substituters = https://cache.numtide.com
+      extra-trusted-public-keys = niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g==
     '';
   };
 

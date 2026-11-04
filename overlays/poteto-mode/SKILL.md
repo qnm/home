@@ -15,7 +15,7 @@
 
 ## Subagents
 
-- **After** "or a babysit watcher.": before calling a delegate stalled or replacing it, read its branch from your own worktree with `git log origin/main..<branch>`, since worktrees share refs. An empty `git ls-remote` and old file mtimes can't show unpushed commits. Brief code delegates to hand back a pushed branch or its commit SHAs, and forbid them from spawning a further background agent. A delegate that must commit runs as a session in its own worktree (a herdr pane), not as an `Agent` with worktree isolation, where hooks can refuse every `git commit`. When you take over a delegate's branch, keep its `Co-Authored-By` trailers as written.
+- **After** "or a babysit watcher.": before calling a delegate stalled or replacing it, read its branch from your own worktree with `git log origin/main..<branch>`, since worktrees share refs. An empty `git ls-remote` and old file mtimes can't show unpushed commits. Brief code delegates to hand back a pushed branch or its commit SHAs, and forbid them from spawning a further background agent. A delegate that must commit runs as a session in its own worktree, not as an `Agent` with worktree isolation, where hooks can refuse every `git commit`. When you take over a delegate's branch, keep its `Co-Authored-By` trailers as written.
 - **Before** "A review gate stays closed when no independent reviewer can run.": **Brief a planner with the problem, not the candidates.** A planning or design brief states the goal and constraints, and asks the planner to list the option space and question each constraint before comparing anything. Listing "(a) vs (b)" in the brief caps the plan at those two.
 
 ## Writing the reply

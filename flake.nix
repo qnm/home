@@ -47,12 +47,6 @@
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # official packaging of the release binaries, not a source build. do not
-    # add a nixpkgs follows: it changes the hash and loses herdr.cachix.org
-    herdr = {
-      url = "github:herdrdev/herdr-nix";
-    };
   };
 
   outputs =
@@ -67,7 +61,6 @@
       pi,
       pi-catppuccin,
       catppuccin,
-      herdr,
       ...
     }:
     let
@@ -79,9 +72,6 @@
           # 26.05's wrangler fails to build from source (its tsup step dies with
           # EBADF); unstable's is cached and works
           wrangler = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.wrangler;
-          herdr = herdr.packages.${prev.stdenv.hostPlatform.system}.default;
-          rustPlatformUnstable =
-            nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.rustPlatform;
         })
       ];
     in
