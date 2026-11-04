@@ -196,11 +196,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1789584188,
-        "narHash": "sha256-pF5lpNIk2wdLpcDOl1M27IwapP5784JdzxkCQr2gcho=",
+        "lastModified": 1791994266,
+        "narHash": "sha256-o4QvYScvUHcOtYw3kFX5Tc+BG51kmyvHahIKZDERNG0=",
         "owner": "herdrdev",
         "repo": "herdr-nix",
-        "rev": "2bcfa02424385730d0c65cfa8cd355bb3afecef8",
+        "rev": "602c88543e53f33273ea913b774dfea0a812ac12",
         "type": "github"
       },
       "original": {

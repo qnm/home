@@ -80,6 +80,8 @@
           # EBADF); unstable's is cached and works
           wrangler = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.wrangler;
           herdr = herdr.packages.${prev.stdenv.hostPlatform.system}.default;
+          rustPlatformUnstable =
+            nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.rustPlatform;
         })
       ];
     in
