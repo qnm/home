@@ -21,6 +21,7 @@ in
     ./heavylock.nix
     ./pushgate.nix
     ./timeoutguard.nix
+    ./overlay.nix
     ./replysign.nix
     ./handoffwrap.nix
     ./rex.nix

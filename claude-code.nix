@@ -10,8 +10,15 @@
         "clangd-lsp@claude-plugins-official" = true;
         "amplitude@claude-plugins-official" = true;
         "growth-skills@growth-skills" = true;
+        "pstack@pstack-claude" = true;
       };
       extraKnownMarketplaces = {
+        pstack-claude = {
+          source = {
+            source = "github";
+            repo = "michael-denyer/pstack-claude";
+          };
+        };
         growth-skills = {
           source = {
             source = "github";
