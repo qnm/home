@@ -24,6 +24,7 @@ in
     ./overlay.nix
     ./replysign.nix
     ./handoffwrap.nix
+    ./colima.nix
     ./rex.nix
   ];
 
@@ -156,7 +157,6 @@ in
       ++ lib.optionals isDarwin [
         # macOS packages
         cocoapods
-        colima
         docker
         docker-compose
         docker-buildx
