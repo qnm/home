@@ -1,0 +1,7 @@
+## Steps
+
+- **In** "In `check` mode pass `--status-only`.": pass `--allow-draft` on every watcher run. Our PRs stay drafts, and without the flag the watcher reports `draft-pr` as a merge gate.
+- **Before** "Stop conditions are forge-specific.": green covers only the jobs that ran. Before any green verdict, map the diff's changed paths to the jobs that ran on them. A package with no job (often a web client whose production build CI never runs) is unverified. Run its build or test yourself and say what that local run didn't match: other deploy targets, the deploy config, the install scope, the merge base. Before you dispatch a manual workflow as evidence, read what its steps run. A suite that starts a dev server never proves the production build.
+- **Before** "Only a failure in the diff's own code gets a commit.": a workflow that runs only on dispatch or a schedule can be red on trunk for weeks unseen, so list its recent runs on other branches before blaming the PR. A failure that predates the branch is trunk breakage: it gets a card and an owner, not a commit here.
+- **After** "Only a failure in the diff's own code gets a commit.": while the run is still going, `gh run view --log-failed` refuses, so read one finished job's log with `gh api repos/<owner>/<repo>/actions/jobs/<job-id>/logs --allow-escape-sequences`.
+- **Replace** "--input <payload.json>": use `-F body=@<reply-file>` with the reply body in that file. `--input` hangs behind the 1Password wrapper.

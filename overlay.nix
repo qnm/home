@@ -3,7 +3,13 @@ let
   overlay = pkgs.writeShellApplication {
     name = "claude-overlay";
     runtimeInputs = [ pkgs.python3 ];
-    text = ''exec python3 ${./overlay/overlay-hook.py} "$HOME/Developer/qnm/skills/overlays"'';
+    text = ''
+      root="$HOME/Developer/qnm/home/overlays"
+      if [ "''${1:-}" = --check ]; then
+        exec python3 ${./overlay/overlay-hook.py} --check "$root"
+      fi
+      exec python3 ${./overlay/overlay-hook.py} "$root"
+    '';
   };
   hooks = [
     {
@@ -13,6 +19,8 @@ let
   ];
 in
 {
+  home.packages = [ overlay ];
+
   programs.claude-code.settings.hooks = {
     PostToolUse = [
       {

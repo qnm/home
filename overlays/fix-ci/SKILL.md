@@ -1,0 +1,5 @@
+## Workflow
+
+- **Before** "3. Apply the smallest safe fix.": when the failing test is outside the PR's diff, check main before calling it flaky. CI tests the merge ref as it stood when the run started. Compare `git log origin/main --format='%h %cI %s' -- <test file>` with `gh run view <id> --json createdAt`. If main changed the test or its inputs after that, a re-run reuses the same merge SHA and fails again. Rebase instead, or inside a poteto-mode Babysit run, report the stale base.
+- **Before** "3. Apply the smallest safe fix.": a check that never re-runs after a label change or a push needs a look at `mergeable` first. GitHub starts no `pull_request` run while the PR conflicts, so the old red run stays. Resolve the conflict and push. Re-running or relabelling does nothing until then.
+- **Before** "3. Apply the smallest safe fix.": when a check fails on a file the PR added, find the repo-wide guard that walks that file's kind (every `serverless.*.yml`, every handler, every `package.json`), and run every such guard locally before you push. One new file usually trips more than one, and CI shows them one at a time.

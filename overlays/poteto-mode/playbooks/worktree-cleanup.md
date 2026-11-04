@@ -1,0 +1,5 @@
+## Steps
+
+- **In** "then run `skills/poteto-mode/scripts/worktree-audit.mjs`": the plugin path is this skill's own base directory, `<base>/scripts/worktree-audit.mjs`.
+- **In** "5. Prune the confirmed set.": worktrees that hold `node_modules` take minutes each to remove, so run the loop in the background from the start. Inside the loop, re-check `git status --porcelain` on each path right before you remove it.
+- **After** "5. Prune the confirmed set.": deleting branches too removes the safety that branch refs give, so it needs its own gate. In a squash-merge repo, ancestry to trunk says nothing. A branch counts as merged only when its local tip is the merged PR's head or an ancestor of it. "The PR merged" alone misses local commits that never reached the PR, so hold those. Before any `git branch -D`, write each name and tip SHA to a restore file outside the scratchpad. Tell the user the file only works until `git gc` prunes the commits, unless a remote copy holds them (the merged PR's head ref, or trunk).

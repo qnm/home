@@ -1,0 +1,3 @@
+## Mutation checks
+
+- **After** "Red is a colour, not a measurement.": snapshot before you break the code. Before you break a file on purpose to prove a test catches it, commit, stash or copy the file, and restore from that snapshot. `git checkout -- <file>` restores the last commit, so on a file with uncommitted work it deletes the code the check was meant to prove. Show the broken line before you read the result: a `sed` that matches nothing leaves the file unchanged and the test green. A break the test misses is the finding. Add an assertion for it or report the gap; never swap in a different break until one goes red.
