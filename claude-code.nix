@@ -1,4 +1,13 @@
-{ pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  settingsPath = "${config.programs.claude-code.configDir}/settings.json";
+  declared = config.home.file.${settingsPath}.source;
+in
 {
   # Skills are cloned from their upstreams and wired up by ./skills.nix.
   programs.claude-code = {
@@ -56,4 +65,20 @@
       };
     };
   };
+
+  home.file.${settingsPath}.enable = lib.mkForce false;
+
+  home.activation.claudeSettings = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    target=${lib.escapeShellArg settingsPath}
+    previous=${lib.escapeShellArg "${config.programs.claude-code.configDir}/.settings-declared.json"}
+    base=$(${pkgs.coreutils}/bin/mktemp)
+    if [ -f "$target" ] && [ ! -L "$target" ]; then cat "$target" >"$base"; else echo '{}' >"$base"; fi
+    [ -f "$previous" ] || echo '{}' >"$previous"
+    merged=$(${pkgs.coreutils}/bin/mktemp)
+    ${lib.getExe pkgs.jq} -s -f ${./claude-code/merge-settings.jq} "$base" "$previous" ${declared} >"$merged"
+    run rm -f "$target"
+    run install -m 600 "$merged" "$target"
+    run install -m 600 ${declared} "$previous"
+    rm -f "$base" "$merged"
+  '';
 }
