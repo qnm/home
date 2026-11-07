@@ -208,6 +208,7 @@
       };
       feature.manyFiles = false;
       init.defaultBranch = "main";
+      rerere.enabled = true;
       gpg.format = "ssh";
       push = {
         autoSetupRemote = true;
