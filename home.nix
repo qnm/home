@@ -25,6 +25,7 @@ in
     ./handoffwrap.nix
     ./colima.nix
     ./rex.nix
+    ./agents-status.nix
   ];
 
   # Single source of truth for theming; per-program modules follow this flavor.
