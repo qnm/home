@@ -27,6 +27,7 @@
         };
       };
       disableWorkflows = true;
+      cleanupPeriodDays = 999999999;
       permissions.deny = [
         "CronCreate"
         "CronDelete"
