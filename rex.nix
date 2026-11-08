@@ -24,6 +24,14 @@ lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
       "$(${pkgs.jq}/bin/jq -c . ${./rex/themes.json} | tr -d '\n' | /usr/bin/xxd -p | tr -d '\n')"
   '';
 
+  home.file.".config/rex/init.lua".source = ./rex/init.lua;
+
+  home.activation.rexConfigReload = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if ${lib.escapeShellArg rex} --autostart=false server status >/dev/null 2>&1; then
+      run ${lib.escapeShellArg rex} --autostart=false config reload >/dev/null
+    fi
+  '';
+
   home.activation.rexRestoreStateDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${lib.escapeShellArg stateDir}
   '';
