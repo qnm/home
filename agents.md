@@ -1,3 +1,5 @@
+This repo is public. Before you track a file that was private or untracked, read it for work text (Amber names, internal URLs, customer detail) and raise anything you find before the commit.
+
 # Package Management
 
 Three package sources, in order of preference: home-manager (nix) > nix-darwin > Homebrew.
@@ -26,12 +28,15 @@ Three package sources, in order of preference: home-manager (nix) > nix-darwin >
 
 Used for macOS apps not well-supported by nixpkgs (e.g., `aws-vpn-client` cask in `darwin/work.nix`). Declared in nix files but installed by brew.
 
+Switching runs `cleanup = "zap"`, which removes any cask that isn't declared in nix. Zap skips the tool's own teardown, so run its uninstall first (for example `rexurrect agent uninstall`) or its launchd agents stay behind.
+
 ## Key Files
 
 - `flake.nix` — flake inputs/outputs, entry point
 - `home.nix` — main home-manager module, imports everything else
 - `work.nix`, `user.nix`, `shell.nix`, `programs.nix` — domain-specific modules
 - `darwin/base.nix`, `darwin/work.nix` — macOS-specific (nix-darwin + brew)
+- `claude-code.nix` — `settings.json` is a real file that Claude writes to. Activation merges the declared settings into it and first drops the set it declared last time. Declare plugins and settings in nix; keep the merge rather than linking the file.
 
 ## Formatting
 
@@ -44,3 +49,7 @@ find . -name '*.nix' -not -path '*/\.*' | xargs nixfmt
 ## Adding Packages
 
 When adding a new package, always ask whether it's work-specific. Work packages go in `work.nix`, personal/shared packages go in `home.nix` or `user.nix`.
+
+## Updating Inputs
+
+After `nix flake update <input>` for one package, run `nix store diff-closures` between the old and new system and name every other changed package in the commit message.
