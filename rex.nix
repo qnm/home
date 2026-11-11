@@ -15,6 +15,21 @@ let
     exec ${lib.escapeShellArg rex} --autostart=false do --all ${./rex/restore.lua} \
       snapshot=${lib.escapeShellArg "${stateDir}/programs.json"}
   '';
+  agent = "org.nix-community.home.rex-restore";
+  retry = pkgs.writeShellScriptBin "rex-restore-retry" ''
+    set -eu
+    dir=${lib.escapeShellArg stateDir}
+    domain=gui/$(/usr/bin/id -u)
+    if [ ! -e "$dir/programs.json.previous" ]; then
+      echo "rex-restore-retry: no earlier snapshot at $dir/programs.json.previous" >&2
+      exit 1
+    fi
+    /bin/launchctl bootout "$domain/${agent}" 2>/dev/null || true
+    cp "$dir/programs.json.previous" "$dir/programs.json"
+    rm -f "$dir/programs.json.restored-for"
+    /bin/launchctl bootstrap "$domain" "$HOME/Library/LaunchAgents/${agent}.plist"
+    echo "Restore restarted. Progress is in $dir/rex-restore.log"
+  '';
 in
 lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
   targets.darwin.defaults.${domain} = builtins.fromJSON (builtins.readFile ./rex/defaults.json);
@@ -23,6 +38,8 @@ lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     run /usr/bin/defaults write ${domain} Workspace.customThemes -data \
       "$(${pkgs.jq}/bin/jq -c . ${./rex/themes.json} | tr -d '\n' | /usr/bin/xxd -p | tr -d '\n')"
   '';
+
+  home.packages = [ retry ];
 
   home.file.".config/rex/init.lua".source = ./rex/init.lua;
 
