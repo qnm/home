@@ -50,7 +50,7 @@ end
 
 local function at_shell(p)
   local fg, child = p.foreground, p.child
-  if fg == nil or child == nil then return false end
+  if fg == nil or child == nil or fg.cwd == nil then return false end
   if fg.pid == child.pid then return true end
   local parent = p.ancestors and p.ancestors[1]
   return parent ~= nil and parent.pid == child.pid
