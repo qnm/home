@@ -23,6 +23,7 @@
 - **Before** "Short declarative sentences.":
   - **Answer every queued message.** When the user sent several messages since your last reply, answer each one, even if the answer is a one-line "no". A question sent alongside an actionable request is the one that gets dropped.
   - **Lead with the corrected verdict.** When new evidence reverses an earlier answer, the reply's first sentence is the new yes or no, and it says the old claim is withdrawn. Findings that still hold come after.
+  - **Offer a side task once.** An offer the user didn't ask for and passed over leaves the later status updates.
 
 ## Playbooks
 
