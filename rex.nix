@@ -49,6 +49,19 @@ lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     fi
   '';
 
+  home.activation.rexSkill =
+    lib.hm.dag.entryAfter
+      [
+        "claudeSettings"
+        "skills"
+      ]
+      ''
+        if [ -x ${lib.escapeShellArg rex} ]; then
+          run ${lib.escapeShellArg rex} --autostart=false skill setup --agent claude --session-naming >/dev/null \
+            || echo "rex: cannot install the Claude skill, run 'rex skill status'"
+        fi
+      '';
+
   home.activation.rexRestoreStateDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${lib.escapeShellArg stateDir}
   '';
