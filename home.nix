@@ -20,6 +20,7 @@ in
     ./heavylock.nix
     ./pushgate.nix
     ./timeoutguard.nix
+    ./worktreeguard.nix
     ./overlay.nix
     ./replysign.nix
     ./handoffwrap.nix
