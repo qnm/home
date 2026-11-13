@@ -31,6 +31,17 @@ merged_at() {
   grep -qx "$head" <<<"$heads" || return 1
 }
 
+base=$(git symbolic-ref -q --short refs/remotes/origin/HEAD) || base=origin/main
+
+unused() {
+  local branch=$1 count prs
+  [ "$branch" != "${base#origin/}" ] || return 1
+  count=$(git rev-list --count "$base..refs/heads/$branch" 2>/dev/null) || return 1
+  [ "$count" = 0 ] || return 1
+  prs=$(gh pr list --head "$branch" --state open --json number -q '.[].number') || return 2
+  [ -z "$prs" ] || return 1
+}
+
 report() { printf '%-9s %s\n' "$1" "$2"; }
 
 declare -A has_tree=()
@@ -55,6 +66,17 @@ while IFS= read -r line; do
         status=1
         continue
       fi
+      verdict=removed
+      if [ "$rc" = 1 ] && [ "$#" -gt 0 ]; then
+        rc=0
+        unused "$branch" || rc=$?
+        if [ "$rc" = 2 ]; then
+          report gh-error "$branch"
+          status=1
+          continue
+        fi
+        verdict=unused
+      fi
       if [ "$rc" = 1 ]; then
         report keep "$branch"
         continue
@@ -65,7 +87,7 @@ while IFS= read -r line; do
       fi
       watchman watch-del "$path" >/dev/null 2>&1 || true
       if git worktree remove --force "$path" && git branch -D "$branch" >/dev/null; then
-        report removed "$branch"
+        report "$verdict" "$branch"
       else
         report failed "$branch"
         status=1
@@ -85,11 +107,22 @@ if [ "$#" -gt 0 ]; then
       status=1
       continue
     fi
-    [ "$rc" = 0 ] || continue
+    verdict=removed
+    if [ "$rc" = 1 ]; then
+      rc=0
+      unused "$branch" || rc=$?
+      if [ "$rc" = 2 ]; then
+        report gh-error "$branch"
+        status=1
+        continue
+      fi
+      [ "$rc" = 0 ] || continue
+      verdict=unused
+    fi
     if [ "$dry" = 1 ]; then
       report would-rm "$branch"
     elif git branch -D "$branch" >/dev/null; then
-      report removed "$branch"
+      report "$verdict" "$branch"
     fi
   done < <(git for-each-ref --format='%(refname:short)' refs/heads/)
 fi
