@@ -69,6 +69,9 @@ in
   home.file."${config.programs.claude-code.configDir}/CLAUDE.md".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Developer/qnm/home/claude-code/CLAUDE.md";
 
+  home.file."${config.programs.claude-code.configDir}/pstack-models.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Developer/qnm/home/claude-code/pstack-models.md";
+
   home.file.${settingsPath}.enable = lib.mkForce false;
 
   home.activation.claudeSettings = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
