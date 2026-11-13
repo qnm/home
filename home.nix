@@ -25,6 +25,7 @@ in
     ./overlay.nix
     ./replysign.nix
     ./handoffwrap.nix
+    ./ghop.nix
     ./colima.nix
     ./rex.nix
     ./agents-status.nix

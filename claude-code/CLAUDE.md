@@ -44,6 +44,7 @@ These behaviors are predictable inputs to the framework design. We follow five r
 | A `!` command never runs `sudo`. It goes to a terminal tab. | `handoffwrap` Stop hook |
 | An `sbx` delete in a `!` command carries `--force`. | `handoffwrap` Stop hook |
 | Merged worktrees are removed with `! wt-clean <slug>`, never a hand-written `git worktree remove`. | `handoffwrap` Stop hook, `wtclean/test.sh` |
+| `gh` is authed in every shell: `sh` scripts, `bash -c`, Node subprocesses. No `gh()` shim needed. | `ghop` wrapper on PATH, `ghop/test.sh` |
 
 @~/.claude/pstack-models.md
 @~/Developer/qnm/skills/skill-routing.md

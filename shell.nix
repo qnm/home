@@ -6,7 +6,6 @@
     # the specified packages as well as 1Password CLI will be
     # automatically installed and configured to use shell plugins
     plugins = with pkgs; [
-      gh
       awscli2
       cargo
       # the module derives the op plugin name from meta.mainProgram; postgresql
@@ -165,12 +164,12 @@
         description = "Safely rotate GitHub CLI PAT inside 1Password without credential loops";
         body = ''
           echo "🔑 Step 1: Requesting fresh OAuth token from GitHub..."
-          # `command` skips the 1Password wrapper function and runs the real gh
+          # the store path skips the 1Password wrapper and runs the real gh
           # binary, so gh doesn't ask op for the very token we're rotating
-          command gh auth login --scopes repo,workflow,write:packages
+          ${pkgs.gh}/bin/gh auth login --scopes repo,workflow,write:packages
 
           echo "🔒 Step 2: Fetching the new token string..."
-          set -l new_token (command gh auth token)
+          set -l new_token (${pkgs.gh}/bin/gh auth token)
 
           if test -z "$new_token"
               echo "❌ Error: Failed to retrieve a new token from gh. Rotation aborted."
