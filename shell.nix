@@ -161,52 +161,6 @@
         '';
       };
 
-      wt-clean = {
-        description = "Remove clean worktrees whose PR merged at the local head (-n for a dry run)";
-        body = ''
-          argparse n/dry-run -- $argv; or return 1
-          set -l here (git rev-parse --show-toplevel 2>/dev/null)
-          if test -z "$here"
-              echo "wt-clean: not in a git repo"
-              return 1
-          end
-          set -l main (git worktree list --porcelain | awk 'NR==1{print $2}')
-          set -l w
-          for line in (git worktree list --porcelain)
-              switch $line
-                  case 'worktree *'
-                      set w (string sub -s 10 -- $line)
-                  case 'branch *'
-                      set -l b (string replace 'branch refs/heads/' "" -- $line)
-                      if test "$w" = "$main"; or test "$w" = "$here"
-                          continue
-                      end
-                      set -l dirty (git -C $w status --porcelain)
-                      if test (count $dirty) -gt 0
-                          printf '%-9s %s\n' dirty $b
-                          continue
-                      end
-                      set -l head (git -C $w rev-parse HEAD)
-                      set -l merged (gh pr list --head $b --state merged --json headRefOid -q '.[].headRefOid')
-                      or return 1
-                      if not contains -- $head $merged
-                          printf '%-9s %s\n' keep $b
-                          continue
-                      end
-                      if set -q _flag_dry_run
-                          printf '%-9s %s\n' would-rm $b
-                      else if git worktree remove $w
-                          git branch -D $b >/dev/null
-                          printf '%-9s %s\n' removed $b
-                      else
-                          printf '%-9s %s\n' failed $b
-                      end
-              end
-          end
-          git worktree prune
-        '';
-      };
-
       rotate-gh-token = {
         description = "Safely rotate GitHub CLI PAT inside 1Password without credential loops";
         body = ''

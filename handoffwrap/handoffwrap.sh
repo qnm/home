@@ -43,5 +43,8 @@ long=$(awk -v n="$limit" 'length($0) > n { print length($0) }' <<<"$commands" | 
 sudo=$(grep -E '(^|[;&|(][[:space:]]*)sudo[[:space:]]' <<<"$commands" | head -n 1 || true)
 [ -z "$sudo" ] || block "A ! command in your reply runs sudo. ! has no terminal, so sudo cannot ask for a password. Hand it over as a plain command for Rob to run in a terminal tab, say so, and send the reply again."
 
+teardown=$(grep -E 'git[[:space:]]+(-C[[:space:]]+[^[:space:]]+[[:space:]]+)*worktree[[:space:]]+remove' <<<"$commands" | head -n 1 || true)
+[ -z "$teardown" ] || block "A ! command in your reply removes a worktree by hand. Hand over ! wt-clean <slug> instead, run from the main checkout. It checks the PR merged at the worktree's head, skips dirty trees, clears watchman, and deletes the branch. Use ! wt-clean -n <slug> first for a dry run. Send the reply again."
+
 unforced=$(grep -E 'sbx[[:space:]]+((template[[:space:]]+)?rm|prune)' <<<"$commands" | grep -vE -- '--force|--dry-run' | head -n 1 || true)
 [ -z "$unforced" ] || block "A ! command in your reply runs an sbx delete that asks for confirmation. ! has no terminal, so it fails. Add --force once Rob has approved that exact set, or hand it over for a terminal tab, and send the reply again."

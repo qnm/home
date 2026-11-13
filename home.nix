@@ -21,6 +21,7 @@ in
     ./pushgate.nix
     ./timeoutguard.nix
     ./worktreeguard.nix
+    ./wtclean.nix
     ./overlay.nix
     ./replysign.nix
     ./handoffwrap.nix

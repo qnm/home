@@ -43,6 +43,7 @@ These behaviors are predictable inputs to the framework design. We follow five r
 | A `!` command is at most 100 characters. Longer ones go in a script. | `handoffwrap` Stop hook |
 | A `!` command never runs `sudo`. It goes to a terminal tab. | `handoffwrap` Stop hook |
 | An `sbx` delete in a `!` command carries `--force`. | `handoffwrap` Stop hook |
+| Merged worktrees are removed with `! wt-clean <slug>`, never a hand-written `git worktree remove`. | `handoffwrap` Stop hook, `wtclean/test.sh` |
 
 @~/.claude/pstack-models.md
 @~/Developer/qnm/skills/skill-routing.md

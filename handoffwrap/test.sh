@@ -38,6 +38,11 @@ check sbx-rm-unforced "sbx delete" '! for t in $(cat tags); do sbx template rm "
 check sbx-prune-unforced "sbx delete" '! sbx prune'
 check sbx-rm-forced "" '! sbx template rm --force a:b'
 check sbx-prune-dry-run "" '! sbx prune --dry-run'
+check worktree-remove-cd "wt-clean" '! cd ../../.. && git worktree remove .claude/worktrees/feature-x'
+check worktree-remove-dash-c "wt-clean" '! git -C /Users/qnm/repo worktree remove .claude/worktrees/feature-x'
+check worktree-remove-block "wt-clean" $'```\n! cd /Users/qnm/repo && git worktree remove --force /Users/qnm/old/x\n```'
+check wt-clean "" '! wt-clean feature-x'
+check worktree-list "" '! git worktree list'
 
 prompt >"$tmp/late-reply.jsonl"
 (sleep 0.5 && answer "$long_command" >>"$tmp/late-reply.jsonl") &
