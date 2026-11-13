@@ -131,6 +131,7 @@ in
         hurl
         discord
         nodejs_22
+        bun
         ngrok
         libffi
         htop
