@@ -48,16 +48,16 @@ local function block_call(block, method, params)
   return result
 end
 
+local function program_name(fg)
+  return (((fg.argv0 or fg.name):match("([^/]+)$")):gsub("^%-", ""))
+end
+
 local function at_shell(p)
   local fg, child = p.foreground, p.child
   if fg == nil or child == nil or fg.cwd == nil then return false end
   if fg.pid == child.pid then return true end
   local parent = p.ancestors and p.ancestors[1]
-  return parent ~= nil and parent.pid == child.pid
-end
-
-local function program_name(fg)
-  return (((fg.argv0 or fg.name):match("([^/]+)$")):gsub("^%-", ""))
+  return parent ~= nil and parent.pid == child.pid and program_name(child) == "login"
 end
 
 local function terminal_blocks()
