@@ -39,3 +39,9 @@ commands=$(
 
 long=$(awk -v n="$limit" 'length($0) > n { print length($0) }' <<<"$commands" | sort -rn | head -n 1)
 [ -z "$long" ] || block "A ! command in your reply is $long characters, over $limit. It will wrap when Rob pastes it and split its flags. Write the command to a script in the worktree, such as .cmd-<n>.sh, hand over ! sh .cmd-<n>.sh instead, and send the reply again with the short form. Delete the script once he has run it."
+
+sudo=$(grep -E '(^|[;&|(][[:space:]]*)sudo[[:space:]]' <<<"$commands" | head -n 1 || true)
+[ -z "$sudo" ] || block "A ! command in your reply runs sudo. ! has no terminal, so sudo cannot ask for a password. Hand it over as a plain command for Rob to run in a terminal tab, say so, and send the reply again."
+
+unforced=$(grep -E 'sbx[[:space:]]+((template[[:space:]]+)?rm|prune)' <<<"$commands" | grep -vE -- '--force|--dry-run' | head -n 1 || true)
+[ -z "$unforced" ] || block "A ! command in your reply runs an sbx delete that asks for confirmation. ! has no terminal, so it fails. Add --force once Rob has approved that exact set, or hand it over for a terminal tab, and send the reply again."

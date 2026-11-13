@@ -36,5 +36,13 @@ These behaviors are predictable inputs to the framework design. We follow five r
 4. Never use cloud, remote or managed agents unless I sign it off. Local subagents are fine.
 5. Before you update a PR description, read the current one. I may have edited it.
 
+## Enforced rules
+
+| Rule | Enforced by |
+| --- | --- |
+| A `!` command is at most 100 characters. Longer ones go in a script. | `handoffwrap` Stop hook |
+| A `!` command never runs `sudo`. It goes to a terminal tab. | `handoffwrap` Stop hook |
+| An `sbx` delete in a `!` command carries `--force`. | `handoffwrap` Stop hook |
+
 @~/.claude/pstack-models.md
 @~/Developer/qnm/skills/skill-routing.md

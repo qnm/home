@@ -30,6 +30,14 @@ check short-command "" '! git status'
 check no-command "" 'Nothing to run.'
 check long-command "120 characters" "$long_command"
 check long-inline-command "120 characters" "Run \`$long_command\` now."
+check sudo "runs sudo" '! sudo nix-collect-garbage --delete-older-than 14d'
+check sudo-after-pipe "runs sudo" '! echo ok && sudo true'
+check sudo-outside-bang "" 'Run `sudo nix-collect-garbage` in a terminal tab.'
+check pseudo-word "" '! echo pseudo code'
+check sbx-rm-unforced "sbx delete" '! for t in $(cat tags); do sbx template rm "$t"; done'
+check sbx-prune-unforced "sbx delete" '! sbx prune'
+check sbx-rm-forced "" '! sbx template rm --force a:b'
+check sbx-prune-dry-run "" '! sbx prune --dry-run'
 
 prompt >"$tmp/late-reply.jsonl"
 (sleep 0.5 && answer "$long_command" >>"$tmp/late-reply.jsonl") &
