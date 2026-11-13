@@ -67,7 +67,7 @@ while IFS= read -r line; do
         continue
       fi
       verdict=removed
-      if [ "$rc" = 1 ]; then
+      if [ "$rc" = 1 ] && [ "$#" -gt 0 ]; then
         rc=0
         unused "$branch" || rc=$?
         if [ "$rc" = 2 ]; then
@@ -75,11 +75,11 @@ while IFS= read -r line; do
           status=1
           continue
         fi
-        if [ "$rc" = 1 ]; then
-          report keep "$branch"
-          continue
-        fi
         verdict=unused
+      fi
+      if [ "$rc" = 1 ]; then
+        report keep "$branch"
+        continue
       fi
       if [ "$dry" = 1 ]; then
         report would-rm "$branch"

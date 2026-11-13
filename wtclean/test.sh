@@ -77,6 +77,8 @@ git -C "$repo/.claude/worktrees/local-commit" reset -q --hard main
 out=$(run -n)
 expect dry-run "would-rm  merged-clean" "$out"
 kept merged-clean || { echo "FAIL dry-run removed merged-clean"; failed=1; }
+expect dry-run-bare-unused "keep      unused$" "$out"
+out=$(run -n unused)
 expect dry-run-unused "would-rm  unused" "$out"
 kept unused || { echo "FAIL dry-run removed unused"; failed=1; }
 
@@ -90,6 +92,10 @@ kept dirty || { echo "FAIL dirty was removed"; failed=1; }
 expect rebased-elsewhere "keep      rebased-elsewhere" "$out"
 kept rebased-elsewhere || { echo "FAIL rebased-elsewhere was removed"; failed=1; }
 expect open-pr "keep      open-pr" "$out"
+expect bare-unused "keep      unused$" "$out"
+kept unused || { echo "FAIL bare run removed unused"; failed=1; }
+
+out=$(run unused local-commit)
 expect unused "unused    unused" "$out"
 gone unused || { echo "FAIL unused still there"; failed=1; }
 expect unused-dirty "dirty     unused-dirty" "$out"
