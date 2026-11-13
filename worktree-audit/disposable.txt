@@ -1,0 +1,12 @@
+.cc-writes
+.coverage
+.esbuild
+.eslintcache
+.husky
+.prettiercache
+.serverless
+.tmp
+next-env.d.ts
+test-results
+tsconfig.tsbuildinfo
+*.module.css.d.ts
