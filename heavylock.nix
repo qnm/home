@@ -11,6 +11,8 @@ let
   };
 in
 {
+  programs.claude-code.settings.sandbox.filesystem.allowWrite = [ "~/.cache/claude-heavy.lock" ];
+
   programs.claude-code.settings.hooks.PreToolUse = [
     {
       matcher = "Bash";
