@@ -42,7 +42,43 @@ unused() {
   [ -z "$prs" ] || return 1
 }
 
+absorbed() {
+  local branch=$1 head=$2 count own heads h
+  count=$(git rev-list --count "$base..$head" 2>/dev/null) || return 1
+  [ "$count" != 0 ] || return 1
+  own=$(gh pr list --head "$branch" --state open --json number -q '.[].number') || return 2
+  [ -z "$own" ] || return 1
+  heads=$(gh pr list --search "$head" --state all --json headRefOid,headRefName,state \
+    -q ".[] | select(.state != \"CLOSED\" and .headRefName != \"$branch\") | .headRefOid") || return 2
+  for h in $heads; do
+    git cat-file -e "$h^{commit}" 2>/dev/null || git fetch -q origin "$h" 2>/dev/null || continue
+    git merge-base --is-ancestor "$head" "$h" && return 0
+  done
+  return 1
+}
+
+judge() {
+  local branch=$1 head=$2 named=$3 rc
+  rc=0
+  merged_at "$branch" "$head" || rc=$?
+  [ "$rc" != 0 ] || { echo removed; return; }
+  [ "$rc" != 2 ] || { echo gh-error; return; }
+  [ "$named" = 1 ] || { echo keep; return; }
+  rc=0
+  unused "$branch" || rc=$?
+  [ "$rc" != 0 ] || { echo unused; return; }
+  [ "$rc" != 2 ] || { echo gh-error; return; }
+  rc=0
+  absorbed "$branch" "$head" || rc=$?
+  [ "$rc" != 0 ] || { echo absorbed; return; }
+  [ "$rc" != 2 ] || { echo gh-error; return; }
+  echo keep
+}
+
 report() { printf '%-9s %s\n' "$1" "$2"; }
+
+named=0
+[ "$#" = 0 ] || named=1
 
 declare -A has_tree=()
 status=0
@@ -59,28 +95,18 @@ while IFS= read -r line; do
         report dirty "$branch"
         continue
       fi
-      rc=0
-      merged_at "$branch" "$(git -C "$path" rev-parse HEAD)" || rc=$?
-      if [ "$rc" = 2 ]; then
-        report gh-error "$branch"
-        status=1
-        continue
-      fi
-      verdict=removed
-      if [ "$rc" = 1 ] && [ "$#" -gt 0 ]; then
-        rc=0
-        unused "$branch" || rc=$?
-        if [ "$rc" = 2 ]; then
+      verdict=$(judge "$branch" "$(git -C "$path" rev-parse HEAD)" "$named")
+      case "$verdict" in
+        gh-error)
           report gh-error "$branch"
           status=1
           continue
-        fi
-        verdict=unused
-      fi
-      if [ "$rc" = 1 ]; then
-        report keep "$branch"
-        continue
-      fi
+          ;;
+        keep)
+          report keep "$branch"
+          continue
+          ;;
+      esac
       if [ "$dry" = 1 ]; then
         report would-rm "$branch"
         continue
@@ -96,29 +122,19 @@ while IFS= read -r line; do
   esac
 done < <(git worktree list --porcelain)
 
-if [ "$#" -gt 0 ]; then
+if [ "$named" = 1 ]; then
   while IFS= read -r branch; do
     [ -z "${has_tree[$branch]:-}" ] || continue
     wanted "$branch" "" "$@" || continue
-    rc=0
-    merged_at "$branch" "$(git rev-parse "refs/heads/$branch")" || rc=$?
-    if [ "$rc" = 2 ]; then
-      report gh-error "$branch"
-      status=1
-      continue
-    fi
-    verdict=removed
-    if [ "$rc" = 1 ]; then
-      rc=0
-      unused "$branch" || rc=$?
-      if [ "$rc" = 2 ]; then
+    verdict=$(judge "$branch" "$(git rev-parse "refs/heads/$branch")" 1)
+    case "$verdict" in
+      gh-error)
         report gh-error "$branch"
         status=1
         continue
-      fi
-      [ "$rc" = 0 ] || continue
-      verdict=unused
-    fi
+        ;;
+      keep) continue ;;
+    esac
     if [ "$dry" = 1 ]; then
       report would-rm "$branch"
     elif git branch -D "$branch" >/dev/null; then
