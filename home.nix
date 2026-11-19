@@ -29,6 +29,7 @@ in
     ./colima.nix
     ./rex.nix
     ./agents-status.nix
+    ./trail.nix
   ];
 
   # Single source of truth for theming; per-program modules follow this flavor.

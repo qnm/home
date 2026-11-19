@@ -229,6 +229,7 @@
     ignores = [
       ".direnv"
       "result"
+      "graft/.cache/"
     ];
   };
 
