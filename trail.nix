@@ -17,6 +17,13 @@ let
         --replace-fail 'export function everyRepoLearnings(env = process.env) {' 'export function everyRepoLearnings(env = process.env) { return [];'
       substituteInPlace dist/cli.js \
         --replace-fail 'await runNoteCommand(resolve(dir), opts);' 'console.error("trail note: learnings are off on this machine. Do not save one."); process.exitCode = 1; return;'
+      cp ${./trail/route.js} dist/claude/route.js
+      cp ${./trail/route.test.mjs} dist/claude/route.test.mjs
+      ${pkgs.nodejs_22}/bin/node --test dist/claude/route.test.mjs
+      rm dist/claude/route.test.mjs
+      substituteInPlace dist/claude/pre-bash.js \
+        --replace-fail 'const DECISIONS = new Set' "import { routeToTrail } from './route.js'; const DECISIONS = new Set" \
+        --replace-fail 'export function preBash(_input, _dir) {' 'export function preBash(_input, _dir) { return routeToTrail(_input, _dir);'
     '';
     npmDepsHash = "sha256-OXpMFL46hCWdawOvFuJYEu70s7YxpllhOpHvbHACPRs=";
     npmFlags = [ "--ignore-scripts" ];
