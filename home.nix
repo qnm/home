@@ -19,7 +19,6 @@ in
     ./memwatch.nix
     ./heavylock.nix
     ./pushgate.nix
-    ./timeoutguard.nix
     ./worktreeguard.nix
     ./wtclean.nix
     ./overlay.nix
@@ -149,6 +148,7 @@ in
         qmd
         uv
         quint
+        (runCommand "timeout" { } "mkdir -p $out/bin && ln -s ${coreutils}/bin/timeout $out/bin/timeout")
         # Migrated from Homebrew.
         # postgresql is here for psql; nixpkgs has no client-only package
         # (libpq is library-only) and nothing declares a postgres service.
