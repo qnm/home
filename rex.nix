@@ -41,14 +41,29 @@ lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
 
   home.packages = [ retry ];
 
-  home.file.".config/rex/init.lua".source = ./rex/init.lua;
+  home.activation.rexInit = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    cfg=${lib.escapeShellArg "${config.home.homeDirectory}/.config/rex/init.lua"}
+    line='dofile("${./rex/init.lua}")'
+    if [ -L "$cfg" ]; then
+      run rm "$cfg"
+    fi
+    if [ -z "''${DRY_RUN:-}" ]; then
+      mkdir -p "$(dirname "$cfg")"
+      touch "$cfg"
+      {
+        printf '%s\n' "$line"
+        ${pkgs.gnugrep}/bin/grep -v '^dofile("/nix/store/[^"]*")$' "$cfg" || true
+      } > "$cfg.tmp"
+      mv "$cfg.tmp" "$cfg"
+    fi
+  '';
 
   home.file.".local/bin/rex" = {
     source = config.lib.file.mkOutOfStoreSymlink "/Applications/Rex.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex";
     force = true;
   };
 
-  home.activation.rexConfigReload = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.rexConfigReload = lib.hm.dag.entryAfter [ "rexInit" ] ''
     if ${lib.escapeShellArg rex} --autostart=false server status >/dev/null 2>&1; then
       run ${lib.escapeShellArg rex} --autostart=false config reload >/dev/null
     fi
