@@ -63,6 +63,7 @@
       # wrangler now comes from nixpkgs-unstable via the flake overlay; 26.05's
       # build is still broken on macOS (pnpm/DTS EBADF)
       "yt-dlp"
+      "deepanshumishraa/tap/leaf"
     ];
 
     # Update these applicatons manually.
@@ -83,11 +84,13 @@
 
     taps = [
       "bysiber/cleardisk"
+      "deepanshumishraa/tap"
     ];
 
     # trusted: true is not supported until nix-darwin 26.11+, use extraConfig for now
     extraConfig = ''
       tap "bysiber/cleardisk", trusted: true
+      tap "deepanshumishraa/tap", trusted: true
     '';
 
     # Install manually from App Store: Kagi
