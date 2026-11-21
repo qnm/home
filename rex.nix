@@ -44,7 +44,7 @@ lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
   home.file.".config/rex/init.lua".source = ./rex/init.lua;
 
   home.file.".local/bin/rex" = {
-    source = config.lib.file.mkOutOfStoreSymlink "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex";
+    source = config.lib.file.mkOutOfStoreSymlink "/Applications/Rex.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex";
     force = true;
   };
 
