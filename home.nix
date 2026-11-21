@@ -36,7 +36,12 @@ in
   catppuccin = {
     enable = true;
     flavor = "mocha";
+    sources.vscode = pkgs.vscode-extensions.catppuccin.catppuccin-vsc // {
+      override = _: pkgs.vscode-extensions.catppuccin.catppuccin-vsc;
+    };
   };
+
+  manual.manpages.enable = false;
 
   programs.pi.coding-agent.enable = true;
   programs.pi.coding-agent.settings.shellPath = "${pkgs.fish}/bin/fish";
