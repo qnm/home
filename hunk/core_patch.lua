@@ -665,16 +665,59 @@ function M.verify(patch, worktree)
   print(string.format("verify: %d hunks anchored, every note visible", hunks))
 end
 
+local function git(worktree, argv, ok_codes)
+  local cmd = { "git", "-C", worktree }
+  append(cmd, argv)
+  local r = rex.exec(cmd)
+  if r == nil then die(2, "git is not on PATH") end
+  local ok = r.ok
+  for _, code in ipairs(ok_codes or {}) do ok = ok or r.code == code end
+  if not ok then die(2, "git " .. join(argv, " ") .. ": " .. trim(r.stderr)) end
+  return r.stdout
+end
+
+local function default_base(worktree)
+  local r = rex.exec({ "git", "-C", worktree, "symbolic-ref", "--quiet", "refs/remotes/origin/HEAD" })
+  if r == nil then die(2, "git is not on PATH") end
+  local head = r.ok and trim(r.stdout) or ""
+  if head ~= "" then return (head:gsub("^refs/remotes/", "")) end
+  return "origin/main"
+end
+
+function M.diff(worktree, out, base)
+  base = base or default_base(worktree)
+  local mb = trim(git(worktree, { "merge-base", base, "HEAD" }))
+  local parts = { git(worktree, { "diff", "--no-color", "--no-ext-diff", mb }) }
+  local listed = git(worktree, { "ls-files", "--others", "--exclude-standard", "-z" })
+  local untracked = 0
+  for f in listed:gmatch("[^%z]+") do
+    untracked = untracked + 1
+    parts[#parts + 1] = git(worktree, { "diff", "--no-color", "--no-ext-diff", "--no-index", "--", "/dev/null", f }, { 1 })
+  end
+  local text = join(parts)
+  local made = rex.exec({ "mkdir", "-p", out })
+  if made == nil or not made.ok then die(2, "can't create " .. out) end
+  write(out .. "/full.patch", text)
+  if not text:match("%S") then die(3, "no changes in " .. worktree .. " since " .. base .. " (" .. mb:sub(1, 12) .. ")") end
+  print(string.format("%s/full.patch: changes since %s (%s), %d untracked files included", out, base, mb:sub(1, 12),
+    untracked))
+end
+
 local USAGE = [[
-usage: rex do core_patch.lua cmd=split  patch=FULL.patch out=OUTDIR
+usage: rex do core_patch.lua cmd=diff   worktree=WORKTREE out=OUTDIR [base=REF]
+       rex do core_patch.lua cmd=split  patch=FULL.patch out=OUTDIR
        rex do core_patch.lua cmd=build  patch=FULL.patch out=OUTDIR
        rex do core_patch.lua cmd=verify patch=CORE.patch worktree=WORKTREE]]
 
 local args = rex.args
 if type(args) == "table" and args.cmd ~= nil then
-  local run = ({ split = M.split, build = M.build, verify = M.verify })[args.cmd]
-  local second = args.cmd == "verify" and args.worktree or args.out
   local ok, err = pcall(function()
+    if args.cmd == "diff" then
+      if args.worktree == nil or args.out == nil then die(2, USAGE) end
+      return M.diff(tostring(args.worktree), tostring(args.out), args.base and tostring(args.base))
+    end
+    local run = ({ split = M.split, build = M.build, verify = M.verify })[args.cmd]
+    local second = args.cmd == "verify" and args.worktree or args.out
     if run == nil or args.patch == nil or second == nil then die(2, USAGE) end
     run(tostring(args.patch), tostring(second))
   end)

@@ -194,6 +194,38 @@ shown "+export const b = y"; shown "+        return x"
 shown "+    const alpha = computeTheAlphaValue(input)"
 cd "$repo"
 
+dw=$tmp/dw
+git init -q "$dw" && cd "$dw"
+git config user.email t@t && git config user.name t
+printf '%s\n' "export const a = 1" >a.ts
+echo "ignored.log" >.gitignore
+git add . && git commit -qm base
+git update-ref refs/remotes/origin/main HEAD
+cdiff() { "$rex" do "$here/core_patch.lua" cmd=diff worktree="$dw" out="$1" "${@:2}"; }
+expect 3 cdiff "$tmp/dw-clean"
+[ -f "$tmp/dw-clean/full.patch" ] || fail "diff did not create OUTDIR"
+printf '%s\n' "export const a = 2" >a.ts
+printf '%s\n' "export const n = 1" >new.ts
+echo noise >ignored.log
+expect 0 cdiff "$tmp/dw-out"
+p=$tmp/dw-out/full.patch
+grep -q '^+export const a = 2' "$p" || fail "diff missed the modified file"
+grep -q '^+++ b/new.ts' "$p" && grep -q '^+export const n = 1' "$p" || fail "diff missed the untracked file"
+grep -q 'ignored.log' "$p" && fail "diff included an ignored file"
+expect 0 core split "$p" "$tmp/dw-out"
+git add a.ts && git commit -qm head
+git update-ref refs/remotes/origin/feature HEAD
+git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/feature
+expect 0 cdiff "$tmp/dw-head"
+grep -q '^+++ b/new.ts' "$tmp/dw-head/full.patch" || fail "diff from origin/HEAD missed the untracked file"
+grep -q 'a = 2' "$tmp/dw-head/full.patch" && fail "diff did not use origin/HEAD"
+expect 0 cdiff "$tmp/dw-base" base=origin/main
+grep -q '^+export const a = 2' "$tmp/dw-base/full.patch" || fail "diff ignored base="
+expect 2 cdiff "$tmp/dw-bad" base=no-such-ref
+expect 2 "$rex" do "$here/core_patch.lua" cmd=diff out="$tmp/dw-bad"
+cd "$repo"
+echo "hunk-core-view: all core_patch.lua diff checks passed"
+
 : >"$tmp/empty.patch"
 expect 2 core split "$tmp/empty.patch" "$tmp/out2"
 expect 2 core build "$tmp/full.patch" "$tmp/nowhere"
