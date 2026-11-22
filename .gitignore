@@ -1,3 +1,7 @@
 result
 .claude/settings.local.json
 /graft/
+*.key
+*.pem
+.env
+.env.*
