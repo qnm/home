@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Keep the nixfmt job in .github/workflows/checks.yml green: format every
+# tracked *.nix file before it can be committed, re-staging the ones already in
+# the index when the file has no other unstaged edits.
+#
+# Bypass with `git commit --no-verify`. Enable per clone with
+# `git config core.hooksPath hooks`.
+set -euo pipefail
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR -- '*.nix')
+status=0
+
+is_staged() {
+  grep -Fxq -- "$1" <<<"$staged"
+}
+
+while IFS= read -r -d '' file; do
+  # --check exits non-zero both for "needs formatting" and for syntax errors;
+  # formatting either fixes the file or fails loudly below.
+  nixfmt --check --quiet -- "$file" && continue
+
+  unstaged=no
+  git diff --quiet -- "$file" || unstaged=yes
+
+  if ! nixfmt -- "$file"; then
+    printf 'nixfmt: %s: could not be formatted (syntax error?)\n' "$file" >&2
+    status=1
+    continue
+  fi
+  printf 'nixfmt: formatted %s\n' "$file"
+
+  if ! is_staged "$file"; then
+    printf 'nixfmt: %s is not staged; review and stage it\n' "$file" >&2
+  elif [ "$unstaged" = yes ]; then
+    # Re-adding would sweep unrelated unstaged hunks into the commit.
+    printf 'nixfmt: %s has unstaged edits; stage the formatting only\n' "$file" >&2
+    status=1
+  else
+    git add -- "$file"
+  fi
+done < <(git ls-files -z -- '*.nix')
+
+exit "$status"

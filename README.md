@@ -97,3 +97,21 @@ discard them.
 
 A submodule with uncaptured edits is reported and left alone rather than being
 reset, and a repo that cannot be fetched warns instead of failing the rebuild.
+
+## Git hooks
+
+The `nixfmt` job in [.github/workflows/checks.yml](.github/workflows/checks.yml)
+checks every tracked `*.nix` file, and a push that misses formatting goes red.
+`hooks/pre-commit` mirrors that check and fixes it before the commit lands:
+unformatted tracked files are rewritten with `nixfmt` (the profile build from
+`nixpkgs`, same 1.x line CI runs), and any that were staged are re-staged.
+
+Enable it once per clone:
+
+```
+git config core.hooksPath hooks
+```
+
+If a file in the commit has other unstaged edits, the hook refuses to re-stage
+it and tells you to stage the formatting yourself, rather than sweeping
+unrelated hunks into the commit. `git commit --no-verify` skips the hook.

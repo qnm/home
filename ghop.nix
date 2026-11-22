@@ -26,8 +26,8 @@ in
   # longer get GitHub credentials. On Linux point the credential helper at the
   # real gh (which authenticates from gh's own keyring), the same escape hatch
   # `rotate-gh-token` uses. macOS keeps the 1Password wrapper.
-  programs.git.settings.credential =
-    lib.mkIf pkgs.stdenv.hostPlatform.isLinux (lib.mkForce {
+  programs.git.settings.credential = lib.mkIf pkgs.stdenv.hostPlatform.isLinux (
+    lib.mkForce {
       "https://github.com" = {
         helper = [
           ""
@@ -40,5 +40,6 @@ in
           "${pkgs.gh}/bin/gh auth git-credential"
         ];
       };
-    });
+    }
+  );
 }
