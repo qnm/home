@@ -191,3 +191,5 @@ rex.bind("cmd+j", "next_agent")
 rex.bind("cmd+k", "previous_agent")
 rex.bind("cmd+l", "last_pane")
 rex.bind("cmd+,", "last_session")
+
+dofile(os.getenv("HOME") .. "/.config/rex/hunk/rex.lua")

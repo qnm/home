@@ -67,6 +67,7 @@
       overlays = [
         (final: prev: {
           claude-code = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.claude-code;
+          hunk = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.hunk;
           gh-stack = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.gh-stack;
           # 26.05's wrangler fails to build from source (its tsup step dies with
           # EBADF); unstable's is cached and works

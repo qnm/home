@@ -27,6 +27,7 @@ in
     ./ghop.nix
     ./colima.nix
     ./rex.nix
+    ./hunk.nix
     ./agents-status.nix
     ./trail.nix
   ];
