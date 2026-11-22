@@ -163,6 +163,7 @@ let
   };
 
   gitBin = "${pkgs.git}/bin/git";
+  ghBin = "${pkgs.gh}/bin/gh";
 in
 {
   home.packages = [ skills-link ];
@@ -176,10 +177,18 @@ in
   # as the previous generation's are cleaned up. A repo that cannot be fetched
   # warns rather than failing the whole activation.
   home.activation.skills = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    # gh shells out to git (and its credential helper to gh) by name, and the
+    # activation environment does not carry the home profile's bin.
+    export PATH=${pkgs.git}/bin:${pkgs.gh}/bin:$PATH
+
     if [ ! -d ${lib.escapeShellArg repo}/.git ]; then
       $DRY_RUN_CMD mkdir -p "$(dirname ${lib.escapeShellArg repo})"
-      $DRY_RUN_CMD ${gitBin} clone --quiet --recurse-submodules \
-        https://github.com/qnm/skills ${lib.escapeShellArg repo} \
+      # qnm/skills is private. Clone through gh, which reads ~/.config/gh,
+      # rather than git's credential helper: the latter is the 1Password-backed
+      # gh-op wrapper, which needs the desktop app integration (often absent on
+      # a fresh Linux box). Submodules are public, so git can fetch them without
+      # credentials.
+      $DRY_RUN_CMD ${ghBin} repo clone qnm/skills ${lib.escapeShellArg repo} -- --quiet --recurse-submodules \
         || echo "skills: cannot clone qnm/skills, ~/.claude/skills will be empty"
     fi
 

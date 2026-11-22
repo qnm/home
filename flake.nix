@@ -67,7 +67,6 @@
       overlays = [
         (final: prev: {
           claude-code = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.claude-code;
-          qmd = llm-agents-nix.packages.${prev.stdenv.hostPlatform.system}.qmd;
           gh-stack = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.gh-stack;
           # 26.05's wrangler fails to build from source (its tsup step dies with
           # EBADF); unstable's is cached and works
@@ -200,6 +199,20 @@
           extraSpecialArgs = {
             inherit nixgl;
           };
+        };
+      };
+
+      # `nix run .#home-manager -- switch ...` drives the CLI pinned by this
+      # flake's home-manager input (release-26.05, matching nixpkgs), so a
+      # switch does not depend on home-manager/master or its own nixpkgs.
+      apps = {
+        x86_64-linux.home-manager = {
+          type = "app";
+          program = "${home-manager.packages.x86_64-linux.home-manager}/bin/home-manager";
+        };
+        aarch64-darwin.home-manager = {
+          type = "app";
+          program = "${home-manager.packages.aarch64-darwin.home-manager}/bin/home-manager";
         };
       };
     };

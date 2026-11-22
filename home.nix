@@ -39,6 +39,9 @@ in
     sources.vscode = pkgs.vscode-extensions.catppuccin.catppuccin-vsc // {
       override = _: pkgs.vscode-extensions.catppuccin.catppuccin-vsc;
     };
+    # Use the nixpkgs build (substitutable from cache.nixos.org) instead of
+    # catppuccin/nix's, which forces a VSCode Marketplace download at build time.
+    sources.vscode-icons = pkgs.vscode-extensions.catppuccin.catppuccin-vsc-icons;
   };
 
   manual.manpages.enable = false;
@@ -73,6 +76,9 @@ in
     cosmic-display = {
       Unit.Description = "Set cosmic display settings";
       Unit.After = [ "graphical-session.target" ];
+      # Only meaningful on a COSMIC host (pop-os). Elsewhere cosmic-randr is
+      # absent and the unit would fail, so skip it instead.
+      Unit.ConditionPathExists = [ "/usr/bin/cosmic-randr" ];
       Install.WantedBy = [ "graphical-session.target" ];
       Service = {
         Type = "oneshot";
@@ -135,7 +141,6 @@ in
         tmux
         localsend
         hurl
-        discord
         nodejs_22
         bun
         ngrok
@@ -150,7 +155,6 @@ in
         codespelunker
         spr
         pkgs.gh-stack
-        qmd
         uv
         quint
         (runCommand "timeout" { } "mkdir -p $out/bin && ln -s ${coreutils}/bin/timeout $out/bin/timeout")

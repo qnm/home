@@ -5,7 +5,6 @@ let
 in
 {
   home.packages = with pkgs; [
-    zoom-us
     slack
     # watchman: install via Homebrew (folly fails to build on aarch64-darwin
     # in the pinned nixpkgs; missing memset-benchmark-darwin.patch)
@@ -35,13 +34,6 @@ in
     poetry
     sqlfluff
     aws-cdk-cli
-
-    # gcloud
-    (google-cloud-sdk.withExtraComponents [
-      google-cloud-sdk.components.gke-gcloud-auth-plugin
-      google-cloud-sdk.components.pubsub-emulator
-      google-cloud-sdk.components.cloud_sql_proxy
-    ])
 
     # Data Build Tool with adapters
     (dbt.withAdapters (adapters: [
