@@ -151,6 +151,7 @@ in
         spr
         pkgs.gh-stack
         qmd
+        hunk
         uv
         quint
         (runCommand "timeout" { } "mkdir -p $out/bin && ln -s ${coreutils}/bin/timeout $out/bin/timeout")
