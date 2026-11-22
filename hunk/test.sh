@@ -88,6 +88,110 @@ grep -q 'never negative' "$c" && fail "comment line still shown"
 grep -q '^+  return y + 1' "$c" || fail "logic line beside the comment was hidden"
 grep -q '^+  z,' "$c" && fail "re-export line still shown"
 grep -q '^+  c,' "$c" || fail "local export list was hidden"
+
+rr=$tmp/rules ro=$tmp/rules-out
+git init -q "$rr" && cd "$rr"
+git config user.email t@t && git config user.name t
+cat >a.ts <<'EOF'
+import { x } from './x'
+
+export function total(items: number[]) {
+  const sum = items.reduce((a, b) => a + b, 0)
+  const tax = sum * 0.1
+  const fee = sum > 100 ? 0 : 5
+  const discount = items.length > 3 ? 2 : 0
+  const shipping = items.length * 1.5
+  return sum + tax + fee - discount + shipping
+}
+
+export const label = 'a b'
+export const rate = 2
+  * 3
+EOF
+cat >c.ts <<'EOF'
+export const greet = (name: string) =>
+  format('hello', name, { upper: true, trim: true, pad: 2 })
+export const m = 0
+// old note
+export const n = 1
+EOF
+cat >d.ts <<'EOF'
+export function run() {
+  const alpha = computeTheAlphaValue(input)
+  const beta = computeTheBetaValue(alpha)
+  const gamma = computeTheGammaValue(beta)
+  const delta = computeTheDeltaValue(gamma)
+}
+EOF
+printf '%s\n' "import os" "" "def f(x):" "    if x:" "        y = 1" "    return x" >p.py
+printf '%s\n' "export const e = 1" "" "call('a', [b, c])" >e.ts
+git add . && git commit -qm base
+cat >a.ts <<'EOF'
+import { x, y } from './x'
+
+export const label = 'ab'
+export const rate = 2
+  * 4
+EOF
+cat >b.ts <<'EOF'
+import { y } from './y'
+
+export function total(items: number[]) {
+  const sum = items.reduce((a, b) => a + b, 0)
+  const tax = sum * 0.1
+  const fee = sum > 100 ? 0 : 5
+  const discount = items.length > 3 ? 2 : 0
+  const shipping = items.length * 1.5
+  return sum + tax + fee + shipping
+}
+
+export const b = y
+EOF
+cat >c.ts <<'EOF'
+export const greet = (name: string) =>
+  format("hello", name, {
+    upper: true,
+    trim: true,
+    pad: 2,
+  })
+export const m = 0
+// new note
+export const n = 1
+import('./m').then(init)
+EOF
+cat >d.ts <<'EOF'
+export function run() {
+  if (enabled) {
+    const alpha = computeTheAlphaValue(input)
+    const beta = computeTheBetaValue(alpha)
+    const gamma = computeTheGammaValue(beta)
+    const delta = computeTheDeltaValue(gamma)
+  }
+}
+EOF
+printf '%s\n' "import os" "import sys" "" "def f(x):" "    if x:" "        y = 1" "        return x" >p.py
+printf '%s\n' "export const e = 1" "" "call(" '  "a",' "  [" "    b," "    c," "  ]," ")" >e.ts
+git add . && git commit -qm head
+git diff --no-color --no-ext-diff HEAD~1 HEAD >"$tmp/rules.patch"
+expect 0 core split "$tmp/rules.patch" "$ro"
+cp "$ro/triage.json" "$tmp/t1" && cp "$ro/hunks.txt" "$tmp/h1"
+expect 0 core split "$tmp/rules.patch" "$ro"
+cmp -s "$tmp/t1" "$ro/triage.json" && cmp -s "$tmp/h1" "$ro/hunks.txt" || fail "split is not deterministic"
+t=$ro/triage.json
+holds "$t" '.["b.ts#1"].reason == "move/rename" and .["b.ts#1"].keep != false' "moved block not cut"
+holds "$t" '.["e.ts#1"] == {"keep": false, "reason": "formatting"}' "quote and trailing comma reflow not hidden"
+holds "$t" '.["c.ts#1"] == {"keep": [[11, 12]], "reason": "comment"}' "reflow beside a comment cut wrong"
+expect 0 core build "$tmp/rules.patch" "$ro"
+expect 0 core verify "$ro/core.patch" "$rr"
+shown() { grep -qxF -- "$1" "$ro/core.patch" || fail "rules hid a core line: $1"; }
+hidden() { ! grep -qxF -- "$1" "$ro/core.patch" || fail "rules showed a non-core line: $1"; }
+hidden "+import { x, y } from './x'"; hidden "+import { y } from './y'"; hidden "+import sys"
+hidden "+// new note"; hidden "+    upper: true,"; hidden "+  format(\"hello\", name, {"
+hidden "-  const fee = sum > 100 ? 0 : 5"; hidden "+  const fee = sum > 100 ? 0 : 5"
+shown "+  return sum + tax + fee + shipping"; shown "-  return sum + tax + fee - discount + shipping"
+shown "+export const label = 'ab'"; shown "+  * 4"; shown "+import('./m').then(init)"
+shown "+export const b = y"; shown "+        return x"
+shown "+    const alpha = computeTheAlphaValue(input)"
 cd "$repo"
 
 : >"$tmp/empty.patch"
@@ -116,3 +220,39 @@ expect 2 wn gone-session "$seen" timeout=1
 PATH=/usr/bin:/bin expect 2 wn live-session "$seen" timeout=1
 
 echo "hunk-core-view: all wait_for_notes.lua checks passed"
+
+pp() { "$rex" do "$here/pick_prs.lua" repo=acme/core "$@"; }
+cat >"$tmp/bin/gh" <<EOF
+#!/usr/bin/env bash
+[ "\$1 \$2 \$3 \$4" = "search prs --review-requested=@me --state=open" ] || { echo "bad args: \$*" >&2; exit 1; }
+cat "$tmp/prs.json"
+EOF
+chmod +x "$tmp/bin/gh"
+sess=$("$rex" new hunk-pick-test --window core-7 --json | jq -er '.session_id')
+trap '"$rex" session kill "$sess" >/dev/null 2>&1; rm -rf "$tmp"' EXIT
+"$rex" window new -s "$sess" review-other-9 --focus=false >/dev/null
+cat >"$tmp/prs.json" <<'EOF'
+[
+  {"repository": {"nameWithOwner": "acme/core"}, "number": 7, "isDraft": false, "author": {"login": "sam"}},
+  {"repository": {"nameWithOwner": "acme/core"}, "number": 8, "isDraft": false, "author": {"login": "sam"}},
+  {"repository": {"nameWithOwner": "acme/core"}, "number": 9, "isDraft": true, "author": {"login": "sam"}},
+  {"repository": {"nameWithOwner": "acme/core"}, "number": 10, "isDraft": false, "author": {"login": "renovate[bot]"}},
+  {"repository": {"nameWithOwner": "acme/core"}, "number": 11, "isDraft": false, "author": {"login": "app", "is_bot": true}},
+  {"repository": {"nameWithOwner": "acme/other"}, "number": 9, "isDraft": false, "author": {"login": "jo"}},
+  {"repository": {"nameWithOwner": "acme/other"}, "number": 12, "isDraft": false, "author": null}
+]
+EOF
+set +e; pp session="$sess" >"$tmp/pick.out" 2>"$tmp/pick.err"; got=$?; set -e
+[ "$got" = 0 ] || { cat "$tmp/pick.err" >&2; fail "pick_prs exit $got, wanted 0"; }
+printf '%s\n' "acme/core 8 core-8" "acme/other 12 core-other-12" | cmp -s - "$tmp/pick.out" || { cat "$tmp/pick.out" >&2; fail "pick_prs picked the wrong PRs"; }
+grep -q '7 requested: 2 new; skipped 1 draft, 2 bot, 2 has a tab' "$tmp/pick.err" || { cat "$tmp/pick.err" >&2; fail "pick_prs summary wrong"; }
+echo '[{"repository": {"nameWithOwner": "acme/core"}, "number": 7, "isDraft": false, "author": {"login": "sam"}}]' >"$tmp/prs.json"
+expect 3 pp session="$sess"
+[ "$(grep -c . "$tmp/log")" = 1 ] || fail "pick_prs printed a PR when nothing was new"
+expect 2 pp session=no-such-session
+echo nope >"$tmp/prs.json"
+expect 2 pp session="$sess"
+PATH=/usr/bin:/bin expect 2 pp session="$sess"
+expect 2 "$rex" do "$here/pick_prs.lua" session="$sess"
+
+echo "hunk-core-view: all pick_prs.lua checks passed"
