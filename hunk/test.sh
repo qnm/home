@@ -221,6 +221,12 @@ grep -q '^+++ b/new.ts' "$tmp/dw-head/full.patch" || fail "diff from origin/HEAD
 grep -q 'a = 2' "$tmp/dw-head/full.patch" && fail "diff did not use origin/HEAD"
 expect 0 cdiff "$tmp/dw-base" base=origin/main
 grep -q '^+export const a = 2' "$tmp/dw-base/full.patch" || fail "diff ignored base="
+expect 0 cdiff "$tmp/dw-sha" base="$(git rev-parse origin/main)"
+grep -q '^+export const a = 2' "$tmp/dw-sha/full.patch" || fail "diff ignored a SHA base"
+git tag 1234567 origin/main
+expect 0 cdiff "$tmp/dw-num" base=1234567
+cmp -s "$tmp/dw-sha/full.patch" "$tmp/dw-num/full.patch" || fail "diff misread a numeric base"
+expect 2 cdiff "$tmp/dw-bad" base=1234e56
 expect 2 cdiff "$tmp/dw-bad" base=no-such-ref
 expect 2 "$rex" do "$here/core_patch.lua" cmd=diff out="$tmp/dw-bad"
 cd "$repo"

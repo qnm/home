@@ -714,7 +714,14 @@ if type(args) == "table" and args.cmd ~= nil then
   local ok, err = pcall(function()
     if args.cmd == "diff" then
       if args.worktree == nil or args.out == nil then die(2, USAGE) end
-      return M.diff(tostring(args.worktree), tostring(args.out), args.base and tostring(args.base))
+      local base = args.base
+      if type(base) == "number" then
+        if base ~= math.floor(base) or math.abs(base) >= 2 ^ 53 then
+          die(2, "base= was read as the number " .. tostring(base) .. ": pass it with --args '{\"base\": \"REF\"}'")
+        end
+        base = string.format("%d", base)
+      end
+      return M.diff(tostring(args.worktree), tostring(args.out), base and tostring(base))
     end
     local run = ({ split = M.split, build = M.build, verify = M.verify })[args.cmd]
     local second = args.cmd == "verify" and args.worktree or args.out
