@@ -11,16 +11,16 @@ local PATH_RULES = {
   { "*/generated/*", "generated" }, { "*.generated.ts", "generated" },
 }
 
-local C_LIKE = { "//", "/*", "*", "*/" }
-local COMMENTS = { css = { "/*", "*", "*/" } }
+local C_LIKE = { line = "//", block = true }
+local COMMENTS = { css = { block = true } }
 for _, e in ipairs({ "ts", "tsx", "js", "jsx", "mjs", "cjs", "go", "rs", "java", "kt", "swift", "c", "h", "cpp",
   "cs", "scss" }) do
   COMMENTS[e] = C_LIKE
 end
 for _, e in ipairs({ "py", "sh", "bash", "zsh", "fish", "rb", "yml", "yaml", "toml", "nix", "tf" }) do
-  COMMENTS[e] = { "#" }
+  COMMENTS[e] = { line = "#" }
 end
-for _, e in ipairs({ "lua", "sql" }) do COMMENTS[e] = { "--" } end
+for _, e in ipairs({ "lua", "sql" }) do COMMENTS[e] = { line = "--" } end
 
 local function js_import(text)
   if text:match("^import%s") then return true end
@@ -37,6 +37,20 @@ local IMPORT_START = {
   rs = function(text) return text:match("^use%s") or text:match("^pub%s+use%s") end,
 }
 for _, e in ipairs({ "ts", "tsx", "js", "jsx", "mjs", "cjs" }) do IMPORT_START[e] = js_import end
+
+local function set_of(...)
+  local s = {}
+  for _, list in ipairs({ ... }) do
+    for _, e in ipairs(list) do s[e] = true end
+  end
+  return s
+end
+
+local JS = { "ts", "tsx", "js", "jsx", "mjs", "cjs", "mts", "cts" }
+local SQUASH_OK = set_of(JS, { "json", "go", "rs", "java", "kt", "kts", "css", "scss" })
+local QUOTE_STYLE = set_of(JS, { "py" })
+local MOVE_K, MOVE_MIN_CHARS = 4, 60
+local RULE_ORDER = { "move/rename", "imports", "comment", "formatting" }
 
 local function join(list, sep)
   sep = sep or ""
@@ -160,10 +174,32 @@ local function reexport_closes(body, i, sides)
   return false
 end
 
-local function line_kinds(path, body)
+local function ext_of(path)
   local name = path:match("([^/]*)$")
-  local ext = name:match("%.([^.]*)$") or ""
-  local prefixes, start = COMMENTS[ext], IMPORT_START[ext]
+  return (name:match("%.([^.]*)$") or ""):lower()
+end
+
+local function comment_lines(style, body)
+  local hits, block = {}, false
+  for i, line in ipairs(body) do
+    local text = line:sub(2):match("^%s*(.*)$")
+    if block then
+      hits[i] = true
+      block = text:find("*/", 1, true) == nil
+    elseif style.line and starts(text, style.line) and not starts(text, "#!") then
+      hits[i] = true
+    elseif style.block and starts(text, "/*") then
+      hits[i] = true
+      block = text:find("*/", 1, true) == nil
+    end
+  end
+  return hits
+end
+
+local function line_kinds(path, body)
+  local ext = ext_of(path)
+  local start = IMPORT_START[ext]
+  local comments = comment_lines(COMMENTS[ext] or {}, body)
   local open_import = { ["-"] = false, ["+"] = false }
   local kinds = {}
   for i, line in ipairs(body) do
@@ -185,65 +221,176 @@ local function line_kinds(path, body)
       local _, o1 = text:gsub("[{(]", "")
       local _, c1 = text:gsub("[})]", "")
       for _, s in ipairs(sides) do open_import[s] = o1 > c1 end
-    elseif prefixes then
-      local body_text = text:match("^%s*(.*)$")
-      for _, p in ipairs(prefixes) do
-        if starts(body_text, p) then kind = "comment" break end
-      end
+    elseif comments[i] then
+      kind = "comment"
     end
     kinds[i] = kind
   end
   return kinds
 end
 
-local function stripped_sorted(body, idx, sign)
-  local out = {}
-  for _, i in ipairs(idx) do
-    if body[i]:sub(1, 1) == sign then out[#out + 1] = body[i]:sub(2):gsub("%s", "") end
-  end
-  table.sort(out)
-  return join(out, "\n"), #out
+local function trim(s) return s:match("^%s*(.-)%s*$") end
+
+local function is_change(line)
+  local c = line:sub(1, 1)
+  return c == "+" or c == "-"
 end
 
-function M.line_rule(path, h)
-  local body = h.body
-  local changed, is_changed = {}, {}
+local function squash(text, lang)
+  local out, q, buf, i, n = {}, nil, {}, 1, #text
+  while i <= n do
+    local c = text:sub(i, i)
+    if q then
+      buf[#buf + 1] = c
+      if c == "\\" and i < n then
+        buf[#buf + 1] = text:sub(i + 1, i + 1)
+        i = i + 1
+      elseif c == q then
+        local quoted = join(buf)
+        local inner = quoted:sub(2, -2)
+        local plain = q ~= "`" and QUOTE_STYLE[lang] and not inner:find("['\"\\]")
+        out[#out + 1] = plain and ('"' .. inner .. '"') or quoted
+        q, buf = nil, {}
+      end
+    elseif c == "'" or c == '"' or c == "`" then
+      q, buf = c, { c }
+    elseif (c == ")" or c == "]" or c == "}") and out[#out] == "," then
+      out[#out] = c
+    elseif not c:match("%s") then
+      out[#out + 1] = c
+    end
+    i = i + 1
+  end
+  return join(out) .. join(buf)
+end
+
+local function change_blocks(body)
+  local blocks, cur = {}, {}
   for i, l in ipairs(body) do
-    local c = l:sub(1, 1)
-    if c == "-" or c == "+" then
-      changed[#changed + 1] = i
-      is_changed[i] = true
+    if is_change(l) then
+      cur[#cur + 1] = i
+    elseif l:sub(1, 1) == " " and #cur > 0 then
+      blocks[#blocks + 1] = cur
+      cur = {}
     end
   end
-  if #changed == 0 then return nil end
-  local removed, nr = stripped_sorted(body, changed, "-")
-  local added, na = stripped_sorted(body, changed, "+")
-  if nr == na and removed == added then return { keep = false, reason = "formatting" } end
-  local kinds = line_kinds(path, body)
-  local noise, noise_count, real_noise, seen, hidden = {}, 0, 0, {}, {}
-  for _, i in ipairs(changed) do
-    if kinds[i] then
-      noise[i] = true
-      noise_count = noise_count + 1
-      if kinds[i] ~= "blank" then
-        real_noise = real_noise + 1
-        if not seen[kinds[i]] then
-          seen[kinds[i]] = true
-          hidden[#hidden + 1] = kinds[i]
+  if #cur > 0 then blocks[#blocks + 1] = cur end
+  return blocks
+end
+
+local function formatting_lines(lang, body)
+  local hits = {}
+  for _, blk in ipairs(change_blocks(body)) do
+    local old, new, words = {}, {}, false
+    for _, i in ipairs(blk) do
+      local t = body[i]:sub(2)
+      words = words or t:match("%S") ~= nil
+      if body[i]:sub(1, 1) == "-" then old[#old + 1] = t else new[#new + 1] = t end
+    end
+    local same = not words
+    if not same and SQUASH_OK[lang] then
+      same = squash(join(old, "\n"), lang) == squash(join(new, "\n"), lang)
+    end
+    if not same and #old == #new then
+      same = true
+      for k = 1, #old do
+        if (old[k]:gsub("%s+$", "")) ~= (new[k]:gsub("%s+$", "")) then
+          same = false
+          break
+        end
+      end
+    end
+    if same then
+      for _, i in ipairs(blk) do hits[i] = true end
+    end
+  end
+  return hits
+end
+
+local function moved_lines(files)
+  local runs = { ["+"] = {}, ["-"] = {} }
+  for _, f in ipairs(files) do
+    for n, h in ipairs(f.hunks) do
+      local key = f.path .. "#" .. n
+      for _, blk in ipairs(change_blocks(h.body)) do
+        for sign, list in pairs(runs) do
+          local run = {}
+          for _, i in ipairs(blk) do
+            local t = trim(h.body[i]:sub(2))
+            if h.body[i]:sub(1, 1) == sign and t ~= "" then run[#run + 1] = { i, t } end
+          end
+          if #run >= MOVE_K then list[#list + 1] = { key, run } end
         end
       end
     end
   end
-  table.sort(hidden)
-  local reason = #hidden > 0 and join(hidden, ", ") or "formatting"
-  if noise_count == #changed then return { keep = false, reason = reason } end
-  if real_noise == 0 then return nil end
+  local function gram(run, j)
+    local texts, chars = {}, 0
+    for k = j, j + MOVE_K - 1 do
+      texts[#texts + 1] = run[k][2]
+      chars = chars + #run[k][2]
+    end
+    return table.concat(texts, "\n"), chars
+  end
+  local function mark(hits, key, run, j)
+    hits[key] = hits[key] or {}
+    for k = j, j + MOVE_K - 1 do hits[key][run[k][1]] = true end
+  end
+  local grams = {}
+  for _, r in ipairs(runs["+"]) do
+    for j = 1, #r[2] - MOVE_K + 1 do
+      local g = gram(r[2], j)
+      grams[g] = grams[g] or {}
+      table.insert(grams[g], { r[1], r[2], j })
+    end
+  end
+  local hits = {}
+  for _, r in ipairs(runs["-"]) do
+    for j = 1, #r[2] - MOVE_K + 1 do
+      local g, chars = gram(r[2], j)
+      if chars >= MOVE_MIN_CHARS then
+        for _, added in ipairs(grams[g] or {}) do
+          if added[1] ~= r[1] then
+            mark(hits, r[1], r[2], j)
+            mark(hits, added[1], added[2], added[3])
+          end
+        end
+      end
+    end
+  end
+  return hits
+end
+
+local function rule_entry(body, labels)
+  local tally, kinds, real_count, changed = {}, 0, 0, 0
+  for i, l in ipairs(body) do
+    if is_change(l) then
+      changed = changed + 1
+      local r = labels[i]
+      if r then
+        if tally[r] == nil then
+          tally[r] = 0
+          kinds = kinds + 1
+        end
+        tally[r] = tally[r] + 1
+      elseif l:sub(2):match("%S") then
+        real_count = real_count + 1
+      end
+    end
+  end
+  if kinds == 0 then return nil end
+  if kinds > 1 then tally.formatting = nil end
+  local reason
+  for _, r in ipairs(RULE_ORDER) do
+    if tally[r] and (reason == nil or tally[r] > tally[reason]) then reason = r end
+  end
+  if real_count == 0 then return { keep = false, reason = reason } end
   local ranges, seg = {}, {}
   for i = 1, #body + 1 do
-    if i == #body + 1 or noise[i] then
+    if i == #body + 1 or labels[i] then
       local real = {}
       for _, j in ipairs(seg) do
-        if is_changed[j] then real[#real + 1] = j end
+        if is_change(body[j]) and body[j]:sub(2):match("%S") then real[#real + 1] = j end
       end
       if #real > 0 then
         local a0, b0 = math.max(real[1] - 1, seg[1]), math.min(real[#real] + 1, seg[#seg])
@@ -258,6 +405,29 @@ function M.line_rule(path, h)
   end
   if #ranges == 1 and ranges[1][1] == 1 and ranges[1][2] == #body then return nil end
   return { keep = ranges, reason = reason }
+end
+
+function M.line_rules(files)
+  local moved, entries = moved_lines(files), {}
+  for _, f in ipairs(files) do
+    local lang = ext_of(f.path)
+    for n, h in ipairs(f.hunks) do
+      local key = f.path .. "#" .. n
+      local labels = {}
+      local function label(reason, hit)
+        for i, l in ipairs(h.body) do
+          if is_change(l) and hit(i) then labels[i] = reason end
+        end
+      end
+      local formatting, kinds, moves = formatting_lines(lang, h.body), line_kinds(f.path, h.body), moved[key] or {}
+      label("formatting", function(i) return formatting[i] end)
+      label("comment", function(i) return kinds[i] == "comment" end)
+      label("imports", function(i) return kinds[i] == "imports" end)
+      label("move/rename", function(i) return moves[i] end)
+      entries[key] = rule_entry(h.body, labels)
+    end
+  end
+  return entries
 end
 
 local function sub_hunk(h, a, b)
@@ -286,6 +456,7 @@ end
 
 function M.split(patch, out)
   local files = M.parse(read(patch))
+  local by_line = M.line_rules(files)
   local made = rex.exec({ "mkdir", "-p", out })
   if made == nil or not made.ok then die(2, "can't create " .. out) end
   local triage, lines, total, by_path, auto_count = {}, {}, 0, 0, 0
@@ -299,7 +470,7 @@ function M.split(patch, out)
         triage[key] = { keep = false, reason = rule }
         by_path = by_path + 1
       else
-        local auto = M.line_rule(f.path, h)
+        local auto = by_line[key]
         local mark = ""
         if auto then
           triage[key] = auto
@@ -494,16 +665,66 @@ function M.verify(patch, worktree)
   print(string.format("verify: %d hunks anchored, every note visible", hunks))
 end
 
+local function git(worktree, argv, ok_codes)
+  local cmd = { "git", "-C", worktree }
+  append(cmd, argv)
+  local r = rex.exec(cmd)
+  if r == nil then die(2, "git is not on PATH") end
+  local ok = r.ok
+  for _, code in ipairs(ok_codes or {}) do ok = ok or r.code == code end
+  if not ok then die(2, "git " .. join(argv, " ") .. ": " .. trim(r.stderr)) end
+  return r.stdout
+end
+
+local function default_base(worktree)
+  local r = rex.exec({ "git", "-C", worktree, "symbolic-ref", "--quiet", "refs/remotes/origin/HEAD" })
+  if r == nil then die(2, "git is not on PATH") end
+  local head = r.ok and trim(r.stdout) or ""
+  if head ~= "" then return (head:gsub("^refs/remotes/", "")) end
+  return "origin/main"
+end
+
+function M.diff(worktree, out, base)
+  base = base or default_base(worktree)
+  local mb = trim(git(worktree, { "merge-base", base, "HEAD" }))
+  local parts = { git(worktree, { "diff", "--no-color", "--no-ext-diff", mb }) }
+  local listed = git(worktree, { "ls-files", "--others", "--exclude-standard", "-z" })
+  local untracked = 0
+  for f in listed:gmatch("[^%z]+") do
+    untracked = untracked + 1
+    parts[#parts + 1] = git(worktree, { "diff", "--no-color", "--no-ext-diff", "--no-index", "--", "/dev/null", f }, { 1 })
+  end
+  local text = join(parts)
+  local made = rex.exec({ "mkdir", "-p", out })
+  if made == nil or not made.ok then die(2, "can't create " .. out) end
+  write(out .. "/full.patch", text)
+  if not text:match("%S") then die(3, "no changes in " .. worktree .. " since " .. base .. " (" .. mb:sub(1, 12) .. ")") end
+  print(string.format("%s/full.patch: changes since %s (%s), %d untracked files included", out, base, mb:sub(1, 12),
+    untracked))
+end
+
 local USAGE = [[
-usage: rex do core_patch.lua cmd=split  patch=FULL.patch out=OUTDIR
+usage: rex do core_patch.lua cmd=diff   worktree=WORKTREE out=OUTDIR [base=REF]
+       rex do core_patch.lua cmd=split  patch=FULL.patch out=OUTDIR
        rex do core_patch.lua cmd=build  patch=FULL.patch out=OUTDIR
        rex do core_patch.lua cmd=verify patch=CORE.patch worktree=WORKTREE]]
 
 local args = rex.args
 if type(args) == "table" and args.cmd ~= nil then
-  local run = ({ split = M.split, build = M.build, verify = M.verify })[args.cmd]
-  local second = args.cmd == "verify" and args.worktree or args.out
   local ok, err = pcall(function()
+    if args.cmd == "diff" then
+      if args.worktree == nil or args.out == nil then die(2, USAGE) end
+      local base = args.base
+      if type(base) == "number" then
+        if base ~= math.floor(base) or math.abs(base) >= 2 ^ 53 then
+          die(2, "base= was read as the number " .. tostring(base) .. ": pass it with --args '{\"base\": \"REF\"}'")
+        end
+        base = string.format("%d", base)
+      end
+      return M.diff(tostring(args.worktree), tostring(args.out), base and tostring(base))
+    end
+    local run = ({ split = M.split, build = M.build, verify = M.verify })[args.cmd]
+    local second = args.cmd == "verify" and args.worktree or args.out
     if run == nil or args.patch == nil or second == nil then die(2, USAGE) end
     run(tostring(args.patch), tostring(second))
   end)
