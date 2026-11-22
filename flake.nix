@@ -143,6 +143,34 @@
             inherit nixgl;
           };
         };
+        # Omarchy (Arch + Hyprland) workstation. Same generic-Linux setup as
+        # pop-os, but with its own entry so desktop prefs (keyboard, scrolling)
+        # can live in a module only this host imports.
+        "qnm@omarchy" = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+            overlays = overlays ++ [ nixgl.overlay ];
+          };
+          modules = [
+            (
+              { ... }:
+              {
+                targets.genericLinux.nixGL.packages = nixgl.packages;
+                targets.genericLinux.nixGL.defaultWrapper = "mesa";
+              }
+            )
+            password-shell-plugins.hmModules.default
+            catppuccin.homeModules.catppuccin
+            pi.homeModules.coding-agent
+            pi-catppuccin.homeManagerModules.default
+            ./home.nix
+            ./omarchy.nix
+          ];
+          extraSpecialArgs = {
+            inherit nixgl;
+          };
+        };
         "qnm@penguin" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
