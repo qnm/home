@@ -30,6 +30,17 @@
     '';
   };
 
+  # Omarchy declares pi in /etc/mise/conf.d/omarchy-tools.toml, so mise's shim
+  # would shadow the home-manager wrapper above (and its env export). Disable
+  # the mise copy: the shim then falls through to ~/.nix-profile/bin/pi.
+  xdg.configFile."mise/config.toml" = {
+    force = true;
+    text = ''
+      [settings]
+      disable_tools = ["pi"]
+    '';
+  };
+
   # pi's DeepInfra credential, read at launch from a 0600 file outside the
   # store. pi.nix exports `DEEPINFRA_API_KEY` from it before exec'ing pi, and
   # pi-deepinfra falls back to that when auth.json holds no stored credential.
