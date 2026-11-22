@@ -1,0 +1,63 @@
+#!/bin/sh
+# Copy the DeepInfra API key out of 1Password into pi's key file.
+#
+# 1Password's CLI has to share the desktop app's systemd application scope or
+# the app rejects it with "peer was not in the correct application group". On
+# Omarchy every app gets its own scope (uwsm), so a terminal-spawned `op` never
+# matches: we re-enter the app's cgroup as root and drop straight back to the
+# invoking user, then run `op read` there.
+#
+# Expect a pkexec prompt and a 1Password approval prompt. The key never lands
+# in the nix store, and pi reads it at launch (see omarchy.nix).
+set -eu
+
+ref='op://Private/Deepinfra API/credential'
+out="$HOME/.config/pi/deepinfra.key"
+runtime_dir="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+
+app_pid=$(pgrep -f '^/opt/1Password/1password$' | head -n 1 || true)
+if [ -z "$app_pid" ]; then
+  echo "1Password is not running; start it and unlock before fetching the key" >&2
+  exit 1
+fi
+
+scope="/sys/fs/cgroup$(sed 's/^0:://' "/proc/$app_pid/cgroup")"
+case "$scope" in
+  */app-*.scope) ;;
+  *)
+    echo "1Password (pid $app_pid) is in '$scope', not an app-*.scope;" >&2
+    echo "the CLI integration check cannot be satisfied from there" >&2
+    exit 1
+    ;;
+esac
+
+umask 077
+tmp="$out.new.$$"
+
+/usr/bin/pkexec /bin/sh -c '
+  echo $$ > "$1/cgroup.procs" || exit 1
+  exec /usr/bin/setpriv --reuid="$2" --regid="$3" --init-groups \
+    env HOME="$4" USER="$5" LOGNAME="$5" \
+        XDG_RUNTIME_DIR="$6" DBUS_SESSION_BUS_ADDRESS="unix:path=$6/bus" \
+        PATH=/usr/bin:/bin \
+    /usr/bin/op read "$7"
+' _ "$scope" "$(id -u)" "$(id -g)" "$HOME" "$(id -un)" "$runtime_dir" "$ref" > "$tmp"
+
+if [ ! -s "$tmp" ]; then
+  rm -f "$tmp"
+  echo "1Password returned no key; leaving $out untouched" >&2
+  exit 1
+fi
+
+code=$(curl -s -o /dev/null -w '%{http_code}' \
+  -H "Authorization: Bearer $(cat "$tmp")" \
+  https://api.deepinfra.com/v1/openai/models || echo 000)
+if [ "$code" != "200" ]; then
+  rm -f "$tmp"
+  echo "key from '$ref' does not authenticate (HTTP $code); leaving $out untouched" >&2
+  exit 1
+fi
+
+chmod 600 "$tmp"
+mv "$tmp" "$out"
+echo "wrote $out ($(wc -c < "$out" | tr -d ' ') bytes) from '$ref'"

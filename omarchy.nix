@@ -1,5 +1,5 @@
 # Omarchy-only host settings, imported by the `qnm@omarchy` entry in flake.nix.
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   # Desktop prefs carried over from the macOS setup (see darwin/base.nix):
@@ -45,12 +45,28 @@
   # store. pi.nix exports `DEEPINFRA_API_KEY` from it before exec'ing pi, and
   # pi-deepinfra falls back to that when auth.json holds no stored credential.
   #
-  # This is a file rather than `op read` because 1Password's CLI must share the
-  # desktop app's systemd scope, and Omarchy's uwsm gives every app its own, so
-  # `op` is rejected with "peer was not in the correct application group".
-  # Refill the file by hand from 1Password when the key rotates; note the
-  # `Deepinfra` item there is stale (its password is not a valid API token).
+  # `pi-deepinfra-key` refills the file from the `Deepinfra API` API-credential
+  # item in 1Password. It cannot just call `op read`: 1Password's CLI must run
+  # inside the desktop app's own systemd scope, and uwsm gives every app its
+  # own, so the app answers "peer was not in the correct application group".
+  # The script re-enters the app's cgroup via pkexec and reads the key there.
   programs.pi.coding-agent.environment = {
     DEEPINFRA_API_KEY.file = "${config.home.homeDirectory}/.config/pi/deepinfra.key";
   };
+
+  home.packages = [
+    (pkgs.writeShellApplication {
+      name = "pi-deepinfra-key";
+      runtimeInputs = with pkgs; [
+        coreutils
+        curl
+        gnugrep
+        gnused
+      ];
+      text = builtins.readFile ./bin/pi-deepinfra-key;
+      # SC2016: the `$1`-style arguments inside the single-quoted pkexec payload
+      # belong to the shell it spawns, not to this script.
+      excludeShellChecks = [ "SC2016" ];
+    })
+  ];
 }
