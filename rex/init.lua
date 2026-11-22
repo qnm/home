@@ -192,9 +192,4 @@ rex.bind("cmd+k", "previous_agent")
 rex.bind("cmd+l", "last_pane")
 rex.bind("cmd+,", "last_session")
 
-local hunk_core = os.getenv("HOME") .. "/.claude/skills/hunk-core-view/rex.lua"
-local hunk_core_file = io.open(hunk_core, "r")
-if hunk_core_file ~= nil then
-  hunk_core_file:close()
-  dofile(hunk_core)
-end
+dofile(os.getenv("HOME") .. "/.config/rex/hunk/rex.lua")

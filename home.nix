@@ -27,6 +27,7 @@ in
     ./ghop.nix
     ./colima.nix
     ./rex.nix
+    ./hunk.nix
     ./agents-status.nix
     ./trail.nix
   ];
@@ -151,7 +152,6 @@ in
         spr
         pkgs.gh-stack
         qmd
-        hunk
         uv
         quint
         (runCommand "timeout" { } "mkdir -p $out/bin && ln -s ${coreutils}/bin/timeout $out/bin/timeout")
