@@ -61,7 +61,9 @@ in
     "npm:pi-deepinfra"
     # work
     "npm:pi-linear"
+    "npm:pi-pstack"
   ];
+  programs.pi.coding-agent.settings.defaultTools = [ "+codemode" ];
   programs.pi.catppuccin.enable = true;
 
   home.username = "qnm";
