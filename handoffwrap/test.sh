@@ -43,6 +43,14 @@ check worktree-remove-dash-c "wt-clean" '! git -C /Users/qnm/repo worktree remov
 check worktree-remove-block "wt-clean" $'```\n! cd /Users/qnm/repo && git worktree remove --force /Users/qnm/old/x\n```'
 check wt-clean "" '! wt-clean feature-x'
 check worktree-list "" '! git worktree list'
+check bare-pr "without a link" 'The mobile PR is #3123, still a draft.'
+check cross-repo-pr "without a link" 'Mobile side is amberelectric/amber-mobile#3123.'
+check linked-pr "" 'It is #3123: https://github.com/amberelectric/amber-mobile/pull/3123'
+check markdown-linked-pr "" 'See [#33568](https://github.com/amberelectric/amber-core/pull/33568).'
+check one-linked-one-not "#36536" 'Merged https://github.com/amberelectric/amber-core/pull/33568 (#33568). Nits are in #36536.'
+check hex-colour "" 'The 1K5 primary is #5C068C and white is #FFFFFF, black #000000.'
+check url-fragment "" 'Open https://example.com/page#12 for details.'
+check heading "" $'# 12 things\n## Next'
 
 prompt >"$tmp/late-reply.jsonl"
 (sleep 0.5 && answer "$long_command" >>"$tmp/late-reply.jsonl") &

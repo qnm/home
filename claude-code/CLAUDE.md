@@ -43,6 +43,7 @@ These behaviors are predictable inputs to the framework design. We follow five r
 | A `!` command is at most 100 characters. Longer ones go in a script. | `handoffwrap` Stop hook |
 | A `!` command never runs `sudo`. It goes to a terminal tab. | `handoffwrap` Stop hook |
 | An `sbx` delete in a `!` command carries `--force`. | `handoffwrap` Stop hook |
+| A reply that names a PR or issue as `#N` or `owner/repo#N` also gives its full GitHub URL. | `handoffwrap` Stop hook, `handoffwrap/test.sh` |
 | Merged worktrees are removed with `! wt-clean <slug>`, never a hand-written `git worktree remove`. | `handoffwrap` Stop hook, `wtclean/test.sh` |
 | `gh` is authed in every shell: `sh` scripts, `bash -c`, Node subprocesses. No `gh()` shim needed. | `ghop` wrapper on PATH, `ghop/test.sh` |
 

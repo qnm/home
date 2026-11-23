@@ -29,6 +29,11 @@ if [ -z "$reply" ] && [ -f "$transcript" ]; then
 fi
 [ -n "$reply" ] || exit 0
 
+refs=$(grep -oE "(^|[^/&#[:alnum:]_])([[:alnum:]_.-]+/[[:alnum:]_.-]+)?#[0-9]{2,5}([^[:alnum:]]|\$)" <<<"$(sed -E 's#https?://[^[:space:])]+##g' <<<"$reply")" | grep -oE '#[0-9]+' | tr -d '#' | sort -u || true)
+linked=$(grep -oE 'github\.com/[^[:space:])]+/(pull|issues)/[0-9]+' <<<"$reply" | grep -oE '[0-9]+$' | sort -u || true)
+unlinked=$(comm -23 <(printf '%s\n' "$refs" | sed '/^$/d') <(printf '%s\n' "$linked" | sed '/^$/d') | sed 's/^/#/' | paste -sd ' ' - || true)
+[ -z "$unlinked" ] || block "Your reply names $unlinked without a link. Rob cannot click a bare number, and a cross-repo one is ambiguous. Give each PR or issue its full https://github.com/<owner>/<repo>/pull/<n> URL at least once in the reply, and send it again."
+
 commands=$(
   {
     grep -oE "${bt}! [^${bt}]+${bt}" <<<"$reply" | sed -E "s/^${bt}! //; s/${bt}\$//" || true
