@@ -18,3 +18,4 @@ jobs:
       - run: bash handoffwrap/test.sh
       - run: bash ghop/test.sh
       - run: bash wtclean/test.sh
+      - run: bash globguard/test.sh

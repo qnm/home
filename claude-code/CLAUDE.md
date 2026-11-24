@@ -46,6 +46,7 @@ These behaviors are predictable inputs to the framework design. We follow five r
 | A reply that names a PR or issue as `#N` or `owner/repo#N` also gives its full GitHub URL. | `handoffwrap` Stop hook, `handoffwrap/test.sh` |
 | Merged worktrees are removed with `! wt-clean <slug>`, never a hand-written `git worktree remove`. | `handoffwrap` Stop hook, `wtclean/test.sh` |
 | `gh` is authed in every shell: `sh` scripts, `bash -c`, Node subprocesses. No `gh()` shim needed. | `ghop` wrapper on PATH, `ghop/test.sh` |
+| A glob in a `--flag=value` Bash argument is quoted (`--include='*.ts'`). The Bash tool runs zsh, which fails on an unquoted one. | `globguard` PreToolUse hook, `globguard/test.sh` |
 
 @~/.claude/pstack-models.md
 @~/Developer/qnm/skills/skill-routing.md

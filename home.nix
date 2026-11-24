@@ -20,6 +20,7 @@ in
     ./heavylock.nix
     ./pushgate.nix
     ./worktreeguard.nix
+    ./globguard.nix
     ./wtclean.nix
     ./overlay.nix
     ./replysign.nix
