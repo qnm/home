@@ -13,6 +13,10 @@
   - A change that would alter what a shared dev command, local config or env default does for the people who already run it → add an opt-in sibling and keep the original's behaviour. Repurposing the original is the user's call, so ask it as its own question, not as one step of a plan. Checking how a pasted or peer agent's plan works doesn't check its scope.
 - **Before** "Broken skill mid-task → fix it in its own PR": Proving a test guards a merged fix → reverse-apply that fix's own commit (`git diff <c>^ <c> -- <file> | git apply -R`), run the test, see it fail, then restore and see it pass. A mutation you design yourself proves less than the real pre-fix state.
 
+## Autonomy
+
+- **After** "for irreversible writes: force-push to shared branches, deploys": a bare "yes" to a list of several items approves only what the list asked about. An item you said you were holding back, or one that gets round an earlier refusal, needs its own yes by name.
+
 ## Subagents
 
 - **After** "or a babysit watcher.": before calling a delegate stalled or replacing it, read its branch from your own worktree with `git log origin/main..<branch>`, since worktrees share refs. An empty `git ls-remote` and old file mtimes can't show unpushed commits. Brief code delegates to hand back a pushed branch or its commit SHAs, and forbid them from spawning a further background agent. A delegate that must commit runs as a session in its own worktree, not as an `Agent` with worktree isolation, where hooks can refuse every `git commit`. When you take over a delegate's branch, keep its `Co-Authored-By` trailers as written.
